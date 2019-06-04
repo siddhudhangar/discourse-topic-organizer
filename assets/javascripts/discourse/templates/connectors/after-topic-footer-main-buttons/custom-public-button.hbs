@@ -3,6 +3,16 @@
     class="btn topic-group-button"
     title={{siteSettings.topic_group_button_title}}
     {{action "clickButton"}}>{{siteSettings.topic_group_button_label}}</button>
+    <style>
+    .form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    }
+  </style>
     <div class="form-popup" id="myForm">
   	<form action="/action_page.php" class="form-container">
     <h1>Login</h1>
