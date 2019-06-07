@@ -1,4 +1,8 @@
- <div class="search row clearfix">
+ <!--<div class="search row clearfix">
       {{search-text-field value=searchTerm class="full-page-search input-xxlarge search no-blur" action="search" hasAutofocus=hasAutofocus}}
       {{d-button action="search" icon="search" class="btn-primary" disabled=searchButtonDisabled}}
-</div>
+</div> -->
+<form>
+<input type="text" size="30" onkeyup="showResult(this.value)">
+<div id="livesearch"></div>
+</form>
