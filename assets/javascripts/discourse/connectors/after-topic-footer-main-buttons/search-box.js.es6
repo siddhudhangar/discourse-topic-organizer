@@ -1,14 +1,6 @@
-/*import DiscourseURL from 'discourse/lib/url';
-export default Ember.Controller.extend({
-  
+export default{
   actions: {
-    search() {
-      let searchTerm = this.get('searchTerm');
-      DiscourseURL.routeTo('/search?q=' + searchTerm); 
-    }
-  }
-});*/
-myFunction() {
+    myFunction() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
@@ -22,6 +14,9 @@ myFunction() {
         } else {
             li[i].style.display = "none";
         }
+      }
     }
+  }
 }
+
 
