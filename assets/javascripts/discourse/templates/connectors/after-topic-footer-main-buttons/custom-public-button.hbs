@@ -4,29 +4,59 @@
     title={{siteSettings.topic_group_button_title}}
     {{action "clickButton"}}>{{siteSettings.topic_group_button_label}}</button>
     <style>
-    .form-popup {
-    background-color: white;
-    display: none;
-    position: fixed;
-    bottom: 300px;
-    right: 500px;
-    border: 10px solid #f1f1f1;
-    z-index: 9;
-    }
+   	
+    	.hover_bkgr_fricc{
+    		background: rgb(0,0,0,.85);
+    		cursor: pointer;
+    		display: none;
+    		height: 100%;
+    		position: fixed;
+    		text-align: center;
+    		top: 0;
+    		width: 100%;
+    		z-index: 10000;
+    	}
+
+    	.hover_bkgr_fricc.helper{
+    		display: inline-block;
+    		height: 100%;
+    		vertical-align: middle;
+
+
+    	}
+
+    	.hover_bkgr_fricc> div{
+    		background-color: #fff;
+    		display: inline-block;
+    		height: auto;
+    		max-width: 551px;
+    		min-height: 100px;
+    		vertical-align: middle;
+    		width: 40%;
+    		position: relative; 
+    		bottom: -20%;
+    		border: 10px solid #f1f1f1;
+
+    	}
+
+
+
+    
   </style>
-    <div class="form-popup" id="myForm">
-  	<form action="https://meta.discourse.org/search" class="form-container">
+    <div class="hover_bkgr_fricc" id="myForm">
+    	<span class="helper"></span>
+    <div>
     <h1>Topic-Organizer</h1>
 
-    <label for="search"><b>SEARCH</b></label>
     <span>Search</span>&nbsp;<input id="q" name="q" type="text" placeholder="search topics, posts, users or categories"><br>
+    <div align="left">
     <input type="checkbox">Topic 1<br>
     <input type="checkbox">Topic 2<br>
     <input type="checkbox">Topic 3<br>
     <input type="checkbox">Topic 4<br>
-
+	</div>
     <button type="submit" class="btn submit" >OK</button>
     <button type="button" class="btn cancel" {{action "closeForm"}}>Close</button>
-  </form>
+  	</div>
 </div>
 {{/if}}
