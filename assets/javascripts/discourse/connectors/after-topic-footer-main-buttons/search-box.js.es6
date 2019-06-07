@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
     }
   }
 });*/
-export default{
+/*export default{
     myFunction() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById("myInput");
@@ -26,4 +26,4 @@ export default{
     }
 }
 
-}
+}*/
