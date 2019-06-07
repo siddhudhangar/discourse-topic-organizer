@@ -8,8 +8,7 @@ export default Ember.Controller.extend({
     }
   }
 });*/
-/*export default{
-    myFunction() {
+myFunction() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
@@ -26,4 +25,3 @@ export default Ember.Controller.extend({
     }
 }
 
-}*/
