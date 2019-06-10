@@ -1,4 +1,4 @@
-export default{
+export default {
   actions: {
     myFunction() {
     var input, filter, ul, li, a, i, txtValue;
@@ -17,6 +17,6 @@ export default{
       }
     }
   }
-}
+};
 
 

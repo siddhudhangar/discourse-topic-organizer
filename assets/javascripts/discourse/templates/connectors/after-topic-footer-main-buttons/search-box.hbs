@@ -39,7 +39,8 @@
   background-color: #eee;
 }
 </style>
-<input type="text" id="myInput" {{action "myFunction"}} placeholder="Search for names.." title="Type in a name">
+<input type="text" id="myInput" placeholder="Search for names.." title="Type in a name"
+{{onkeyup "myFunction"}}>
 
 <ul id="myUL">
   <li><a href="#">Adele</a></li>
