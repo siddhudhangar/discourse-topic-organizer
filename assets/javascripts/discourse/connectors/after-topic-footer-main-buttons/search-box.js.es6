@@ -1,4 +1,4 @@
-/*export default{
+export default{
   actions:{
     myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");
@@ -19,4 +19,4 @@
     }
   }
 }
-}*/
+}
