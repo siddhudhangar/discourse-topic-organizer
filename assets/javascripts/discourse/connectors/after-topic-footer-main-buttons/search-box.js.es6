@@ -1,22 +1,17 @@
 export default{
-  actions:{
+  /*actions:{
     myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");
-  },
-    filterFunction() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  div = document.getElementById("myDropdown");
-  a = div.getElementsByTagName("a");
-  for (i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
-      }
     }
-  }
-}
+    
+  }*/
+  var pg = require(‘pg’);
+  var connectionString = "postgres://postgres:hbcse@postgresql/ip:5432/discourse_development";
+  var pgClient = new pg.Client(connectionString);
+  pgClient.connect();
+  var query = pgClient.query("SELECT title from topics");
+  query.on("row", function(row,result){
+    result.addRow(row);
+  });
+
 }
