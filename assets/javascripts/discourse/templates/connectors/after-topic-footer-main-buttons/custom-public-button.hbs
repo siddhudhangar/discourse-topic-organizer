@@ -19,7 +19,8 @@
     <h1>Topic-Organizer</h1>
 
     <label for="search"><b>SEARCH</b></label>
-    <span>Search</span>&nbsp;<input id="q" name="q" type="text" placeholder="search topics, posts, users or categories"><br>
+    <span>Search</span>&nbsp;<input id="q" name="q" type="text" placeholder="search topics, posts, users or categories">
+    <% content_for :title do %><%= I18n.t('search.results_page', term: @search_term) %> - <%= SiteSetting.title %><% end %><br>
     <input type="checkbox">Topic 1<br>
     <input type="checkbox">Topic 2<br>
     <input type="checkbox">Topic 3<br>

@@ -1,3 +1,4 @@
+=begin
 require_dependency 'search'
 
 class SearchController < ApplicationController
@@ -140,3 +141,7 @@ class SearchController < ApplicationController
   end
 
 end
+
+=end
+
+require '../../app/controllers/search_controller'
