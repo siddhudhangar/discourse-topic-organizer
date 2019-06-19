@@ -1,13 +1,13 @@
 .hover_bkgr_fricc{
     		background: rgb(0,0,0,.85);
     		cursor: pointer;
-    		display: none;
+    		display: inline-block;
     		height: 100%;
     		position: fixed;
     		text-align: center;
     		top: 0;
     		width: 100%;
-    		z-index: 10000;
+    		z-index: 1000000;
     	}
 
     	.hover_bkgr_fricc.helper{
