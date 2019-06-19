@@ -1,48 +1,5 @@
 {{#if currentUser.can_see_topic_group_button}}
-  <button
-    class="btn topic-group-button"
-    title={{siteSettings.topic_group_button_title}}
-    {{action "clickButton"}}>{{siteSettings.topic_group_button_label}}</button>
-    <style>
-   	
-    	.hover_bkgr_fricc{
-    		background: rgb(0,0,0,.85);
-    		cursor: pointer;
-    		display: none;
-    		height: 100%;
-    		position: fixed;
-    		text-align: center;
-    		top: 0;
-    		width: 100%;
-    		z-index: 10000;
-    	}
 
-    	.hover_bkgr_fricc.helper{
-    		display: inline-block;
-    		height: 100%;
-    		vertical-align: middle;
-
-
-    	}
-
-    	.hover_bkgr_fricc> div{
-    		background-color: #fff;
-    		display: inline-block;
-    		height: auto;
-    		max-width: 551px;
-    		min-height: 100px;
-    		vertical-align: middle;
-    		width: 40%;
-    		position: relative; 
-    		bottom: -20%;
-    		border: 10px solid #f1f1f1;
-
-    	}
-
-
-
-    
-  </style>
     <div class="hover_bkgr_fricc" id="myForm">
     	<span class="helper"></span>
     <div>
