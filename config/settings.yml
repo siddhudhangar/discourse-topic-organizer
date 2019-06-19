@@ -14,6 +14,7 @@ plugins:
   topic_group_button_allowed_group:
     default: "trust_level_4"
     client: true
-  t1_post_lock:
+  tl_post_lock:
+    default: true
     button_label: "Topic-Organizer"
-    
+
