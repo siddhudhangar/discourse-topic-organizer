@@ -6,6 +6,8 @@
 
 enabled_site_setting :topic_group_button_enabled
 
+
+register_asset 'stylesheets/custom-public-button.css'
 after_initialize do
   add_to_serializer(:current_user, :can_see_topic_group_button?) do
     return true if scope.is_staff?

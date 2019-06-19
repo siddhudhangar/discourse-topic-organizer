@@ -15,6 +15,10 @@ plugins:
     default: "trust_level_4"
     client: true
   tl_post_lock:
-    default: true
+    default: "Topic-Organizer"
     button_label: "Topic-Organizer"
+  topic_group_button_tl_lock_minimum:
+    default: 1
+    client: true
 
+  
