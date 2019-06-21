@@ -1,5 +1,4 @@
 export default{
-  actions:{
     autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
@@ -102,5 +101,5 @@ export default{
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 //autocomplete(document.getElementById("myInput"), countries);
-  }
+
 }
