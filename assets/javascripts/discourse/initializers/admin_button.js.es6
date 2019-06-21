@@ -8,7 +8,7 @@ export default {
 			const user = api.getCurrentUser()
 
 			console.log(user.trust_level);
-			if(user.trust_level >= api.container.lookup('site-settings:main').topic_group_button_tl_lock_minimum) {
+			if(user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
 				// User is allowed to see the button
 
 				api.decorateWidget('topic-admin-menu:adminMenuButtons', (decorator) => {

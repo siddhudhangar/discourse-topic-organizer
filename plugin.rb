@@ -4,7 +4,7 @@
 # authors: Jineet,Divya
 # url: https://github.com/jineetd/discourse-popup.git
 
-enabled_site_setting :topic_group_button_enabled
+enabled_site_setting :topic_organizer_enabled
 
 
 register_asset 'stylesheets/custom-public-button.css'
