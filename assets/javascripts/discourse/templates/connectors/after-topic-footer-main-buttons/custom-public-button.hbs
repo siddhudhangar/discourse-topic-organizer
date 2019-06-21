@@ -1,11 +1,11 @@
 {{#if currentUser.can_see_topic_group_button}}
-
+<form autocomplete="off">
     <div class="hover_bkgr_fricc" id="myForm">
     	<span class="helper"></span>
     <div>
     <h1>Topic-Organizer</h1>
 
-    <span>Search</span>&nbsp;<input id="q" name="q" type="text" placeholder="search topics, posts, users or categories"><br>
+    <input id="myInput" type="text" name="myCountry" placeholder="Search topics....." {{action "autocomplete" }}><br>
     <div align="left">
     <input type="checkbox">Topic 1<br>
     <input type="checkbox">Topic 2<br>
@@ -16,4 +16,5 @@
     <button type="button" class="btn cancel" {{action "closeForm"}}>Close</button>
   	</div>
 </div>
+</form>
 {{/if}}
