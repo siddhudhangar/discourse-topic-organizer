@@ -1,5 +1,0 @@
-# frozen_string_literal: true
-source 'https://rubygems.org'
-gem 'rubocop-performance'
-# Specify your gem's dependencies in discourse_api.gemspec
-gemspec
