@@ -43,10 +43,12 @@ export default {
       return response.json();
     })
     .then(function(myJSON){
-      temp=JSON.parse(myJSON);
+      temp.push(JSON.parse(myJSON['topic_list']['topics']));
       console.log(temp);
     });
     console.log(temp); 
+    var arr=[];
+    arr=temp[0];
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
 
