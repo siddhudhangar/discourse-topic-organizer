@@ -10,10 +10,12 @@ export default {
     	document.getElementById("prereq-list").innerHTML = "";
     	document.getElementById("myForm").style.display = "none";	
     },
-    // closebutton(){
-    //   var l,x;
-      
-    // },
+    closebutton(prereq){
+      var l,x;
+      l = document.getElementById("prereq-list");
+      x= document.getElementById(prereq);
+      l.removeChild(x);
+    },
     addtopic(){
     	var prereq=document.getElementById("myInput").value;
       var flagv=document.getElementById("flag").value;
@@ -25,7 +27,7 @@ export default {
     	x.setAttribute("class", "chip");
       x.setAttribute("id", prereq);
     	x.innerHTML=prereq;
-      x.innerHTML+="<span class='closebtn'>&times;</span>"
+      x.innerHTML+="<span class='closebtn' {{action 'closebutton' this.id}}>&times;</span>"
     	l.innerHTML += '&nbsp;'; 
     	l.appendChild(x);   	
     	var br = document.createElement('br'); 
