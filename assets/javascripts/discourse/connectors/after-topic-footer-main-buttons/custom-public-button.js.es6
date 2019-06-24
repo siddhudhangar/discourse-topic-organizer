@@ -38,17 +38,18 @@ export default {
     },
     autocomplete() {
   var temp=[];
+  var t1=[]
   fetch('http://abcdefg.example.com/latest.json')
     .then(function(response){
       return response.json();
     })
     .then(function(myJSON){
-      temp.push(JSON.parse(myJSON['topic_list']['topics']));
-      console.log(temp);
+      temp.push(JSON.stringify(myJSON['topic_list']['topics']));
+      t1.push(JSON.parse(temp[0]));
     });
-    console.log(temp); 
+    console.log(t1); 
     var arr=[];
-    arr=temp[0];
+    arr=t1[0];
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
 
