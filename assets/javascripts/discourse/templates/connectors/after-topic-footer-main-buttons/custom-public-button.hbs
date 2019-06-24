@@ -6,16 +6,16 @@
 
     <form autocomplete="off">
         <div class="autocomplete" style="width:300px;">
-            <input id="myInput" type="text" name="myCountry" placeholder="Country" {{action "autocomplete" }}>
+            <input id="myInput" type="text" name="myCountry" placeholder="Search for topics.." {{action "autocomplete" }}>
         </div>
-    <input type="submit">
+    <button id="addt" type="submit" {{action "addtopic"}}>Add</button>
+    <input type="hidden" id="flag" value="false">
 </form>
-    <div align="left">
-    <input type="checkbox">Topic 1<br>
-    <input type="checkbox">Topic 2<br>
-    <input type="checkbox">Topic 3<br>
-    <input type="checkbox">Topic 4<br>
-	</div>
+   
+    <div id="prereq-list" align="left"></div>
+     <br><br>
+
+     
     <button type="submit" class="btn submit" >OK</button>
     <button type="button" class="btn cancel" {{action "closeForm"}}>Close</button>
   	</div>
