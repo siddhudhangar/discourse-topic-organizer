@@ -48,7 +48,9 @@ export default {
       t1.push(JSON.parse(temp[0]));
     });
     console.log(t1); 
-    var arr=t1[0];
+    for(const item of t1){
+      arr.push(item['title']);
+    }
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
 
