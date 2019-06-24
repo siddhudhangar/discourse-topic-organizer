@@ -47,9 +47,9 @@ export default {
       temp.push(JSON.stringify(myJSON['topic_list']['topics']));
       t1.push(JSON.parse(temp[0]));
     });
-    console.log(t1);
+    console.log(t1[0]);
     var arr=[]; 
-    for(const item of t1){
+    for(const item of t1[0]){
       arr.push(item['title']);
     }
   /*the autocomplete function takes two arguments,
