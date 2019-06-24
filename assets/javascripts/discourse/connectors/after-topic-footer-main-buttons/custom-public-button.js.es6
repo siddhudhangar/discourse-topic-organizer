@@ -11,10 +11,10 @@ export default {
     	document.getElementById("myForm").style.display = "none";	
     },
     closebutton(prereq){
-      var l,x;
-      l = document.getElementById("prereq-list");
-      x= document.getElementById(prereq);
-      l.removeChild(x);
+     // var l,x;
+     // l = document.getElementById("prereq-list");
+     document.getElementById(prereq).remove();
+      //l.removeChild(x);
     },
     addtopic(){
     	var prereq=document.getElementById("myInput").value;
