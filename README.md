@@ -1,7 +1,7 @@
-discourse-topic-group-button
+discourse-topic-organizer
 =======================
 
-Adds a custom button at the bottom of a topic, visible only to staff or members of a specific group.
+Adds a custom button in the admin menu, visible only to staff or members of a specific group.
 
 Configuration
 =====
