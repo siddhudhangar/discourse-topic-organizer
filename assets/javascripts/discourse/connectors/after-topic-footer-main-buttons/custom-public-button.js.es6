@@ -60,7 +60,7 @@ export default {
 
   // var temp;
 
-  fetch('http://localhost:9292/latest.json')
+  fetch('http://abcdefg.example.com/latest.json')
     .then(function(response) {
       return response.json();
     })
@@ -68,7 +68,6 @@ export default {
       var temp = myJSON['topic_list']['topics'];
       for (i = 0; i<temp.length; i++) {
         console.log(temp[i].title);
-        
         arr.push(temp[i].title);
       }
       // console.log(temp);
