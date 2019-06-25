@@ -3,12 +3,12 @@ export default {
     clickButton() {
       //const url = this.siteSettings.topic_group_button_url.replace('<TOPIC_ID>', this.get('topic.id')).replace('<USER_ID>', this.currentUser.id).replace('<USERNAME>', this.currentUser.username);
       //window.open(url, 'popUpWindow','height=500,width=500,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
- 	document.getElementById("myForm").style.display = "block";
+  document.getElementById("myForm").style.display = "block";
     },
     closeForm(){
-    	document.getElementById("myInput").value = '';
-    	document.getElementById("prereq-list").innerHTML = "";
-    	document.getElementById("myForm").style.display = "none";	
+      document.getElementById("myInput").value = '';
+      document.getElementById("prereq-list").innerHTML = "";
+      document.getElementById("myForm").style.display = "none"; 
     },
     closebutton(prereq){
      // var l,x;
@@ -17,24 +17,24 @@ export default {
       //l.removeChild(x);
     },
     addtopic(){
-    	var prereq=document.getElementById("myInput").value;
+      var prereq=document.getElementById("myInput").value;
       var flagv=document.getElementById("flag").value;
-    	if(prereq!=""&&flagv=="true"){
-    	console.log(prereq);
-    	var l,x;
-    	l = document.getElementById("prereq-list");
-    	x = document.createElement("DIV");
-    	x.setAttribute("class", "chip");
+      if(prereq!=""&&flagv=="true"){
+      console.log(prereq);
+      var l,x;
+      l = document.getElementById("prereq-list");
+      x = document.createElement("DIV");
+      x.setAttribute("class", "chip");
       x.setAttribute("id", prereq);
-    	x.innerHTML=prereq;
+      x.innerHTML=prereq;
       x.innerHTML+="<span class='closebtn' {{action 'closebutton' this.id}}>&times;</span>"
-    	l.innerHTML += '&nbsp;'; 
-    	l.appendChild(x);   	
-    	var br = document.createElement('br'); 
-    	document.getElementById("myInput").value = '';
+      l.innerHTML += '&nbsp;'; 
+      l.appendChild(x);     
+      var br = document.createElement('br'); 
+      document.getElementById("myInput").value = '';
     }
 
-    	//l.appendChild(br);
+      //l.appendChild(br);
     },
     autocomplete() {
   // var temp;
@@ -128,11 +128,11 @@ export default {
 
           if(arr[i].toUpperCase().includes(val.toUpperCase())){
           b = document.createElement("DIV");
-     		 b.setAttribute("align","left");
-     		 	flag=true;
+         b.setAttribute("align","left");
+          flag=true;
           
           /*make the matching letters bold:*/
-      		
+          
           var pos=arr[i].toUpperCase().indexOf(val.toUpperCase());
          
           b.innerHTML = arr[i].substr(0,pos);
@@ -159,10 +159,10 @@ export default {
 
       if(!flag)
       {
-      	var notfound= document.createElement("DIV");
-     		 notfound.setAttribute("align","left");
-     		 notfound.innerHTML="Not Found...";
-     		 a.appendChild(notfound);
+        var notfound= document.createElement("DIV");
+         notfound.setAttribute("align","left");
+         notfound.innerHTML="Not Found...";
+         a.appendChild(notfound);
       }
 
 
