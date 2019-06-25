@@ -6,9 +6,9 @@
 
     <form autocomplete="off">
         <div class="autocomplete" style="width:300px;">
-            <!-- <input id="myInput" type="text" name="myCountry" placeholder="Search for topics.." {{action "autocomplete" }}> -->
+            <input id="myInput" type="text" name="myCountry" placeholder="Search for topics.." onkeyup={{action "autocomplete"}}> 
 
-            {{input id="myInput" type='text' value=input_text name="myCountry" placeholder="Search for topics.." key-press=(action "autocomplete") }}
+            <!--{{input id="myInput" type='text' value=input_text name="myCountry" placeholder="Search for topics.." key-press=(action "autocomplete") }}-->
 
         </div>
         <div class="onoffswitch">
