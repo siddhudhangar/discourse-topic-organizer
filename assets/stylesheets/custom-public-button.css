@@ -119,8 +119,9 @@ input[type=submit] {
 }
 
     .onoffswitch {
-        position: relative; width: 90px;
+        position: relative; width: 200px;
         -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+        align-self: center;
     }
     .onoffswitch-checkbox {
         display: none;
