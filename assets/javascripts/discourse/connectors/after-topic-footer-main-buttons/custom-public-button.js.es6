@@ -37,28 +37,69 @@ export default {
     	//l.appendChild(br);
     },
     autocomplete() {
-  var temp=[];
-  var t1=[];
-  fetch('http://abcdefg.example.com/latest.json')
-    .then(function(response){
+  // var temp;
+  // var t1=[];
+  // fetch('http://localhost:9292/latest.json')
+  //   .then(function(response){
+  //     return response.json();
+  //   })
+  //   .then(function(myJSON){
+  //     temp = JSON.parse(JSON.stringify(myJSON['topic_list']['topics']));
+  //     // t1.push(JSON.parse(temp[0]));
+  //   });
+  //   console.log(temp);
+  //   console.log(temp.pop());
+  //   var arr=[]; 
+  //   for(const item of t1){
+  //     arr.push(item['title']);
+  //   }
+  //   console.log(arr.length);
+
+  var arr = [];
+  var i;
+
+  // var temp;
+
+  fetch('http://localhost:9292/latest.json')
+    .then(function(response) {
       return response.json();
     })
-    .then(function(myJSON){
-      temp.push(JSON.stringify(myJSON['topic_list']['topics']));
-      t1.push(JSON.parse(temp[0]));
+    .then(function(myJSON) {
+      var temp = myJSON['topic_list']['topics'];
+      for (i = 0; i<temp.length; i++) {
+        console.log(temp[i].title);
+        arr.push(temp[i].title);
+      }
+      // console.log(temp);
+      // for (var key in temp) {
+      //   if(temp.hasOwnProperty(key)) {
+      //     var item = temp[key];
+      //     arr.push({
+      //       id: item.id;
+      //       title: item.title;
+      //     })
+      //   }
+      // }
     });
-    console.log(t1);
-    console.log(t1.length);
-    var arr=[]; 
-    for(const item of t1){
-      arr.push(item['title']);
-    }
-    console.log(arr.length);
-  /*the autocomplete function takes two arguments,
-  the text field element and an array of possible autocompleted values:*/
 
-  //var arr = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
-  //var arr = [<%= raw @ids.to_json %>];
+  // $.getJSON('http://localhost:9292/latest.json', function(json) {
+  //   var arr = [];
+  //   for (var key in json) {
+  //     if (key == 'topic_list') {
+  //       for (var innerKey in json[key]) {
+  //         if
+  //         if(json.hasOwnProperty(key)) {
+  //           var item = json[key][innerKey];
+  //           arr.push({
+  //             id: item.id;
+  //             title: item.title;
+  //           })
+  //         }
+  //       }
+  //     }
+  //   }
+  // });
+  
   console.log(arr);
   var inp=document.getElementById("myInput");
   var currentFocus;
