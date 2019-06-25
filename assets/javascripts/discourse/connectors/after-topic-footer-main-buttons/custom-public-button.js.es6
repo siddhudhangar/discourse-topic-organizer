@@ -10,10 +10,11 @@ export default {
     	document.getElementById("prereq-list").innerHTML = "";
     	document.getElementById("myForm").style.display = "none";	
     },
-    closebutton(prereq){
+    closebutton(){
      // var l,x;
      // l = document.getElementById("prereq-list");
-     document.getElementById(prereq).remove();
+     document.getElementById("India").remove();
+     console.log("removed");
       //l.removeChild(x);
     },
     addtopic(){
@@ -27,11 +28,18 @@ export default {
     	x.setAttribute("class", "chip");
       x.setAttribute("id", prereq);
     	x.innerHTML=prereq;
-      x.innerHTML+="<span class='closebtn' {{action 'closebutton' this.id}}>&times;</span>"
+    //  x.innerHTML+='<span class="closebtn" {{action "closebutton"}}>&times;</span>';
     	l.innerHTML += '&nbsp;'; 
-    	l.appendChild(x);   	
+    		
     	var br = document.createElement('br'); 
     	document.getElementById("myInput").value = '';
+      // l.addEventListener("click",function(e) {
+      //   //var n=x
+      //   console.log(this.id);
+      //    document.getElementById(this.id).remove();
+      // });
+      l.appendChild(x);   
+      l.innerHTML+='<br><br>';
     }
 
     	//l.appendChild(br);
@@ -40,10 +48,11 @@ export default {
   
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
-  var arr = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+  //var arr = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
   //var arr = [<%= raw @ids.to_json %>];
-  console.log(arr);
+  //console.log(arr);
   var inp=document.getElementById("myInput");
+  //console.log(inp);
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input", function(e) {
@@ -53,59 +62,110 @@ export default {
       if (!val) { return false;}
       currentFocus = -1;
       /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
+       a = document.createElement("DIV");
       a.setAttribute("id", this.id + "autocomplete-list");
       a.setAttribute("class", "autocomplete-items");
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
-      /*for each item in the array...*/
 
-      var flag=false;
       document.getElementById("flag").value="false";
      
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-      //  if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
 
-          if(arr[i].toUpperCase().includes(val.toUpperCase())){
-          b = document.createElement("DIV");
-     		 b.setAttribute("align","left");
-     		 	flag=true;
-          
-          /*make the matching letters bold:*/
-      		
-          var pos=arr[i].toUpperCase().indexOf(val.toUpperCase());
-         
-          b.innerHTML = arr[i].substr(0,pos);
-         
-          b.innerHTML+="<strong>" + arr[i].substr(pos, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(pos+val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='checkbox' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-          b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              document.getElementById("flag").value="true";
-              closeAllLists();
+      var search_text=val;
+  	  var url="";
+  		url = 'http://localhost:9292/search/query.json?term='
+  		url = url+search_text
+  		console.log(search_text);
+
+  		fetch(url)
+  		.then(response => response.json())
+ 		.then(data => {
 
 
-          });
-          a.appendChild(b);
-        }
+ 			var text = "";
+			var i;
+			if (typeof data.topics == 'undefined'){
+			// $("#search_data").empty();
+			// $("#search_data").append("No result found");
 
-      }
-
-      if(!flag)
-      {
-      	var notfound= document.createElement("DIV");
+			var notfound= document.createElement("DIV");
      		 notfound.setAttribute("align","left");
      		 notfound.innerHTML="Not Found...";
      		 a.appendChild(notfound);
-      }
+			}
+			else
+			{
+				for (i = 0; i < data.topics.length; i++) {
+					b = document.createElement("DIV");
+     		 		b.setAttribute("align","left");
+     		 		b.innerHTML=data.topics[i].title;
+     		 		b.innerHTML += "<input type='checkbox' value='" + data.topics[i].title + "'>";
+     		 		b.addEventListener("click", function(e) {
+              		/*insert the value for the autocomplete text field:*/
+              		console.log("inside addEventListener");
+              		inp.value = this.getElementsByTagName("input")[0].value;
+              		//inp.value=b.innerHTML;
+              		//console.log(this.getElementsByTagName("input")[0].value);
+              		/*close the list of autocompleted values,
+              		(or any other open lists of autocompleted values:*/
+              		document.getElementById("flag").value="true";
+              		closeAllLists();
+
+          			});
+          			a.appendChild(b);
+
+				}
+			}
+
+
+  })
+
+
+
+
+      // var flag=false;
+      // document.getElementById("flag").value="false";
+     
+      // for (i = 0; i < arr.length; i++) {
+      //   /*check if the item starts with the same letters as the text field value:*/
+      // //  if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+      //     /*create a DIV element for each matching element:*/
+
+      //     if(arr[i].toUpperCase().includes(val.toUpperCase())){
+      //     b = document.createElement("DIV");
+     	// 	 b.setAttribute("align","left");
+     	// 	 	flag=true;
+          
+      //     /*make the matching letters bold:*/
+      		
+      //     var pos=arr[i].toUpperCase().indexOf(val.toUpperCase());
+         
+      //     b.innerHTML = arr[i].substr(0,pos);
+         
+      //     b.innerHTML+="<strong>" + arr[i].substr(pos, val.length) + "</strong>";
+      //     b.innerHTML += arr[i].substr(pos+val.length);
+      //     /*insert a input field that will hold the current array item's value:*/
+      //     b.innerHTML += "<input type='checkbox' value='" + arr[i] + "'>";
+      //     /*execute a function when someone clicks on the item value (DIV element):*/
+      //     b.addEventListener("click", function(e) {
+      //         /*insert the value for the autocomplete text field:*/
+      //         inp.value = this.getElementsByTagName("input")[0].value;
+      //         /*close the list of autocompleted values,
+      //         (or any other open lists of autocompleted values:*/
+      //         document.getElementById("flag").value="true";
+      //         closeAllLists();
+
+
+      //     });
+      //     a.appendChild(b);
+      //   }
+
+      // }
+
+      // if(!flag)
+      // {
+      	
+      // }
 
 
 
