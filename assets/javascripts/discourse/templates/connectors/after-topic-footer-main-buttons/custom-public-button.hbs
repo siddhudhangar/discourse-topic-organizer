@@ -1,17 +1,23 @@
 {{#if currentUser.can_see_topic_group_button}}
-
     <div class="hover_bkgr_fricc" id="myForm">
     	<span class="helper"></span>
     <div>
     <h1>Topic-Organizer</h1>
 
-    <span>Search</span>&nbsp;<input id="q" name="q" type="text" placeholder="search topics, posts, users or categories"><br>
-    <div align="left">
-    <input type="checkbox">Topic 1<br>
-    <input type="checkbox">Topic 2<br>
-    <input type="checkbox">Topic 3<br>
-    <input type="checkbox">Topic 4<br>
-	</div>
+    <form autocomplete="off">
+        <div class="autocomplete" style="width:300px;">
+            <!-- <input id="myInput" type="text" name="myCountry" placeholder="Search for topics.." {{action "autocomplete" }}> -->
+            {{input id="myInput" type='text' value=input_text name="myCountry" placeholder="Search for topics.." key-press=(action "autocomplete") }}
+
+        </div>
+    <button id="addt" type="submit" {{action "addtopic"}}>Add</button>
+    <input type="hidden" id="flag" value="false">
+</form>
+   
+    <div id="prereq-list" align="left"></div>
+     <br><br>
+
+     
     <button type="submit" class="btn submit" >OK</button>
     <button type="button" class="btn cancel" {{action "closeForm"}}>Close</button>
   	</div>
