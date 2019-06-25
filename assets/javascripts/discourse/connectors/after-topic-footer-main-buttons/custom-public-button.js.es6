@@ -68,6 +68,7 @@ export default {
       var temp = myJSON['topic_list']['topics'];
       for (i = 0; i<temp.length; i++) {
         console.log(temp[i].title);
+        
         arr.push(temp[i].title);
       }
       // console.log(temp);

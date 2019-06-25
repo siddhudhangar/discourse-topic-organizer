@@ -139,12 +139,12 @@ input[type=submit] {
         box-sizing: border-box;
     }
     .onoffswitch-inner:before {
-        content: "ON";
+        content: "Pre-requisite";
         padding-left: 10px;
         background-color: #34A7C1; color: #FFFFFF;
     }
     .onoffswitch-inner:after {
-        content: "OFF";
+        content: "Post-requisite";
         padding-right: 10px;
         background-color: #EEEEEE; color: #999999;
         text-align: right;
