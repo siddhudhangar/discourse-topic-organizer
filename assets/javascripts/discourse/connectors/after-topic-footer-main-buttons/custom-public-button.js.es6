@@ -117,56 +117,27 @@ export default {
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
-
-      var flag=false;
-      document.getElementById("flag").value="false";
-     
       for (i = 0; i < arr.length; i++) {
         /*check if the item starts with the same letters as the text field value:*/
-      //  if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
           /*create a DIV element for each matching element:*/
-
-          if(arr[i].toUpperCase().includes(val.toUpperCase())){
           b = document.createElement("DIV");
-         b.setAttribute("align","left");
-          flag=true;
-          
           /*make the matching letters bold:*/
-          
-          var pos=arr[i].toUpperCase().indexOf(val.toUpperCase());
-         
-          b.innerHTML = arr[i].substr(0,pos);
-         
-          b.innerHTML+="<strong>" + arr[i].substr(pos, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(pos+val.length);
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
           /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='checkbox' value='" + arr[i] + "'>";
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
           /*execute a function when someone clicks on the item value (DIV element):*/
           b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
               inp.value = this.getElementsByTagName("input")[0].value;
               /*close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
-              document.getElementById("flag").value="true";
               closeAllLists();
-
-
           });
           a.appendChild(b);
         }
-
       }
-
-      if(!flag)
-      {
-        var notfound= document.createElement("DIV");
-         notfound.setAttribute("align","left");
-         notfound.innerHTML="Not Found...";
-         a.appendChild(notfound);
-      }
-
-
-
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
@@ -224,6 +195,7 @@ export default {
       closeAllLists(e.target);
   });
 }
+
 
   }
 };
