@@ -1,14 +1,17 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import showModal from "discourse/lib/show-modal";
 
+var arr = [];
 export default {
 	name: 'tl-post-lock',
 	initialize() {
 		withPluginApi('0.8.24', function(api) {
 			const user = api.getCurrentUser()
 
+			// const text = 'this works';
+
 			console.log(user.trust_level);
-			if(user.trust_level >= api.container.lookup('site-settings:main').topic_group_button_tl_lock_minimum) {
+			if(user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
 				// User is allowed to see the button
 
 				api.decorateWidget('topic-admin-menu:adminMenuButtons', (decorator) => {
@@ -21,6 +24,24 @@ export default {
 				})
 				
 				api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
+						  var j;
+
+						  let url = 'http://localhost:9292/latest.json'
+
+						  const request = async () => {
+						    const response = await fetch(url);
+						    const json = await response.json();
+
+						    var temp = json['topic_list']['topics'];
+						      for (j = 0; j<temp.length; j++) {
+						        // console.log(temp[j].title);
+						        arr.push(temp[j].title);
+						      }
+						    // console.log(json);
+						  }
+
+						  request();
+
 					document.getElementById("myForm").style.display = "block";
 				})
 				
@@ -28,3 +49,5 @@ export default {
 		})
 	}
 }
+
+export { arr };
