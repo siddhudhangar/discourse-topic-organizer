@@ -66,11 +66,12 @@ export default {
     }
   }
 
-    
-
+    this.send('autocomplete', selected_topics);
       //l.appendChild(br);
     },
-    autocomplete() {
+
+    autocomplete(selected_topics) {
+  // console.log(arr);
   var inp=document.getElementById("myInput");
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
@@ -87,6 +88,21 @@ export default {
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
+
+
+      var flag=false;
+      document.getElementById("flag").value="false";
+
+      var x;
+
+      if(selected_topics) {
+        for(x = 0; x<selected_topics.length; x++) {
+          var index = arr.indexOf(selected_topics[x]);
+          if(index != -1) {
+            arr.splice(index, 1);
+          }
+        }
+      }
       for (i = 0; i < arr.length; i++) {
         /*check if the item starts with the same letters as the text field value:*/
         if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
