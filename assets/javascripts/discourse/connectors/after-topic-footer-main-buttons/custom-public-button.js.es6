@@ -19,22 +19,54 @@ export default {
       //l.removeChild(x);
     },
     addtopic(){
-      var prereq=document.getElementById("myInput").value;
-      var flagv=document.getElementById("flag").value;
-      if(prereq!=""&&flagv=="true"){
-      console.log(prereq);
-      var l,x;
-      l = document.getElementById("prereq-list");
-      x = document.createElement("DIV");
-      x.setAttribute("class", "chip");
-      x.setAttribute("id", prereq);
-      x.innerHTML=prereq;
-      x.innerHTML+="<span class='closebtn' {{action 'closebutton' this.id}}>&times;</span>"
-      l.innerHTML += '&nbsp;'; 
-      l.appendChild(x);     
+      var x =Array.from(document.getElementsByClassName("autocomplete-items"));
+      var y=x[0];
+      var z=Array.from(y.children);
+      var selected_topics=[];
+      // var prereq=document.getElementById("myInput").value;
+      // var flagv=document.getElementById("flag").value;
+     // console.log(x);
+      console.log(typeof z[0]);
+      console.log(z);
+    //  var c=x.childNodes;
+      for (var i = 0; i < z.length; i++) {
+        console.log(z[i].id);
+        console.log(typeof z[i].id);
+        var ch_id='check'+z[i].id;
+        var prereq=z[i].id;
+          var flagv=document.getElementById(ch_id).checked;
+        if(flagv==true){
+          // console.log(prereq);
+          // var l,x;
+          var l,x;
+          l = document.getElementById("prereq-list");
+          x = document.createElement("DIV");
+          x.setAttribute("class", "chip");
+          x.setAttribute("id", prereq);
+          selected_topics.push(prereq);
+          x.innerHTML=prereq;
+          x.innerHTML+="<span class='closebtn' {{action 'closebutton' this.id}}>&times;</span>"
+          l.innerHTML += '&nbsp;'; 
+          l.appendChild(x);     
+          }
+        }
       var br = document.createElement('br'); 
       document.getElementById("myInput").value = '';
+      closeAllLists();
+
+
+      function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i]) {
+        x[i].parentNode.removeChild(x[i]);
+      }
     }
+  }
+
+    
 
       //l.appendChild(br);
     },
@@ -60,21 +92,35 @@ export default {
         if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
           /*create a DIV element for each matching element:*/
           b = document.createElement("DIV");
+          b.setAttribute("id",arr[i]);
+         b.setAttribute("align","left");
+          flag=true;
+
+          var pos=arr[i].toUpperCase().indexOf(val.toUpperCase());
+          b.innerHTML=arr[i].substr(0,pos);
           /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
+          b.innerHTML = "<strong>" + arr[i].substr(pos, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(pos+val.length);
           /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          b.innerHTML += "<input id='check"+arr[i]+"' type='checkbox' value='" + arr[i] + "'>";
           /*execute a function when someone clicks on the item value (DIV element):*/
           b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
+            //  inp.value = this.getElementsByTagName("input")[0].value;
               /*close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
-              closeAllLists();
+              document.getElementById("flag").value="true";
+             // closeAllLists();
           });
           a.appendChild(b);
         }
+      }
+      if(!flag)
+      {
+        var notfound=document.createElement("DIV");
+        notfound.setAttribute("align","left");
+        notfound.innerHTML="Not Found...";
+        a.appendChild(notfound);
       }
   });
   /*execute a function presses a key on the keyboard:*/
@@ -130,7 +176,7 @@ export default {
   }
   /*execute a function when someone clicks in the document:*/
   document.addEventListener("click", function (e) {
-      closeAllLists(e.target);
+     // closeAllLists(e.target);
   });
 }
 
