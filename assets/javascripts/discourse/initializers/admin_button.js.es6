@@ -37,7 +37,7 @@ export default {
 						var current_topic_id = parseInt(current_topic_url.slice(start+1, current_topic_url.length));
 						 var j;
 
-						  let url = 'http://localhost:9292/latest.json'
+						  let url = 'http://abcdefg.example.com/latest.json'
 
 						  const request = async () => {
 						    const response = await fetch(url);
