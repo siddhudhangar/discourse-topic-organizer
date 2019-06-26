@@ -1,3 +1,5 @@
+import { arr } from '../../initializers/admin_button'
+
 export default {
   actions: {
     clickButton() {
@@ -37,70 +39,7 @@ export default {
       //l.appendChild(br);
     },
     autocomplete() {
-  // var temp;
-  // var t1=[];
-  // fetch('http://localhost:9292/latest.json')
-  //   .then(function(response){
-  //     return response.json();
-  //   })
-  //   .then(function(myJSON){
-  //     temp = JSON.parse(JSON.stringify(myJSON['topic_list']['topics']));
-  //     // t1.push(JSON.parse(temp[0]));
-  //   });
-  //   console.log(temp);
-  //   console.log(temp.pop());
-  //   var arr=[]; 
-  //   for(const item of t1){
-  //     arr.push(item['title']);
-  //   }
-  //   console.log(arr.length);
-
-  var arr = [];
-  var i;
-
-  // var temp;
-
-  fetch('http://localhost:9292/latest.json')
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(myJSON) {
-      var temp = myJSON['topic_list']['topics'];
-      for (i = 0; i<temp.length; i++) {
-        console.log(temp[i].title);
-        arr.push(temp[i].title);
-      }
-      // console.log(temp);
-      // for (var key in temp) {
-      //   if(temp.hasOwnProperty(key)) {
-      //     var item = temp[key];
-      //     arr.push({
-      //       id: item.id;
-      //       title: item.title;
-      //     })
-      //   }
-      // }
-    });
-
-  // $.getJSON('http://localhost:9292/latest.json', function(json) {
-  //   var arr = [];
-  //   for (var key in json) {
-  //     if (key == 'topic_list') {
-  //       for (var innerKey in json[key]) {
-  //         if
-  //         if(json.hasOwnProperty(key)) {
-  //           var item = json[key][innerKey];
-  //           arr.push({
-  //             id: item.id;
-  //             title: item.title;
-  //           })
-  //         }
-  //       }
-  //     }
-  //   }
-  // });
-  
-  console.log(arr);
+  // console.log(arr);
   var inp=document.getElementById("myInput");
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
