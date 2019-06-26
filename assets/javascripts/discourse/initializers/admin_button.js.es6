@@ -72,5 +72,8 @@ export default {
 	}
 }
 
-export { arr_mapping };
-export {arr};
+export {
+	arr_mapping,
+	arr,
+	current_topic_id
+}

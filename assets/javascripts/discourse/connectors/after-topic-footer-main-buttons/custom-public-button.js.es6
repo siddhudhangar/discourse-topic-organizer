@@ -1,5 +1,6 @@
-import { arr } from '../../initializers/admin_button'
+import { arr, arr_mapping } from '../../initializers/admin_button';
 
+var selected_topics=[];
 export default {
   actions: {
     clickButton() {
@@ -22,7 +23,7 @@ export default {
       var x =Array.from(document.getElementsByClassName("autocomplete-items"));
       var y=x[0];
       var z=Array.from(y.children);
-      var selected_topics=[];
+      // selected_topics=[];
       // var prereq=document.getElementById("myInput").value;
       // var flagv=document.getElementById("flag").value;
      // console.log(x);
@@ -43,7 +44,21 @@ export default {
           x = document.createElement("DIV");
           x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
-          selected_topics.push(prereq);
+          var looper;
+          for (looper = 0; looper<arr_mapping.length; looper++) {
+            if(arr_mapping[looper].title == prereq) {
+              selected_topics.push({
+                id: arr_mapping[looper].id,
+                title: prereq
+              });
+            }
+          }
+          
+          // var matching_entry = arr_mapping.filter(function(entry) {
+          //   return entry.title === prereq;
+          // });
+
+          // selected_topics.push(prereq);
           x.innerHTML=prereq;
           x.innerHTML+="<span class='closebtn' {{action 'closebutton' this.id}}>&times;</span>"
           l.innerHTML += '&nbsp;'; 
@@ -97,7 +112,7 @@ export default {
 
       if(selected_topics) {
         for(x = 0; x<selected_topics.length; x++) {
-          var index = arr.indexOf(selected_topics[x]);
+          var index = arr.indexOf(selected_topics[x].title);
           if(index != -1) {
             arr.splice(index, 1);
           }
@@ -200,4 +215,5 @@ export default {
   }
 };
 
+export { selected_topics };
 
