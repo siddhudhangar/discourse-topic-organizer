@@ -1,7 +1,7 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import showModal from "discourse/lib/show-modal";
-
-var arr = [];
+var arr=[];
+var arr_mapping = [];
 export default {
 	name: 'tl-post-lock',
 	initialize() {
@@ -26,7 +26,9 @@ export default {
 				})
 				
 				api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
-						arr = [];		// clears array for a fresh reuse of the plugin
+						arr_mapping = [];
+						arr=[];
+								// clears array for a fresh reuse of the plugin
 						  var j;
 
 						  let url = 'http://localhost:9292/latest.json'
@@ -39,7 +41,12 @@ export default {
 						      for (j = 0; j<temp.length; j++) {
 						        // console.log(temp[j].title);
 						        arr.push(temp[j].title);
-						      }
+						        arr_mapping.push({
+						        	id: temp[j].id;
+						        	title: temp[j].title;
+						        });
+						    }
+
 						    // console.log(json);
 						  }
 
@@ -53,4 +60,5 @@ export default {
 	}
 }
 
-export { arr };
+export { arr_mapping };
+export {arr};
