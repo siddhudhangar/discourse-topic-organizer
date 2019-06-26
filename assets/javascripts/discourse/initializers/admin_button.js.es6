@@ -1,6 +1,7 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import showModal from "discourse/lib/show-modal";
 
+
 var arr = [];
 var arr_mapping = [];
 export default {
@@ -27,12 +28,14 @@ export default {
 				})
 				
 				api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
+						arr_mapping = [];
+						arr=[];
+							// clears array for a fresh reuse of the plugin
+
 						var current_topic_url = window.location.href;
 						var start = current_topic_url.lastIndexOf('/');
 						var current_topic_id = parseInt(current_topic_url.slice(start+1, current_topic_url.length));
-						// console.log();
-						arr = [];		// clears array for a fresh reuse of the plugin
-						  var j;
+						 var j;
 
 						  let url = 'http://localhost:9292/latest.json'
 
@@ -50,7 +53,12 @@ export default {
 						        if(current_topic_id == temp[j].id)
 						        	continue;
 						        arr.push(temp[j].title);
-						      }
+						        arr_mapping.push({
+						        	id: temp[j].id,
+						        	title: temp[j].title
+						        });
+						    }
+
 						    // console.log(json);
 						  }
 
@@ -64,4 +72,5 @@ export default {
 	}
 }
 
-export { arr };
+export { arr_mapping };
+export {arr};
