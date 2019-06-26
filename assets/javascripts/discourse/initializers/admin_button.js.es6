@@ -42,8 +42,8 @@ export default {
 						        // console.log(temp[j].title);
 						        arr.push(temp[j].title);
 						        arr_mapping.push({
-						        	id: temp[j].id;
-						        	title: temp[j].title;
+						        	id: temp[j].id,
+						        	title: temp[j].title
 						        });
 						    }
 
