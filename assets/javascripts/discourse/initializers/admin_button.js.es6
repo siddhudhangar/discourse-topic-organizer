@@ -6,11 +6,13 @@ export default {
 	name: 'tl-post-lock',
 	initialize() {
 		withPluginApi('0.8.24', function(api) {
+
+			console.log(window.location.href);
 			const user = api.getCurrentUser()
 
 			// const text = 'this works';
 
-			console.log(user.trust_level);
+			// console.log(user.trust_level);
 			if(user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
 				// User is allowed to see the button
 
@@ -24,6 +26,7 @@ export default {
 				})
 				
 				api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
+						arr = [];		// clears array for a fresh reuse of the plugin
 						  var j;
 
 						  let url = 'http://localhost:9292/latest.json'
