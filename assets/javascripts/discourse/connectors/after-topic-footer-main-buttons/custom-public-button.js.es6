@@ -110,11 +110,11 @@ export default {
     }
   }
 
-    
-
+    this.send('autocomplete', selected_topics);
       //l.appendChild(br);
     },
-    autocomplete() {
+
+    autocomplete(selected_topics) {
   // console.log(arr);
   var inp=document.getElementById("myInput");
   var currentFocus;
@@ -133,22 +133,29 @@ export default {
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
 
+
       var flag=false;
       document.getElementById("flag").value="false";
-     
+
+      var x;
+
+      if(selected_topics) {
+        for(x = 0; x<selected_topics.length; x++) {
+          var index = arr.indexOf(selected_topics[x]);
+          if(index != -1) {
+            arr.splice(index, 1);
+          }
+        }
+      }
       for (i = 0; i < arr.length; i++) {
         /*check if the item starts with the same letters as the text field value:*/
-      //  if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
           /*create a DIV element for each matching element:*/
-
-          if(arr[i].toUpperCase().includes(val.toUpperCase())){
           b = document.createElement("DIV");
           b.setAttribute("id",arr[i]);
          b.setAttribute("align","left");
           flag=true;
-          
-          /*make the matching letters bold:*/
-          
+
           var pos=arr[i].toUpperCase().indexOf(val.toUpperCase());
          
          b.innerHTML = "<input id='check"+arr[i]+"' type='checkbox' value='" + arr[i] + "'>";
@@ -156,6 +163,10 @@ export default {
           b.innerHTML+= arr[i].substr(0,pos);
          
           b.innerHTML+="<strong>" + arr[i].substr(pos, val.length) + "</strong>";
+
+          // b.innerHTML=arr[i].substr(0,pos);
+          // /*make the matching letters bold:*/
+          // b.innerHTML = "<strong>" + arr[i].substr(pos, val.length) + "</strong>";
           b.innerHTML += arr[i].substr(pos+val.length);
           /*insert a input field that will hold the current array item's value:*/
           //b.innerHTML += "<input id='check"+arr[i]+"' type='checkbox' align='right' value='" + arr[i] + "'>";
@@ -167,24 +178,17 @@ export default {
               (or any other open lists of autocompleted values:*/
               document.getElementById("flag").value="true";
              // closeAllLists();
-
-
           });
           a.appendChild(b); 
         }
-
       }
-
       if(!flag)
       {
-        var notfound= document.createElement("DIV");
-         notfound.setAttribute("align","left");
-         notfound.innerHTML="Not Found...";
-         a.appendChild(notfound);
+        var notfound=document.createElement("DIV");
+        notfound.setAttribute("align","left");
+        notfound.innerHTML="Not Found...";
+        a.appendChild(notfound);
       }
-
-
-
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
@@ -242,6 +246,7 @@ export default {
      // closeAllLists(e.target);
   });
 }
+
 
   }
 };
