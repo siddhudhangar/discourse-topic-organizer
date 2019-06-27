@@ -6,9 +6,13 @@
 
 enabled_site_setting :topic_organizer_enabled
 
-
 register_asset 'stylesheets/custom-public-button.css'
+
+load File.expand_path('../app/note_store.rb', __FILE__)
+
 after_initialize do
+	load File.expand_path('../app/controllers/notebook_controller.rb', __FILE__)
+  load File.expand_path('../app/controllers/notes_controller.rb', __FILE__)
   add_to_serializer(:current_user, :can_see_topic_group_button?) do
     return true if scope.is_staff?
     group = Group.find_by("lower(name) = ?", SiteSetting.topic_group_button_allowed_group.downcase)

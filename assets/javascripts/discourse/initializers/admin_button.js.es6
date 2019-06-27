@@ -3,7 +3,9 @@ import showModal from "discourse/lib/show-modal";
 
 
 var arr = [];
-var arr_mapping = [];
+var arr_mapping = {};
+var current_topic_id;
+var reverse_map = {};
 export default {
 	name: 'tl-post-lock',
 	initialize() {
@@ -28,13 +30,13 @@ export default {
 				})
 				
 				api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
-						arr_mapping = [];
+						arr_mapping = {};
 						arr=[];
 							// clears array for a fresh reuse of the plugin
 
 						var current_topic_url = window.location.href;
-						var start = current_topic_url.lastIndexOf('/');
-						var current_topic_id = parseInt(current_topic_url.slice(start+1, current_topic_url.length));
+						current_topic_id = parseInt(current_topic_url.split('/')[5]);
+						// console.log("Current topic id: "+current_topic_id);
 						 var j;
 
 						  let url = 'http://localhost:9292/latest.json'
@@ -45,18 +47,11 @@ export default {
 
 						    var temp = json['topic_list']['topics'];
 						      for (j = 0; j<temp.length; j++) {
-						        // console.log(temp[j].title);
-						        arr_mapping.push({
-						        	id: temp[j].id,
-						        	title: temp[j].title
-						        });
+						        arr_mapping[temp[j].id] = temp[j].title;
+						        reverse_map[temp[j].title] = temp[j].id;
 						        if(current_topic_id == temp[j].id)
 						        	continue;
 						        arr.push(temp[j].title);
-						        arr_mapping.push({
-						        	id: temp[j].id,
-						        	title: temp[j].title
-						        });
 						    }
 
 						    // console.log(json);
@@ -72,5 +67,9 @@ export default {
 	}
 }
 
-export { arr_mapping };
-export {arr};
+export {
+	arr_mapping,
+	arr,
+	current_topic_id,
+	reverse_map
+};

@@ -1,12 +1,25 @@
-import { arr } from '../../initializers/admin_button'
+import { arr, arr_mapping, current_topic_id, reverse_map } from '../../initializers/admin_button'
+// import { arr_mapping } from '../../initializers/admin_button'
 
 export default {
   actions: {
-    clickButton() {
-      //const url = this.siteSettings.topic_group_button_url.replace('<TOPIC_ID>', this.get('topic.id')).replace('<USER_ID>', this.currentUser.id).replace('<USERNAME>', this.currentUser.username);
-      //window.open(url, 'popUpWindow','height=500,width=500,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
-  document.getElementById("myForm").style.display = "block";
+    createTopicRecord(selected_topic_ids) {
+      if (!selected_topic_ids) {
+        return;
+      }
+
+      const topicRecord = this.store.createRecord('note', {
+        id: current_topic_id,
+        prior_topic_id: selected_topic_ids
+      });
+
+      topicRecord.save()
+        .then(result => {
+          this.notes.pushObject(result.target);
+        })
+        .catch(console.error);
     },
+
     closeForm(){
       document.getElementById("myInput").value = '';
       document.getElementById("prereq-list").innerHTML = "";
@@ -23,6 +36,7 @@ export default {
       var y=x[0];
       var z=Array.from(y.children);
       var selected_topics=[];
+      var selected_topic_ids = [];
       // var prereq=document.getElementById("myInput").value;
       // var flagv=document.getElementById("flag").value;
      // console.log(x);
@@ -44,6 +58,7 @@ export default {
           x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
           selected_topics.push(prereq);
+          selected_topic_ids.push(reverse_map[prereq]);
           x.innerHTML=prereq;
           x.innerHTML+="<span class='closebtn' {{action 'closebutton' this.id}}>&times;</span>"
           l.innerHTML += '&nbsp;'; 
@@ -66,6 +81,7 @@ export default {
     }
   }
 
+    this.send('createTopicRecord', selected_topic_ids)
     this.send('autocomplete', selected_topics);
       //l.appendChild(br);
     },
@@ -201,3 +217,7 @@ export default {
 };
 
 
+// export {
+//   selected_topic_ids,
+//   current_topic_id
+// };

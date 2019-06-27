@@ -119,7 +119,7 @@ input[type=submit] {
 }
 
     .onoffswitch {
-        position: relative; width: 200px;
+        position: relative; width: 100px;
         -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
         align-self: center;
     }
@@ -140,12 +140,12 @@ input[type=submit] {
         box-sizing: border-box;
     }
     .onoffswitch-inner:before {
-        content: "Pre-requisite";
+        content: "Pre";
         padding-left: 10px;
         background-color: #34A7C1; color: #FFFFFF;
     }
     .onoffswitch-inner:after {
-        content: "Post-requisite";
+        content: "Post";
         padding-right: 10px;
         background-color: #EEEEEE; color: #999999;
         text-align: right;
