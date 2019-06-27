@@ -14,12 +14,15 @@
     <input type="hidden" id="flag" value="false">
 </form>
    
-    <div id="prereq-list" align="left"></div>
+    <div id="prereq-list" align="left" padding="100px" ></div>
      <br><br>
 
+        
      
-    <button type="submit" class="btn submit" >OK</button>
+    <button type="submit" class="btn submit">OK</button>
+    <button type="button" class="btn clear" {{action "clearall"}}>Clear All</button>
     <button type="button" class="btn cancel" {{action "closeForm"}}>Close</button>
   	</div>
 </div>
 {{/if}}
+    
