@@ -6,21 +6,17 @@
 
     <form autocomplete="off">
         <div class="autocomplete" style="width:300px;">
+
             {{!-- <input id="myInput" type="text" name="myCountry" placeholder="Search for topics.." onkeyup={{action "autocomplete"}}>  --}}
 
             {{input id="myInput" type='text' value=input_text name="myCountry" placeholder="Search for topics.." key-press=(action "autocomplete") }}
 
         </div>
 
-        {{!-- <div class="onoffswitch">
-        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-        <label class="onoffswitch-label" for="myonoffswitch">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
-        </label>
-        </div> --}}
+        
+      <button id="addt" type="submit" {{action "addtopic"}}>Add</button>
 
-    <button id="addt" type="submit" {{action "addtopic"}}>Add</button>
+  
     <input type="hidden" id="flag" value="false">
 
     <div class="onoffswitch">
@@ -34,12 +30,16 @@
 
 </form>
    
-    <div id="prereq-list" align="left"></div>
+    <div id="prereq-list" align="left" padding="100px" ></div>
      <br><br>
 
+        
      
+
     <button type="submit" class="btn submit" {{ action "createTopicRecord" }}>OK</button>
+    <button type="button" class="btn clear" {{action "clearall"}}>Clear All</button>
     <button type="button" class="btn cancel" {{action "closeForm"}}>Close</button>
   	</div>
 </div>
 {{/if}}
+    

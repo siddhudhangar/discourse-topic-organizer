@@ -25,11 +25,11 @@ export default {
       document.getElementById("prereq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none"; 
     },
-    closebutton(prereq){
-     // var l,x;
-     // l = document.getElementById("prereq-list");
-     document.getElementById(prereq).remove();
-      //l.removeChild(x);
+    clearall()
+    {
+      var l=document.getElementById("prereq-list").innerHTML="";
+      console.log(l);
+
     },
     addtopic(){
       var x =Array.from(document.getElementsByClassName("autocomplete-items"));
@@ -40,12 +40,12 @@ export default {
       // var prereq=document.getElementById("myInput").value;
       // var flagv=document.getElementById("flag").value;
      // console.log(x);
-      console.log(typeof z[0]);
-      console.log(z);
+      //console.log(typeof z[0]);
+      //console.log(z);
     //  var c=x.childNodes;
       for (var i = 0; i < z.length; i++) {
-        console.log(z[i].id);
-        console.log(typeof z[i].id);
+        //console.log(z[i].id);
+        //console.log(typeof z[i].id);
         var ch_id='check'+z[i].id;
         var prereq=z[i].id;
           var flagv=document.getElementById(ch_id).checked;
@@ -57,18 +57,62 @@ export default {
           x = document.createElement("DIV");
           x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
+          x.setAttribute("padding","100px")
           selected_topics.push(prereq);
           selected_topic_ids.push(reverse_map[prereq]);
           x.innerHTML=prereq;
-          x.innerHTML+="<span class='closebtn' {{action 'closebutton' this.id}}>&times;</span>"
+          //x.innerHTML+="<span class='closebtn'>&times;</span>";
+           var clb=document.createElement("SPAN");
+          clb.setAttribute("class","closebtn");
+          clb.setAttribute("id",prereq+"-button");
+    
+          clb.innerHTML='&times;';
+           console.log(clb);
+
+          // var buttn=document.createElement("BUTTON");
+          // // buttn.setAttribute("type","close");
+          // clb.addEventListener("onclick",function(e){
+          //   console.log("inside addEventListener"+e.target.id);
+          // });
+
+        //  x.appendChild(buttn);
+          
+         // document.getElementsByClassName('closebtn').onclick = function() { 
+          x.appendChild(clb);
+      
+            console.log("its working..");
+           // document.getElementById("id").remove(); 
+        
+          // console.log(x);
+          // console.log(x.innerHTML);
+          // console.log(x.children);
           l.innerHTML += '&nbsp;'; 
           l.appendChild(x);     
           }
         }
+        
+        var plist=document.getElementsByClassName("closebtn");
+
+        console.log(plist[0]);
+        for(var j=0;j<plist.length;j++)
+        {
+          plist[j].addEventListener("click",function(e) {
+            // body...
+            var idn=e.target.parentNode.id;
+            console.log(idn);
+            document.getElementById(idn).remove();
+            var k=selected_topics.indexOf(idn);
+
+            selected_topics.splice(k,1);
+
+          });
+        }
+
+
       var br = document.createElement('br'); 
       document.getElementById("myInput").value = '';
       closeAllLists();
-
+      
 
       function closeAllLists(elmnt) {
     /*close all autocomplete lists in the document,
@@ -129,12 +173,19 @@ export default {
           flag=true;
 
           var pos=arr[i].toUpperCase().indexOf(val.toUpperCase());
-          b.innerHTML=arr[i].substr(0,pos);
-          /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(pos, val.length) + "</strong>";
+         
+         b.innerHTML = "<input id='check"+arr[i]+"' type='checkbox' value='" + arr[i] + "'>";
+         b.innerHTML+='&nbsp;';
+          b.innerHTML+= arr[i].substr(0,pos);
+         
+          b.innerHTML+="<strong>" + arr[i].substr(pos, val.length) + "</strong>";
+
+          // b.innerHTML=arr[i].substr(0,pos);
+          // /*make the matching letters bold:*/
+          // b.innerHTML = "<strong>" + arr[i].substr(pos, val.length) + "</strong>";
           b.innerHTML += arr[i].substr(pos+val.length);
           /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input id='check"+arr[i]+"' type='checkbox' value='" + arr[i] + "'>";
+          //b.innerHTML += "<input id='check"+arr[i]+"' type='checkbox' align='right' value='" + arr[i] + "'>";
           /*execute a function when someone clicks on the item value (DIV element):*/
           b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
@@ -144,7 +195,7 @@ export default {
               document.getElementById("flag").value="true";
              // closeAllLists();
           });
-          a.appendChild(b);
+          a.appendChild(b); 
         }
       }
       if(!flag)
