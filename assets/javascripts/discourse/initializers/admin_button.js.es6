@@ -16,8 +16,6 @@ export default {
 			arr_mapping = {};
 			arr=[];		// clears array for a fresh reuse of the plugin
 
-			var current_topic_url = window.location.href;
-			current_topic_id = parseInt(current_topic_url.split('/')[5]);
 			var j;
 
 			let url = 'http://localhost:9292/latest.json'
@@ -30,8 +28,8 @@ export default {
 				for (j = 0; j<temp.length; j++) {
 					arr_mapping[temp[j].id] = temp[j].title;
 					reverse_map[temp[j].title] = temp[j].id;
-					if(current_topic_id == temp[j].id)
-						continue;
+					// if(current_topic_id == temp[j].id)
+					// 	continue;
 					arr.push(temp[j].title);
 				}
 			}
@@ -53,6 +51,12 @@ export default {
 				})
 				
 				api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
+					var current_topic_url = window.location.href;
+					current_topic_id = parseInt(current_topic_url.split('/')[5]);
+					arr.splice(arr.indexOf(arr_mapping[current_topic_id]), 1);
+					/*
+						This removes the current page from arr so that it isn't displayed in the autocomplete drop down
+					 */
 					document.getElementById("myForm").style.display = "block";
 				})
 				

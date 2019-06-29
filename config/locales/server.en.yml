@@ -1,11 +1,9 @@
 en:
   site_settings:
     topic_organizer_enabled: "Enable topic group button plugin"
-    topic_organizer_url: "Button URL (&lt;USERNAME&gt; &lt;USER_ID&gt; and &lt;TOPIC_ID&gt; will be replaced)"
     topic_organizer_title: "Button title"
     topic_organizer_label: "Button label"
-    topic_organizer_allowed_group: "Button will only be visible to members of specified group"
-    topic_organizer_tl_lock_minimum: "Trust level"
+    topic_organizer_tl_lock_minimum: "Button will only be visible to members of specified group"
     
 
 

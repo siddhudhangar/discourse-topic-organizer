@@ -2,18 +2,18 @@ plugins:
   topic_organizer_enabled:
     default: true
     client: true
-  topic_organizer_url:
-    default: "https://www.discourse.org"
-    client: true
-  topic_organizer_title:
+  # topic_organizer_url:
+  #   default: "https://www.discourse.org"
+  #   client: true
+  topic_organizer_button_title:
     default: "Button description here.."
     client: true
-  topic_organizer_label:
-    default: "Pop up"
+  topic_organizer_button_label:
+    default: "Topic Organizer"
     client: true
-  topic_organizer_allowed_group:
-    default: "trust_level_4"
-    client: true
+  # topic_organizer_allowed_group:
+  #   default: "trust_level_4"
+  #   client: true
   tl_post_lock:
     default: "Topic-Organizer"
     button_label: "Topic-Organizer"

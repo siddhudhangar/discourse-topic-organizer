@@ -6,7 +6,7 @@ Adds a custom button in the admin menu, visible only to staff or members of a sp
 Configuration
 =====
 
-From Admin > Site Settings > Plugin, modify `topic_group_button_url`, `topic_group_button_title`, `topic_group_button_label`, `topic_group_button_allowed_group`.
+From Admin > Site Settings > Plugin, modify `topic_organizer_button_title`, `topic_organizer_button_label`, `topic_organizer_tl_lock_minimum`.
 
 Installation
 ============
@@ -20,7 +20,6 @@ hooks:
         cd: $home/plugins
         cmd:
           - mkdir -p plugins
-          - git clone https://github.com/discourse/docker_manager.git
           - git clone https://github.com/discourse/discourse-topic-organizer.git
 ```
 

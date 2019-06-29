@@ -1,7 +1,7 @@
-# name: Pop up
+# name: Topic Organizer
 # about: adds a custom button at the bottom of a topic, visible only to staff or members of a specific group
 # version: 0.2
-# authors: Jineet,Divya
+# authors: Jineet,Divya,Raghav
 # url: https://github.com/jineetd/discourse-popup.git
 
 enabled_site_setting :topic_organizer_enabled
