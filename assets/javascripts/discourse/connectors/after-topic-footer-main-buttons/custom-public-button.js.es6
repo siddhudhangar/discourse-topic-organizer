@@ -10,14 +10,15 @@ var selected_topic_ids_post=[];
 export default {
   actions: {
     createTopicRecord() {
-      console.log(selected_topic_ids);
-      if (!selected_topic_ids) {
+      console.log(selected_topic_ids_pre);
+      if (!selected_topic_ids_pre && !selected_topic_ids_post) {
         return;
       }
 
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
-        prior_topic_id: selected_topic_ids
+        prior_topic_id: selected_topic_ids_pre
+        post_topic_id: selected_topic_ids_post
       });
 
       topicRecord.save()
