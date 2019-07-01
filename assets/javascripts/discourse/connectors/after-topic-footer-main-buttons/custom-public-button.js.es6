@@ -1,18 +1,23 @@
 import { arr, arr_mapping, current_topic_id, reverse_map } from '../../initializers/admin_button'
-
-var selected_topics=[];
-var selected_topic_ids = [];
+// mine
+// var selected_topics=[];
+// var selected_topic_ids = [];
+var selected_topics_pre = [];
+var selected_topic_ids_pre = [];
+var selected_topics_post = [];
+var selected_topic_ids_post = [];
 export default {
   actions: {
     createTopicRecord() {
-      console.log(selected_topic_ids);
-      if (!selected_topic_ids) {
+      // console.log(selected_topic_ids);
+      if (!selected_topic_ids_pre && !selected_topic_ids_post) {
         return;
       }
 
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
-        prior_topic_id: selected_topic_ids
+        prior_topic_id: selected_topic_ids_pre,
+        next_topic_id: selected_topic_ids_post
       });
 
       topicRecord.save()
@@ -33,22 +38,27 @@ export default {
         // After 3 seconds, remove the show class from DIV
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
       }
-
-
     },
 
     closeForm(){
-      selected_topics = [];
-      selected_topic_ids = [];
+      // selected_topics = [];
+      // selected_topic_ids = [];
+      selected_topics_pre = [];
+      selected_topic_ids_pre = [];
+      selected_topics_post = [];
+      selected_topic_ids_post = [];
       document.getElementById("myInput").value = '';
       document.getElementById("prereq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none";
     },
 
     clearall() {
+      selected_topics_pre = [];
+      selected_topic_ids_pre = [];
+      selected_topics_post = [];
+      selected_topic_ids_post = [];
       var l=document.getElementById("prereq-list").innerHTML="";
       console.log(l);
-
     },
 
     addtopic() {
@@ -78,8 +88,17 @@ export default {
           x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
           x.setAttribute("padding","100px")
-          selected_topics.push(prereq);
-          selected_topic_ids.push(reverse_map[prereq]);
+
+          if(document.getElementById("pre").checked) {
+            selected_topics_pre.push(prereq);
+            selected_topic_ids_pre.push(reverse_map[prereq]);
+          }
+
+          else if(document.getElementById("post").checked) {
+            selected_topics_post.push(prereq);
+            selected_topic_ids_post.push(reverse_map[prereq]);
+          }
+
           x.innerHTML=prereq;
           //x.innerHTML+="<span class='closebtn'>&times;</span>";
           var clb=document.createElement("SPAN");
@@ -120,10 +139,23 @@ export default {
             var idn=e.target.parentNode.id;
             console.log(idn);
             document.getElementById(idn).remove();
-            var k=selected_topics.indexOf(idn);
+            // var k=selected_topics.indexOf(idn);
 
-            selected_topics.splice(k,1);
+            // selected_topics.splice(k,1);
+            
+            if(document.getElementById("pre").checked) {
+              var k = selected_topics_pre.indexOf(idn);
+              var k1 = selected_topic_ids_pre.indexOf(reverse_map.get(idn));
+              selected_topics_pre.splice(k, 1);
+              selected_topic_ids_pre.splice(k1, 1);
+            }
 
+            else if(document.getElementById("post").checked) {
+              var k = selected_topics_post.indexOf(idn);
+              var k1 = selected_topic_ids_post.indexOf(reverse_map.get(idn));
+              selected_topics_post.splice(k, 1);
+              selected_topic_ids_post.splice(k1, 1);
+            }
           });
       }
 
@@ -145,11 +177,11 @@ export default {
       }
 
       // this.sendAction('createTopicRecord', selected_topic_ids);
-      this.send('autocomplete', selected_topics);
+      // this.send('autocomplete', selected_topics);
       
     },
 
-    autocomplete(selected_topics) {
+    autocomplete() {
       var inp=document.getElementById("myInput");
       var currentFocus;
       /*execute a function when someone writes in the text field:*/
@@ -172,6 +204,14 @@ export default {
         document.getElementById("flag").value="false";
 
         var x;
+
+        var selected_topics;
+
+        if(document.getElementById("pre").checked)
+          selected_topics = selected_topics_pre;
+
+        else if(document.getElementById("post").checked)
+          selected_topics = selected_topics_post;
 
         if(selected_topics) {
           for(x = 0; x<selected_topics.length; x++) {

@@ -17,4 +17,12 @@ after_initialize do
     group = Group.find_by("lower(name) = ?", SiteSetting.topic_group_button_allowed_group.downcase)
     return true if group && GroupUser.where(user_id: scope.user.id, group_id: group.id).exists?
   end
+
+  Discourse::Application.routes.append do
+    # get '/notebook' => 'notebook#index'
+
+    get '/notes' => 'notes#index'
+    put '/notes/:topic_id' => 'notes#update'
+    delete '/notes/:topic_id' => 'notes#destroy'
+  end
 end
