@@ -101,7 +101,7 @@ input[type=submit] {
 .closebtn:hover {
     color: #000;
 }
-.onoffswitch {
+/*.onoffswitch {
     position: relative;
     width: 100px;
     -webkit-user-select: none;
@@ -170,7 +170,8 @@ input[type=submit] {
 .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch {
     right: 0px;
 }
-
+*/
+/*commeting off the toggle swtich css*/
 /* The snackbar - position it at the bottom and in the middle of the screen */
 #snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */
