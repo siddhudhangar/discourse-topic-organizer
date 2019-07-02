@@ -1,23 +1,36 @@
-import { arr, arr_mapping, current_topic_id, reverse_map } from '../../initializers/admin_button'
-// mine
-// var selected_topics=[];
-// var selected_topic_ids = [];
-var selected_topics_pre = [];
-var selected_topic_ids_pre = [];
-var selected_topics_post = [];
-var selected_topic_ids_post = [];
+import { arr_mapping, arr, current_topic_id, reverse_map } from '../../initializers/admin_button';
+
+//var selected_topics=[];
+//var selected_topic_ids = [];
+
+var selected_topics_pre=[];
+var selected_topic_ids_pre=[];
+var selected_topics_post=[];
+var selected_topic_ids_post=[];
 export default {
   actions: {
+    fetchnotes()
+    {
+        this.store.findAll('note')
+      .then(result => {
+        for (const note of result.content) {
+          //this.notes.pushObject(note);
+          console.log(note);
+        }
+      })
+      .catch(console.error);
+    },
     createTopicRecord() {
       // console.log(selected_topic_ids);
       if (!selected_topic_ids_pre && !selected_topic_ids_post) {
         return;
       }
+      this.set('notes', []);
 
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
         prior_topic_id: selected_topic_ids_pre,
-        next_topic_id: selected_topic_ids_post
+        post_topic_id: selected_topic_ids_post
       });
 
       topicRecord.save()
@@ -38,6 +51,26 @@ export default {
         // After 3 seconds, remove the show class from DIV
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
       }
+
+
+       var j;
+      for(j=0;j<selected_topics_pre.length;j++){
+       // var text="";
+         var topicn=selected_topics_pre[j];
+        var newStr = topicn.replace(/ /g, "-");
+        var tname=newStr.toLowerCase();
+       // console.log(topicn+"-->"+newStr+"  "+tname);
+       var text='<a class="btn btn-warning btn-xs"';
+       text+='href="../';
+       text+=tname;
+       text+='/';
+       text+=selected_topic_ids_pre[j];
+       text+='">';
+       text+=selected_topics_pre[j];
+       text+='</a>&nbsp;';
+       console.log(text);
+          $("#prereq_list").append(text);
+        }
     },
 
     closeForm(){
@@ -58,6 +91,10 @@ export default {
       selected_topics_post = [];
       selected_topic_ids_post = [];
       var l=document.getElementById("prereq-list").innerHTML="";
+      selected_topics_pre=[];
+      selected_topic_ids_pre=[];
+      selected_topics_post=[];
+      selected_topic_ids_post=[];
       console.log(l);
     },
 
@@ -82,23 +119,24 @@ export default {
         if(flagv==true){
           // console.log(prereq);
           // var l,x;
-          var l,x;
+          var l,x,l2;
           l = document.getElementById("prereq-list");
+          l2= document.getElementById("postreq-list");
           x = document.createElement("DIV");
           x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
           x.setAttribute("padding","100px")
 
-          if(document.getElementById("pre").checked) {
-            selected_topics_pre.push(prereq);
-            selected_topic_ids_pre.push(reverse_map[prereq]);
-          }
+          // if(document.getElementById("pre").checked) {
+          //   selected_topics_pre.push(prereq);
+          //   selected_topic_ids_pre.push(reverse_map[prereq]);
+          // }
 
-          else if(document.getElementById("post").checked) {
-            selected_topics_post.push(prereq);
-            selected_topic_ids_post.push(reverse_map[prereq]);
-          }
-
+          // else if(document.getElementById("post").checked) {
+          //   selected_topics_post.push(prereq);
+          //   selected_topic_ids_post.push(reverse_map[prereq]);
+          // }
+          
           x.innerHTML=prereq;
           //x.innerHTML+="<span class='closebtn'>&times;</span>";
           var clb=document.createElement("SPAN");
@@ -125,8 +163,26 @@ export default {
           // console.log(x);
           // console.log(x.innerHTML);
           // console.log(x.children);
-          l.innerHTML += '&nbsp;'; 
-          l.appendChild(x);     
+
+
+          if(document.getElementById("pre").checked){
+            selected_topics_pre.push(prereq);
+            selected_topic_ids_pre.push(reverse_map[prereq]);
+            l.innerHTML += '&nbsp;'; 
+          l.appendChild(x);  
+          }
+          else if(document.getElementById("post").checked){
+            selected_topics_post.push(prereq);
+            selected_topic_ids_post.push(reverse_map[prereq]);
+            l2.innerHTML += '&nbsp;'; 
+          l2.appendChild(x);  
+          }
+
+
+
+
+          // l.innerHTML += '&nbsp;'; 
+          // l.appendChild(x);     
         }
       }
 
@@ -176,9 +232,14 @@ export default {
         }
       }
 
+      //this. autocomplete();
       // this.sendAction('createTopicRecord', selected_topic_ids);
+
       // this.send('autocomplete', selected_topics);
       
+      //this.send('autocomplete', selected_topics_pre,selected_topics_post);
+    
+
     },
 
     autocomplete() {
@@ -244,7 +305,7 @@ export default {
             // b.innerHTML = "<strong>" + arr[i].substr(pos, val.length) + "</strong>";
             b.innerHTML += arr[i].substr(pos+val.length);
             /*insert a input field that will hold the current array item's value:*/
-            //b.innerHTML += "<input id='check"+arr[i]+"' type='checkbox' align='right' value='" + arr[i] + "'>";
+          //  b.innerHTML += "<input id='check"+arr[i]+"' type='checkbox' align='right' value='" + arr[i] + "'>";
             /*execute a function when someone clicks on the item value (DIV element):*/
             b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/

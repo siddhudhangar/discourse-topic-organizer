@@ -7,7 +7,7 @@
     <form autocomplete="off">
         <div class="autocomplete" style="width:300px;">
 
-            {{!-- <input id="myInput" type="text" name="myCountry" placeholder="Search for topics.." onkeyup={{action "autocomplete"}}>  --}}
+            <!-- {{!-- <input id="myInput" type="text" name="myCountry" placeholder="Search for topics.." onkeyup={{action "autocomplete"}}>  --}} -->
 
             {{input id="myInput" type='text' value=input_text name="myCountry" placeholder="Search for topics.." key-press=(action "autocomplete") }}
 
@@ -19,13 +19,13 @@
   
     <input type="hidden" id="flag" value="false">
 
-    {{!-- <div class="onoffswitch">
+    <!-- {{!-- <div class="onoffswitch">
         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
         <label class="onoffswitch-label" for="myonoffswitch">
             <span class="onoffswitch-inner"></span>
             <span class="onoffswitch-switch"></span>
         </label>
-    </div> --}}
+    </div> --}} -->
 
     <div class="pre_post_switch">
         <input type="radio" name="toggle" id="pre">Pre-requisite
@@ -35,13 +35,15 @@
 
     <div id="snackbar">Successfully added!</div>
 
-
 </form>
-   
+   <p><b>Pre-requisites</b></p>
     <div id="prereq-list" align="left" padding="100px" ></div>
      <br><br>
+     <p><b>Post-requisites</b></p>
+    <div id="postreq-list" align="left" padding="100px" ></div>
+     <br><br>
 
-        
+      <button type="button" class="btn submit" {{action "fetchnotes"}}>fetch</button> 
      
 
     <button type="submit" class="btn submit" {{ action "createTopicRecord" }}>OK</button>

@@ -48,7 +48,7 @@ export default {
 						fullLabel: 'tl_post_lock.button_label',
 						action: 'actionTlLock'
 					}
-				})
+				});
 				
 				api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
 					var current_topic_url = window.location.href;
@@ -58,10 +58,10 @@ export default {
 						This removes the current page from arr so that it isn't displayed in the autocomplete drop down
 					 */
 					document.getElementById("myForm").style.display = "block";
-				})
+				});
 				
 			}
-		})
+		});
 	}
 };
 
