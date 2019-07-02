@@ -11,6 +11,8 @@ export default {
 	initialize() {
 		withPluginApi('0.8.24', function(api) {
 
+			const hostname = window.location.href.split('/');
+
 			const user = api.getCurrentUser();
 
 			arr_mapping = {};
@@ -18,7 +20,7 @@ export default {
 
 			var j;
 
-			let url = 'http://localhost:9292/latest.json'
+			let url = hostname[0]+'//'+hostname[2]+'/latest.json'
 
 			const request = async () => {
 				const response = await fetch(url);
