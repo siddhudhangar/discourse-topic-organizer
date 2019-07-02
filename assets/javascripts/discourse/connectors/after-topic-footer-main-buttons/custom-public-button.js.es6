@@ -9,8 +9,7 @@ var selected_topics_post=[];
 var selected_topic_ids_post=[];
 export default {
   actions: {
-    fetchnotes()
-    {
+    fetchnotes() {
         this.store.findAll('note')
       .then(result => {
         for (const note of result.content) {
@@ -20,6 +19,7 @@ export default {
       })
       .catch(console.error);
     },
+
     createTopicRecord() {
       // console.log(selected_topic_ids);
       if (!selected_topic_ids_pre && !selected_topic_ids_post) {
@@ -30,7 +30,7 @@ export default {
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
         prior_topic_id: selected_topic_ids_pre,
-        post_topic_id: selected_topic_ids_post
+        next_topic_id: selected_topic_ids_post
       });
 
       topicRecord.save()
