@@ -109,6 +109,8 @@ export default {
       selected_topics_post = [];
       selected_topic_ids_post = [];
       var l=document.getElementById("prereq-list").innerHTML="";
+      document.getElementById("postreq-list").innerHTML="";
+
      // console.log(l);
     },
 
