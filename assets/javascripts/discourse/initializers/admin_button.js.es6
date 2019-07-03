@@ -1,10 +1,10 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import showModal from "discourse/lib/show-modal";
 
-var initial_selected_topic_ids_pre = [];
-var initial_selected_topics_pre = [];
-var initial_selected_topic_ids_post = [];
-var initial_selected_topics_post = [];
+var initial_selected_topic_ids_pre = new Set();
+var initial_selected_topics_pre = new Set();
+var initial_selected_topic_ids_post = new Set();
+var initial_selected_topics_post = new Set();
 
 var arr = [];
 var arr_mapping = {};
@@ -80,9 +80,24 @@ export default {
 				        for (const note of result.content) {
 					 		if(parseInt(note["id"])==current_topic_id) {
 						        initial_selected_topic_ids_pre = note["prior_topic_id"];
-						        initial_selected_topics_pre = arr_mapping[note["prior_topic_id"]];
+						        //initial_selected_topics_pre = arr_mapping[note["prior_topic_id"]];
 						        initial_selected_topic_ids_post = note["next_topic_id"];
-						        initial_selected_topics_post = arr_mapping[note["next_topic_id"]];
+						        //initial_selected_topics_post = arr_mapping[note["next_topic_id"]];
+						        var temp=Array.from(initial_selected_topic_ids_pre);
+						        var k=0;
+						        for( k=0 ; k<note["prior_topic_id"].length; k++)
+						        {
+						        	initial_selected_topics_pre.add(arr_mapping[parseInt(note["prior_topic_id"][k])]);
+						        }
+
+						        var temp=Array.from(initial_selected_topic_ids_post);
+						        var k=0;
+						        for( k=0 ; k<note["next_topic_id"].length; k++)
+						        {
+						        	initial_selected_topics_post.add(arr_mapping[parseInt(note["next_topic_id"][k])]);
+						        }
+						        
+
 						    }
 				        }
 				      })
