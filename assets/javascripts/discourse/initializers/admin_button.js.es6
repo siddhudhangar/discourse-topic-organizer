@@ -74,21 +74,45 @@ export default {
 					var current_topic_url = window.location.href;
 					current_topic_id = parseInt(current_topic_url.split('/')[5]);
 
+					// initial_selected_topic_ids_pre = [];
+					// initial_selected_topics_pre = [];
+					// initial_selected_topic_ids_post = [];
+					// initial_selected_topics_post = [];
+
 					const store = container.lookup("store:main");
 					store.findAll('note')
 				      .then(result => {
 				        for (const note of result.content) {
 					 		if(parseInt(note["id"])==current_topic_id) {
-						        initial_selected_topic_ids_pre = note["prior_topic_id"];
-						        initial_selected_topics_pre = arr_mapping[note["prior_topic_id"]];
-						        initial_selected_topic_ids_post = note["next_topic_id"];
-						        initial_selected_topics_post = arr_mapping[note["next_topic_id"]];
+					 		// 	initial_selected_topic_ids_pre = [];
+								// initial_selected_topics_pre = [];
+								// initial_selected_topic_ids_post = [];
+								// initial_selected_topics_post = [];
+						        var k;
+						        for(k = 0; k<note["prior_topic_id"].length; k++) {
+						        	if(!initial_selected_topic_ids_pre.includes(note["prior_topic_id"][k])){
+							        	initial_selected_topic_ids_pre.push(note["prior_topic_id"][k]);
+							        	initial_selected_topics_pre.push(arr_mapping[parseInt(note["prior_topic_id"][k])]);
+							        }
+						        }
+						        
+						        for(k = 0; k<note["next_topic_id"].length; k++) {
+						        	if(!initial_selected_topic_ids_post.includes(note["next_topic_id"][k])) {
+							        	initial_selected_topic_ids_post.push(note["next_topic_id"][k]);
+							        	initial_selected_topics_post.push(arr_mapping[parseInt(note["next_topic_id"][k])]);
+							        }
+						        }
 						    }
 				        }
 				      })
 				      .catch(console.error);
 
 					arr.splice(arr.indexOf(arr_mapping[current_topic_id]), 1);
+
+					// console.log(initial_selected_topics_pre);
+					// console.log(initial_selected_topic_ids_pre);
+					// console.log(initial_selected_topics_post);
+					// console.log(initial_selected_topic_ids_post);
 					/*
 						This removes the current page from arr so that it isn't displayed in the autocomplete drop down
 					 */

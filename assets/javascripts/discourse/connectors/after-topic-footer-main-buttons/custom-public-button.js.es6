@@ -93,10 +93,10 @@ export default {
     },
 
     closeForm(){
-      selected_topics_pre = initial_selected_topics_pre;
-      selected_topic_ids_pre = initial_selected_topic_ids_pre;
-      selected_topics_post = initial_selected_topics_post;
-      selected_topic_ids_post = initial_selected_topic_ids_post;
+      // selected_topics_pre = initial_selected_topics_pre;
+      // selected_topic_ids_pre = initial_selected_topic_ids_pre;
+      // selected_topics_post = initial_selected_topics_post;
+      // selected_topic_ids_post = initial_selected_topic_ids_post;
       document.getElementById("myInput").value = '';
       document.getElementById("prereq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none";
@@ -220,14 +220,14 @@ export default {
             
             if(document.getElementById("pre").checked) {
               var k = selected_topics_pre.indexOf(idn);
-              var k1 = selected_topic_ids_pre.indexOf(reverse_map.get(idn));
+              var k1 = selected_topic_ids_pre.indexOf(reverse_map[idn]);
               selected_topics_pre.splice(k, 1);
               selected_topic_ids_pre.splice(k1, 1);
             }
 
             else if(document.getElementById("post").checked) {
               var k = selected_topics_post.indexOf(idn);
-              var k1 = selected_topic_ids_post.indexOf(reverse_map.get(idn));
+              var k1 = selected_topic_ids_post.indexOf(reverse_map[idn]);
               selected_topics_post.splice(k, 1);
               selected_topic_ids_post.splice(k1, 1);
             }
@@ -285,14 +285,8 @@ export default {
 
         var x;
 
-        var selected_topics;
-
-        if(document.getElementById("pre").checked)
-          selected_topics = selected_topics_pre;
-
-        else if(document.getElementById("post").checked)
-          selected_topics = selected_topics_post;
-
+        var selected_topics = selected_topics_pre.concat(selected_topics_post);
+        console.log(selected_topics);
         if(selected_topics) {
           for(x = 0; x<selected_topics.length; x++) {
             var index = arr.indexOf(selected_topics[x]);
@@ -301,6 +295,8 @@ export default {
             }
           }
         }
+
+        console.log(arr);
 
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/
