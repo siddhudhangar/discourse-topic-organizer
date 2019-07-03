@@ -91,11 +91,7 @@ export default {
       selected_topics_post = [];
       selected_topic_ids_post = [];
       var l=document.getElementById("prereq-list").innerHTML="";
-      selected_topics_pre=[];
-      selected_topic_ids_pre=[];
-      selected_topics_post=[];
-      selected_topic_ids_post=[];
-      console.log(l);
+     // console.log(l);
     },
 
     addtopic() {
@@ -188,7 +184,7 @@ export default {
 
       var plist=document.getElementsByClassName("closebtn");
 
-      console.log(plist[0]);
+     // console.log(plist[0]);
       for(var j=0;j<plist.length;j++) {
         plist[j].addEventListener("click",function(e) {
             // body...
@@ -220,7 +216,7 @@ export default {
       document.getElementById("myInput").value = '';
       closeAllLists();
       
-
+      console.log(selected_topic_ids_post+"  "+selected_topic_ids_pre);
       function closeAllLists(elmnt) {
           /*close all autocomplete lists in the document,
            except the one passed as an argument:*/
