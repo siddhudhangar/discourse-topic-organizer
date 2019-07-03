@@ -6,6 +6,7 @@ var arr = [];
 var arr_mapping = {};
 var current_topic_id;
 var reverse_map = {};
+var url_map = {};
 export default {
 	name: 'tl-post-lock',
 	initialize() {
@@ -30,8 +31,7 @@ export default {
 				for (j = 0; j<temp.length; j++) {
 					arr_mapping[temp[j].id] = temp[j].title;
 					reverse_map[temp[j].title] = temp[j].id;
-					// if(current_topic_id == temp[j].id)
-					// 	continue;
+					url_map[temp[j].id] = temp[j].slug;
 					arr.push(temp[j].title);
 				}
 			}
@@ -71,5 +71,6 @@ export {
 	arr_mapping,
 	arr,
 	current_topic_id,
-	reverse_map
+	reverse_map,
+	url_map
 };
