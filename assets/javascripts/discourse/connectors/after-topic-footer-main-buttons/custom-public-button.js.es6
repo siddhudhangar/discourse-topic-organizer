@@ -161,17 +161,23 @@ export default {
           // console.log(x.children);
 
 
-          if(document.getElementById("pre").checked){
+          if(document.getElementById("pre").checked && !selected_topics_post.includes(prereq)){
             selected_topics_pre.push(prereq);
             selected_topic_ids_pre.push(reverse_map[prereq]);
             l.innerHTML += '&nbsp;'; 
           l.appendChild(x);  
           }
-          else if(document.getElementById("post").checked){
+          else if(document.getElementById("pre").checked && selected_topics_post.includes(prereq)){
+            alert(prereq+ ":Topic already present as a Post-Requisite!");
+          }
+          else if(document.getElementById("post").checked && !selected_topics_pre.includes(prereq)){
             selected_topics_post.push(prereq);
             selected_topic_ids_post.push(reverse_map[prereq]);
             l2.innerHTML += '&nbsp;'; 
           l2.appendChild(x);  
+          }
+          else if(document.getElementById("post").checked && selected_topics_pre.includes(prereq)){
+            alert(prereq+ ":Topic already present as a Pre-Requisite!")
           }
 
 
