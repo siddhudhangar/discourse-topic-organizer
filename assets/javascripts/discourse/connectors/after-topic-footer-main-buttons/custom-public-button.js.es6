@@ -1,4 +1,4 @@
-import { arr_mapping, arr, current_topic_id, reverse_map } from '../../initializers/admin_button';
+import { arr_mapping, arr, current_topic_id, reverse_map, url_map } from '../../initializers/admin_button';
 
 //var selected_topics=[];
 //var selected_topic_ids = [];
@@ -56,9 +56,10 @@ export default {
        var j;
       for(j=0;j<selected_topics_pre.length;j++){
        // var text="";
-         var topicn=selected_topics_pre[j];
-        var newStr = topicn.replace(/ /g, "-");
-        var tname=newStr.toLowerCase();
+         var tname = url_map[selected_topic_ids_pre[j]];
+
+        // var newStr = topicn.replace(/ /g, "-");
+        // var tname=newStr.toLowerCase();
        // console.log(topicn+"-->"+newStr+"  "+tname);
        var text='<a class="btn btn-warning btn-xs"';
        text+='href="../';
@@ -71,6 +72,23 @@ export default {
        console.log(text);
           $("#prereq_list").append(text);
         }
+
+        for(j=0;j<selected_topics_post.length;j++){
+          var lname=url_map[selected_topic_ids_post[j]];
+
+          var text='<a class="btn btn-warning btn-xs"';
+          text+='href="../';
+          text+=lname;
+          text+='/';
+          text+=selected_topic_ids_post[j];
+          text+='">';
+          text+=selected_topics_post[j];
+          text+='</a>&nbsp;';
+       //console.log(text);
+          $("#postreq_list").append(text);
+
+        }
+
     },
 
     closeForm(){
