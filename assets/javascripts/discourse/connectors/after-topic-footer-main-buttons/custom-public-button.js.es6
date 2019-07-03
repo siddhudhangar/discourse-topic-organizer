@@ -72,6 +72,23 @@ export default {
        console.log(text);
           $("#prereq_list").append(text);
         }
+
+        for(j=0;j<selected_topics_post.length;j++){
+          var lname=url_map[selected_topic_ids_post[j]];
+
+          var text='<a class="btn btn-warning btn-xs"';
+          text+='href="../';
+          text+=lname;
+          text+='/';
+          text+=selected_topic_ids_post[j];
+          text+='">';
+          text+=selected_topics_post[j];
+          text+='</a>&nbsp;';
+       //console.log(text);
+          $("#postreq_list").append(text);
+
+        }
+
     },
 
     closeForm(){
