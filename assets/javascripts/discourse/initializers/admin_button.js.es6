@@ -1,6 +1,10 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import showModal from "discourse/lib/show-modal";
 
+var initial_selected_topic_ids_pre = [];
+var initial_selected_topics_pre = [];
+var initial_selected_topic_ids_post = [];
+var initial_selected_topics_post = [];
 
 var arr = [];
 var arr_mapping = {};
@@ -9,8 +13,20 @@ var reverse_map = {};
 var url_map = {};
 export default {
 	name: 'tl-post-lock',
-	initialize() {
+	initialize(container) {
 		withPluginApi('0.8.24', function(api) {
+
+			// const store = container.lookup("store:main");
+			// store.findAll('note')
+		 //      .then(result => {
+		 //        for (const note of result.content) {
+
+			//  		if(parseInt(note["id"])==current_topic_id){
+			// 	        console.log(note["prior_topic_id"]+"   "+note["next_topic_id"]);
+			// 	    }
+		 //        }
+		 //      })
+		 //      .catch(console.error);
 
 			const hostname = window.location.href.split('/');
 
@@ -29,6 +45,7 @@ export default {
 
 				var temp = json['topic_list']['topics'];
 				for (j = 0; j<temp.length; j++) {
+					console.log(typeof temp[j].id);
 					arr_mapping[temp[j].id] = temp[j].title;
 					reverse_map[temp[j].title] = temp[j].id;
 					url_map[temp[j].id] = temp[j].slug;
@@ -53,8 +70,24 @@ export default {
 				});
 				
 				api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
+					console.log("topic organizer opened!");
 					var current_topic_url = window.location.href;
 					current_topic_id = parseInt(current_topic_url.split('/')[5]);
+
+					const store = container.lookup("store:main");
+					store.findAll('note')
+				      .then(result => {
+				        for (const note of result.content) {
+					 		if(parseInt(note["id"])==current_topic_id) {
+						        initial_selected_topic_ids_pre = note["prior_topic_id"];
+						        initial_selected_topics_pre = arr_mapping[note["prior_topic_id"]];
+						        initial_selected_topic_ids_post = note["next_topic_id"];
+						        initial_selected_topics_post = arr_mapping[note["next_topic_id"]];
+						    }
+				        }
+				      })
+				      .catch(console.error);
+
 					arr.splice(arr.indexOf(arr_mapping[current_topic_id]), 1);
 					/*
 						This removes the current page from arr so that it isn't displayed in the autocomplete drop down
@@ -72,5 +105,9 @@ export {
 	arr,
 	current_topic_id,
 	reverse_map,
-	url_map
+	url_map,
+	initial_selected_topic_ids_post,
+	initial_selected_topics_post,
+	initial_selected_topic_ids_pre,
+	initial_selected_topics_pre
 };
