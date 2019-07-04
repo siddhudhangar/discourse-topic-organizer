@@ -1,27 +1,38 @@
-import { arr_mapping, arr, current_topic_id, reverse_map, url_map } from '../../initializers/admin_button';
+import { arr_mapping, arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post,selected_topic_ids_pre,
+  selected_topic_ids_post,
+  selected_topics_pre,
+  selected_topics_post } from '../../initializers/admin_button';
 
 //var selected_topics=[];
 //var selected_topic_ids = [];
 
-var selected_topics_pre=[];
-var selected_topic_ids_pre=[];
-var selected_topics_post=[];
-var selected_topic_ids_post=[];
+// var selected_topics_pre = initial_selected_topics_pre.slice();
+// var selected_topic_ids_pre = initial_selected_topic_ids_pre.slice();
+// var selected_topics_post = initial_selected_topics_post.slice();
+// var selected_topic_ids_post = initial_selected_topic_ids_post.slice();
+
 export default {
   actions: {
-    fetchnotes() {
-        this.store.findAll('note')
-      .then(result => {
-        for (const note of result.content) {
-          //this.notes.pushObject(note);
-          console.log(note);
-        }
-      })
-      .catch(console.error);
-    },
+    // fetchnotes() {
+    //     this.store.findAll('note')
+    //   .then(result => {
+    //     for (const note of result.content) {
+    //       //this.notes.pushObject(note);
+    //       console.log(note);
+    //     }
+    //   })
+    //   .catch(console.error);
+    // },
 
     createTopicRecord() {
       // console.log(selected_topic_ids);
+
+
+      console.log("pre:");
+      console.log(selected_topic_ids_pre);
+      console.log("post:");
+      console.log(selected_topic_ids_post);
+
       if (!selected_topic_ids_pre && !selected_topic_ids_post) {
         return;
       }
@@ -92,22 +103,18 @@ export default {
     },
 
     closeForm(){
-      // selected_topics = [];
-      // selected_topic_ids = [];
-      selected_topics_pre = [];
-      selected_topic_ids_pre = [];
-      selected_topics_post = [];
-      selected_topic_ids_post = [];
+      
       document.getElementById("myInput").value = '';
       document.getElementById("prereq-list").innerHTML = "";
+      document.getElementById("postreq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none";
     },
 
     clearall() {
-      selected_topics_pre = [];
-      selected_topic_ids_pre = [];
-      selected_topics_post = [];
-      selected_topic_ids_post = [];
+      selected_topics_pre = initial_selected_topics_pre.splice();
+      selected_topic_ids_pre = initial_selected_topic_ids_pre.splice();
+      selected_topics_post = initial_selected_topics_post.splice();
+      selected_topic_ids_post = initial_selected_topic_ids_post.splice();
       var l=document.getElementById("prereq-list").innerHTML="";
       document.getElementById("postreq-list").innerHTML="";
 
@@ -115,6 +122,20 @@ export default {
     },
 
     addtopic() {
+
+
+      console.log("pre initial topic ids:");
+           console.log(initial_selected_topic_ids_pre);
+           console.log("post initial topic ids:");
+           console.log(initial_selected_topic_ids_post);
+
+      console.log("pre:");
+      console.log(selected_topic_ids_pre);
+      console.log("post:");
+      console.log(selected_topic_ids_post);
+
+
+
       var x =Array.from(document.getElementsByClassName("autocomplete-items"));
       var y=x[0];
       var z=Array.from(y.children);

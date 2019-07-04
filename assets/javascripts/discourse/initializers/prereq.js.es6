@@ -1,5 +1,6 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import { h } from 'virtual-dom';
+
 // import {current_topic_id} from './admin_button';
 
 
@@ -8,6 +9,7 @@ var arr_mapping = {};
 var current_topic_id;
 var reverse_map = {};
 var url_map = new Map();
+
 export default {
 	name: 'myprereq',
 	initialize(container)
@@ -20,7 +22,7 @@ export default {
 				current_topic_url = window.location.href;
 	
 				current_topic_id = parseInt(current_topic_url.split('/')[5]);
-				console.log("topic="+current_topic_id+" "+current_topic_url);
+			//	console.log("topic="+current_topic_id+" "+current_topic_url);
 		
 				const hostname = window.location.href.split('/');
 
@@ -35,7 +37,7 @@ export default {
 				.then(response => response.json())
 				.then(data => {
 	
-						console.log(data);
+						//console.log(data);
 				 var temp = data['topic_list']['topics'];
 				//console.log("temp="+temp);
 				for (j = 0; j<temp.length; j++) {
@@ -44,9 +46,9 @@ export default {
 					//url_map[temp[j].id] = temp[j].slug;
 					url_map.set(temp[j].id,temp[j].slug);
 					arr.push(temp[j].title);
-					console.log(temp[j].id);
+				//	console.log(temp[j].id);
 					}
-					console.log(url_map.size);
+				//	console.log(url_map.size);
 
 					$("#prereq_list").empty();
 					const store = container.lookup("store:main");
@@ -58,7 +60,7 @@ export default {
        					//	console.log(prior_ids)
        					for(var k=0;k<prior_ids.length;k++){	
        						var idp=parseInt(prior_ids[k]);
-						console.log("id="+note["id"]+"  "+url_map.get(idp));
+					//	console.log("id="+note["id"]+"  "+url_map.get(idp));
 
 							var ref=url_map.get(idp);
 							var lname=arr_mapping[idp];
@@ -82,9 +84,6 @@ export default {
       				})
       				.catch(console.error);
 
-
-
-
 				});
 				
 
@@ -102,7 +101,7 @@ export default {
 				current_topic_url = window.location.href;
 	
 				current_topic_id = parseInt(current_topic_url.split('/')[5]);
-				console.log("topic="+current_topic_id+" "+current_topic_url);
+			//	console.log("topic="+current_topic_id+" "+current_topic_url);
 		
 				const hostname = window.location.href.split('/');
 
@@ -117,7 +116,7 @@ export default {
 				.then(response => response.json())
 				.then(data => {
 	
-						console.log(data);
+					//	console.log(data);
 				 var temp = data['topic_list']['topics'];
 				//console.log("temp="+temp);
 				for (j = 0; j<temp.length; j++) {
@@ -126,9 +125,9 @@ export default {
 					//url_map[temp[j].id] = temp[j].slug;
 					url_map.set(temp[j].id,temp[j].slug);
 					arr.push(temp[j].title);
-					console.log(temp[j].id);
+				//	console.log(temp[j].id);
 					}
-					console.log(url_map.size);
+				//	console.log(url_map.size);
 
 					$("#postreq_list").empty();
 					const store = container.lookup("store:main");
@@ -140,7 +139,7 @@ export default {
        					//	console.log(prior_ids)
        					for(var k=0;k<prior_ids.length;k++){	
        						var idp=parseInt(prior_ids[k]);
-						console.log("id="+note["id"]+"  "+url_map.get(idp));
+					//	console.log("id="+note["id"]+"  "+url_map.get(idp));
 
 							var ref=url_map.get(idp);
 							var lname=arr_mapping[idp];
