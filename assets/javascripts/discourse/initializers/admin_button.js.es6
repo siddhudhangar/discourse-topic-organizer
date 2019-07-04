@@ -110,9 +110,9 @@ export default {
 					arr.splice(arr.indexOf(arr_mapping[current_topic_id]), 1);
 
 					// console.log(initial_selected_topics_pre);
-					// console.log(initial_selected_topic_ids_pre);
+					console.log(initial_selected_topic_ids_pre);
 					// console.log(initial_selected_topics_post);
-					// console.log(initial_selected_topic_ids_post);
+					console.log(initial_selected_topic_ids_post);
 					/*
 						This removes the current page from arr so that it isn't displayed in the autocomplete drop down
 					 */

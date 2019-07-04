@@ -121,7 +121,7 @@ export default {
       // var flagv=document.getElementById("flag").value;
      // console.log(x);
       //console.log(typeof z[0]);
-      //console.log(z);
+      console.log(z);
     //  var c=x.childNodes;
       for (var i = 0; i < z.length; i++) {
         //console.log(z[i].id);
@@ -234,6 +234,10 @@ export default {
           });
       }
 
+      selected_topic_ids_pre = Array.from(new Set(selected_topic_ids_pre));
+      selected_topic_ids_post = Array.from(new Set(selected_topic_ids_post));
+      selected_topics_pre = Array.from(new Set(selected_topics_pre));
+      selected_topics_post = Array.from(new Set(selected_topics_post));
 
       var br = document.createElement('br'); 
       document.getElementById("myInput").value = '';
@@ -285,7 +289,8 @@ export default {
 
         var x;
 
-        var selected_topics = selected_topics_pre.concat(selected_topics_post);
+        var tempSet = new Set(selected_topics_pre.concat(selected_topics_post));
+        var selected_topics = Array.from(tempSet);
         console.log(selected_topics);
         if(selected_topics) {
           for(x = 0; x<selected_topics.length; x++) {
@@ -296,7 +301,7 @@ export default {
           }
         }
 
-        console.log(arr);
+        console.log(Date.now()+" "+arr+" "+arr.length);
 
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/
