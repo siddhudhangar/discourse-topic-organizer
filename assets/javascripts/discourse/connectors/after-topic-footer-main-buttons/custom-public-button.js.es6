@@ -1,15 +1,12 @@
-import { arr_mapping, arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post,selected_topic_ids_pre,
-  selected_topic_ids_post,
-  selected_topics_pre,
-  selected_topics_post } from '../../initializers/admin_button';
+import { arr_mapping, arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post } from '../../initializers/admin_button';
 
 //var selected_topics=[];
 //var selected_topic_ids = [];
 
-// var selected_topics_pre = initial_selected_topics_pre.slice();
-// var selected_topic_ids_pre = initial_selected_topic_ids_pre.slice();
-// var selected_topics_post = initial_selected_topics_post.slice();
-// var selected_topic_ids_post = initial_selected_topic_ids_post.slice();
+var selected_topics_pre = new Array(initial_selected_topics_pre);
+var selected_topic_ids_pre =new Array(initial_selected_topic_ids_pre);
+var selected_topics_post = new Array(initial_selected_topics_post);
+var selected_topic_ids_post = new Array(initial_selected_topic_ids_post);
 
 export default {
   actions: {
@@ -38,6 +35,10 @@ export default {
       }
       this.set('notes', []);
 
+      selected_topic_ids_pre = Array.from(new Set(selected_topic_ids_pre));
+      selected_topic_ids_post = Array.from(new Set(selected_topic_ids_post));
+
+
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
         prior_topic_id: selected_topic_ids_pre,
@@ -65,9 +66,12 @@ export default {
 
 
        var j;
+       $("#prereq_list").empty();
+       $("#postreq_list").empty();
+       console.log(selected_topics_post);
       for(j=0;j<selected_topics_pre.length;j++){
        // var text="";
-         var tname = url_map[selected_topic_ids_pre[j]];
+         var tname = url_map[reverse_map[selected_topics_pre[j]]];
 
         // var newStr = topicn.replace(/ /g, "-");
         // var tname=newStr.toLowerCase();
@@ -76,7 +80,7 @@ export default {
        text+='href="../';
        text+=tname;
        text+='/';
-       text+=selected_topic_ids_pre[j];
+       text+=reverse_map[selected_topics_pre[j]];
        text+='">';
        text+=selected_topics_pre[j];
        text+='</a>&nbsp;';
@@ -103,7 +107,11 @@ export default {
     },
 
     closeForm(){
-      
+
+      selected_topics_pre = initial_selected_topics_pre;
+      selected_topic_ids_pre = initial_selected_topic_ids_pre;
+      selected_topics_post = initial_selected_topics_post;
+      selected_topic_ids_post = initial_selected_topic_ids_post;
       document.getElementById("myInput").value = '';
       document.getElementById("prereq-list").innerHTML = "";
       document.getElementById("postreq-list").innerHTML = "";
@@ -111,10 +119,10 @@ export default {
     },
 
     clearall() {
-      selected_topics_pre = initial_selected_topics_pre.splice();
-      selected_topic_ids_pre = initial_selected_topic_ids_pre.splice();
-      selected_topics_post = initial_selected_topics_post.splice();
-      selected_topic_ids_post = initial_selected_topic_ids_post.splice();
+      selected_topics_pre = initial_selected_topics_pre;
+      selected_topic_ids_pre = initial_selected_topic_ids_pre;
+      selected_topics_post = initial_selected_topics_post;
+      selected_topic_ids_post = initial_selected_topic_ids_post;
       var l=document.getElementById("prereq-list").innerHTML="";
       document.getElementById("postreq-list").innerHTML="";
 
@@ -145,7 +153,7 @@ export default {
       // var flagv=document.getElementById("flag").value;
      // console.log(x);
       //console.log(typeof z[0]);
-      //console.log(z);
+      console.log(z);
     //  var c=x.childNodes;
       for (var i = 0; i < z.length; i++) {
         //console.log(z[i].id);
@@ -200,6 +208,10 @@ export default {
           // console.log(x);
           // console.log(x.innerHTML);
           // console.log(x.children);
+          selected_topic_ids_pre = Array.from(new Set(selected_topic_ids_pre));
+      selected_topic_ids_post = Array.from(new Set(selected_topic_ids_post));
+      selected_topics_pre = Array.from(new Set(selected_topics_pre));
+      selected_topics_post = Array.from(new Set(selected_topics_post));
 
 
           if(document.getElementById("pre").checked && !selected_topics_post.includes(prereq)){
@@ -244,20 +256,21 @@ export default {
             
             if(document.getElementById("pre").checked) {
               var k = selected_topics_pre.indexOf(idn);
-              var k1 = selected_topic_ids_pre.indexOf(reverse_map.get(idn));
+              var k1 = selected_topic_ids_pre.indexOf(reverse_map[idn]);
               selected_topics_pre.splice(k, 1);
               selected_topic_ids_pre.splice(k1, 1);
             }
 
             else if(document.getElementById("post").checked) {
               var k = selected_topics_post.indexOf(idn);
-              var k1 = selected_topic_ids_post.indexOf(reverse_map.get(idn));
+              var k1 = selected_topic_ids_post.indexOf(reverse_map[idn]);
               selected_topics_post.splice(k, 1);
               selected_topic_ids_post.splice(k1, 1);
             }
           });
       }
 
+      
 
       var br = document.createElement('br'); 
       document.getElementById("myInput").value = '';
@@ -309,14 +322,9 @@ export default {
 
         var x;
 
-        var selected_topics;
-
-        if(document.getElementById("pre").checked)
-          selected_topics = selected_topics_pre;
-
-        else if(document.getElementById("post").checked)
-          selected_topics = selected_topics_post;
-
+        var tempSet = new Set(selected_topics_pre.concat(selected_topics_post));
+        var selected_topics = Array.from(tempSet);
+        console.log(selected_topics);
         if(selected_topics) {
           for(x = 0; x<selected_topics.length; x++) {
             var index = arr.indexOf(selected_topics[x]);
@@ -325,6 +333,8 @@ export default {
             }
           }
         }
+
+        console.log(Date.now()+" "+arr+" "+arr.length);
 
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/

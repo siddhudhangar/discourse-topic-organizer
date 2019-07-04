@@ -6,10 +6,10 @@ var initial_selected_topics_pre = [];
 var initial_selected_topic_ids_post = [];
 var initial_selected_topics_post = [];
 
-var selected_topics_pre = [];
-var selected_topic_ids_pre = [];
-var selected_topics_post = [];
-var selected_topic_ids_post = [];
+// var selected_topics_pre = [];
+// var selected_topic_ids_pre = [];
+// var selected_topics_post = [];
+// var selected_topic_ids_post = [];
 
 var arr = [];
 var arr_mapping = {};
@@ -33,34 +33,31 @@ export default {
 		 //      })
 		 //      .catch(console.error);
 
-			const hostname = window.location.href.split('/');
+			// const hostname = window.location.href.split('/');
 
 			const user = api.getCurrentUser();
 
-			arr_mapping = {};
-			arr=[];		// clears array for a fresh reuse of the plugin
+			// arr_mapping = {};
+			// arr=[];		// clears array for a fresh reuse of the plugin
 
-			var j;
+			// var j;
 
-			let url = hostname[0]+'//'+hostname[2]+'/latest.json'
+			// let url = hostname[0]+'//'+hostname[2]+'/latest.json'
 
-			const request = async () => {
-				const response = await fetch(url);
-				const json = await response.json();
+			// const request = async () => {
+			// 	const response = await fetch(url);
+			// 	const json = await response.json();
 
-				var temp = json['topic_list']['topics'];
-				for (j = 0; j<temp.length; j++) {
-					console.log(typeof temp[j].id);
-					arr_mapping[temp[j].id] = temp[j].title;
-					reverse_map[temp[j].title] = temp[j].id;
-					url_map[temp[j].id] = temp[j].slug;
-					arr.push(temp[j].title);
-				}
-			}
+			// 	var temp = json['topic_list']['topics'];
+			// 	for (j = 0; j<temp.length; j++) {
+			// 		console.log(typeof temp[j].id);
+			// 		arr_mapping[temp[j].id] = temp[j].title;
+			// 		reverse_map[temp[j].title] = temp[j].id;
+			// 		url_map[temp[j].id] = temp[j].slug;
+			// 		arr.push(temp[j].title);
+			// 	}
+			// }
 
-			request();
-
-			console.log(arr);
 
 			if(user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
 				// User is allowed to see the button
@@ -79,15 +76,59 @@ export default {
 					var current_topic_url = window.location.href;
 					current_topic_id = parseInt(current_topic_url.split('/')[5]);
 
+					const hostname = window.location.href.split('/');
+
+
+					arr_mapping = {};
+					arr=[];		// clears array for a fresh reuse of the plugin
+
+					var j;
+
+					let url = hostname[0]+'//'+hostname[2]+'/latest.json'
+
+					const request = async () => {
+						const response = await fetch(url);
+						const json = await response.json();
+
+						var temp = json['topic_list']['topics'];
+						for (j = 0; j<temp.length; j++) {
+							console.log(typeof temp[j].id);
+							arr_mapping[temp[j].id] = temp[j].title;
+							reverse_map[temp[j].title] = temp[j].id;
+							url_map[temp[j].id] = temp[j].slug;
+							arr.push(temp[j].title);
+						}
+						arr.splice(arr.indexOf(arr_mapping[current_topic_id]), 1);
+					}
+
+					request();
+
 					const store = container.lookup("store:main");
 					store.findAll('note')
 				      .then(result => {
 				        for (const note of result.content) {
 					 		if(parseInt(note["id"])==current_topic_id) {
-						        initial_selected_topic_ids_pre = note["prior_topic_id"].slice();
-						        initial_selected_topics_pre = arr_mapping[note["prior_topic_id"]].slice();
-						        initial_selected_topic_ids_post = note["next_topic_id"].slice();
-						        initial_selected_topics_post = arr_mapping[note["next_topic_id"]].slice();
+
+// 						        initial_selected_topic_ids_pre = note["prior_topic_id"].slice();
+// 						        initial_selected_topics_pre = arr_mapping[note["prior_topic_id"]].slice();
+// 						        initial_selected_topic_ids_post = note["next_topic_id"].slice();
+// 						        initial_selected_topics_post = arr_mapping[note["next_topic_id"]].slice();
+					 		
+						        var k;
+						        for(k = 0; k<note["prior_topic_id"].length; k++) {
+						        	if(!initial_selected_topic_ids_pre.includes(note["prior_topic_id"][k])){
+							        	initial_selected_topic_ids_pre.push(note["prior_topic_id"][k]);
+							        	initial_selected_topics_pre.push(arr_mapping[parseInt(note["prior_topic_id"][k])]);
+							        }
+						        }
+						        
+						        for(k = 0; k<note["next_topic_id"].length; k++) {
+						        	if(!initial_selected_topic_ids_post.includes(note["next_topic_id"][k])) {
+							        	initial_selected_topic_ids_post.push(note["next_topic_id"][k]);
+							        	initial_selected_topics_post.push(arr_mapping[parseInt(note["next_topic_id"][k])]);
+							        }
+						        }
+
 						    }
 				        }
 
@@ -96,14 +137,17 @@ export default {
 					 console.log("post initial topic ids:");
 					 console.log(initial_selected_topic_ids_post);
 
-					 	selected_topics_pre = initial_selected_topics_pre.slice();
-						selected_topic_ids_pre = initial_selected_topic_ids_pre.slice();
-						selected_topics_post = initial_selected_topics_post.slice();
-						selected_topic_ids_post = initial_selected_topic_ids_post.slice();
+					 
+	
 				      })
 				      .catch(console.error);
 
-					arr.splice(arr.indexOf(arr_mapping[current_topic_id]), 1);
+					// arr.splice(arr.indexOf(arr_mapping[current_topic_id]), 1);
+
+					// console.log(initial_selected_topics_pre);
+					console.log(initial_selected_topic_ids_pre);
+					// console.log(initial_selected_topics_post);
+					console.log(initial_selected_topic_ids_post);
 					/*
 						This removes the current page from arr so that it isn't displayed in the autocomplete drop down
 					 */
