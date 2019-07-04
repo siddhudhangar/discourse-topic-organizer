@@ -2,15 +2,15 @@ import { arr_mapping, arr, current_topic_id, reverse_map, url_map, initial_selec
 
 //var selected_topics=[];
 //var selected_topic_ids = [];
-var selected_topics_pre=new Set();
-var selected_topic_ids_pre= new Set();
-var selected_topic_ids_post= new Set();
-var selected_topics_post= new Set();
+var selected_topics_pre=new Set(initial_selected_topics_pre);
+var selected_topic_ids_pre= new Set(initial_selected_topic_ids_pre);
+var selected_topic_ids_post= new Set()initial_selected_topic_ids_post;
+var selected_topics_post= new Set(initial_selected_topics_post);
 
-var selected_topics_pre = initial_selected_topics_pre;
-var selected_topic_ids_pre = initial_selected_topic_ids_pre;
-var selected_topics_post = initial_selected_topics_post;
-var selected_topic_ids_post = initial_selected_topic_ids_post;
+//var selected_topics_pre = initial_selected_topics_pre;
+//var selected_topic_ids_pre = initial_selected_topic_ids_pre;
+//var selected_topics_post = initial_selected_topics_post;
+//var selected_topic_ids_post = initial_selected_topic_ids_post;
 
 export default {
   actions: {
@@ -72,7 +72,7 @@ export default {
        text+='/';
        text+=parseInt(elem);
        text+='">';
-       text+=parerInt(elem);
+       text+=toString(elem);
        text+='</a>&nbsp;';
        console.log(text);
           $("#prereq_list").append(text);
@@ -87,7 +87,7 @@ export default {
           text+='/';
           text+=parseInt(elem);
           text+='">';
-          text+=parseInt(elem);
+          text+=toString(elem);
           text+='</a>&nbsp;';
        //console.log(text);
           $("#postreq_list").append(text);
@@ -107,10 +107,10 @@ export default {
     },
 
     clearall() {
-      selected_topics_pre = initial_selected_topics_pre;
-      selected_topic_ids_pre = initial_selected_topic_ids_pre;
-      selected_topics_post = initial_selected_topics_post;
-      selected_topic_ids_post = initial_selected_topic_ids_post;
+      selected_topics_pre =new Set(initial_selected_topics_pre);
+      selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
+      selected_topics_post =new Set(initial_selected_topics_post);
+      selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
       var l=document.getElementById("prereq-list").innerHTML="";
      // console.log(l);
     },
