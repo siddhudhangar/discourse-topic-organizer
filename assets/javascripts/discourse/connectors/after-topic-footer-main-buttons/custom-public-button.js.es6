@@ -49,7 +49,10 @@ export default {
       })
       .catch(console.error);
 
+
+
       showSnackbar();
+
 
       function showSnackbar() {
         // Get the snackbar DIV
@@ -98,7 +101,15 @@ export default {
        //console.log(text);
           $("#postreq_list").append(text);
 
+
+
         }
+       // document.getElementById("myForm").style.display = "none";
+       window.setTimeout(this.send("closeForm"), 5000);
+
+       showSnackbar();
+       
+
 
     },
 
@@ -122,6 +133,7 @@ export default {
 
       document.getElementById("myInput").value = '';
       document.getElementById("prereq-list").innerHTML = "";
+       document.getElementById("postreq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none";
     },
 
@@ -298,8 +310,8 @@ export default {
              // var k1 = selected_topic_ids_pre.indexOf(reverse_map.get(idn));
               selected_topics_pre.delete(idn);
               selected_topic_ids_pre.delete(reverse_map[idn]);
-              if(!arr.includes(idn))
-              arr.push(idn);
+              if(!arr.includes(idn)){
+              arr.push(idn);}
             }
 
             else if(document.getElementById("post").checked) {
@@ -307,8 +319,8 @@ export default {
               //var k1 = selected_topic_ids_post.indexOf(reverse_map.get(idn));
               selected_topics_post.delete(idn);
               selected_topic_ids_post.delete(reverse_map[idn]);
-              if(!arr.includes(idn))
-              arr.push(idn);
+              if(!arr.includes(idn)){
+              arr.push(idn);}
             }
           });
 
