@@ -1,17 +1,18 @@
-import { arr_mapping, arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post } from '../../initializers/admin_button';
+import { arr_mapping, init_arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post } from '../../initializers/admin_button';
 
 //var selected_topics=[];
 //var selected_topic_ids = [];
 var selected_topics_pre=new Set(initial_selected_topics_pre);
 var selected_topic_ids_pre= new Set(initial_selected_topic_ids_pre);
-var selected_topic_ids_post= new Set()initial_selected_topic_ids_post;
+var selected_topic_ids_post= new Set(initial_selected_topic_ids_post);
 var selected_topics_post= new Set(initial_selected_topics_post);
-
+ var arr=init_arr;
 //var selected_topics_pre = initial_selected_topics_pre;
 //var selected_topic_ids_pre = initial_selected_topic_ids_pre;
 //var selected_topics_post = initial_selected_topics_post;
 //var selected_topic_ids_post = initial_selected_topic_ids_post;
-
+var post=[];
+var pre=[];
 export default {
   actions: {
     // fetchnotes() {
@@ -28,14 +29,18 @@ export default {
     createTopicRecord() {
       // console.log(selected_topic_ids);
       if (!selected_topic_ids_pre && !selected_topic_ids_post) {
+        console.log(":( the array empty");
         return;
       }
       this.set('notes', []);
 
+
+      var prearr=Array.from(selected_topic_ids_pre);
+      var postarr=Array.from(selected_topic_ids_post)
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
-        prior_topic_id: selected_topic_ids_pre,
-        next_topic_id: selected_topic_ids_post
+        prior_topic_id: prearr,
+        next_topic_id: postarr
       });
 
       topicRecord.save()
@@ -57,7 +62,8 @@ export default {
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
       }
 
-
+      $("#prereq_list").empty();
+      $("#postreq_list").empty();
        var j;
       for(var elem of selected_topic_ids_pre){
        // var text="";
@@ -72,7 +78,7 @@ export default {
        text+='/';
        text+=parseInt(elem);
        text+='">';
-       text+=toString(elem);
+       text+=arr_mapping[parseInt(elem)];
        text+='</a>&nbsp;';
        console.log(text);
           $("#prereq_list").append(text);
@@ -87,7 +93,7 @@ export default {
           text+='/';
           text+=parseInt(elem);
           text+='">';
-          text+=toString(elem);
+          text+=arr_mapping[parseInt(elem)];
           text+='</a>&nbsp;';
        //console.log(text);
           $("#postreq_list").append(text);
@@ -97,25 +103,88 @@ export default {
     },
 
     closeForm(){
-      //selected_topics_pre = initial_selected_topics_pre;
-      //selected_topic_ids_pre = initial_selected_topic_ids_pre;
-      //selected_topics_post = initial_selected_topics_post;
-      //selected_topic_ids_post = initial_selected_topic_ids_post;
+      
+      function clearset(myarr)
+      {
+        if(myarr)
+          myarr.clear();
+      }
+      clearset(selected_topic_ids_pre);
+       clearset(selected_topics_pre);
+       clearset(selected_topic_ids_post);
+       clearset(selected_topics_post);
+       clearset(initial_selected_topics_pre);
+       clearset(initial_selected_topics_post);
+       clearset(initial_selected_topic_ids_pre);
+       clearset(initial_selected_topic_ids_post);
+
+
+
       document.getElementById("myInput").value = '';
       document.getElementById("prereq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none";
     },
 
-    clearall() {
-      selected_topics_pre =new Set(initial_selected_topics_pre);
-      selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
-      selected_topics_post =new Set(initial_selected_topics_post);
-      selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
-      var l=document.getElementById("prereq-list").innerHTML="";
-     // console.log(l);
-    },
+    // clearall() {
+
+    //    function clearset(myarr)
+    //   {
+    //     if(myarr)
+    //       myarr.clear();
+    //   }
+    //   clearset(selected_topic_ids_pre);
+    //   clearset(selected_topic_ids_post);
+    //   clearset(selected_topics_post);
+    //   clearset(selected_topics_pre);
+
+    //   if(initial_selected_topic_ids_pre){
+    //     for(var elem of initial_selected_topic_ids_pre){
+    //       console.log(elem);
+    //       selected_topic_ids_pre.add(parseInt(elem));
+    //       selected_topics_pre.add(arr_mapping[parseInt(elem)]);
+    //     }
+    //   }
+        
+    //     if(initial_selected_topic_ids_post){
+    //      for(var elem of initial_selected_topic_ids_post){
+    //       console.log(elem);
+    //       selected_topic_ids_post.add(parseInt(elem));
+    //       selected_topics_post.add(arr_mapping[parseInt(elem)]);
+    //     }
+    //   }
+
+
+    //   //arr=arr.concat(pre.concat(post));
+
+    // document.getElementById("prereq-list").innerHTML="";
+    // document.getElementById("postreq-list").innerHTML="";
+    //  // console.log(l);
+    // },
 
     addtopic() {
+
+
+
+      // if(!selected_topics_pre)
+      // {
+      //   selected_topics_pre=new Set(initial_selected_topics_pre);
+      //   selected_topic_ids_pre= new Set(initial_selected_topic_ids_pre);
+      // }
+
+      // console.log("initial stuff and sele");
+      //   console.log(initial_selected_topic_ids_pre);
+      //   console.log(initial_selected_topic_ids_post);
+      //   for(var elem of initial_selected_topic_ids_pre){
+      //     console.log(elem);
+      //     selected_topic_ids_pre.add(elem);
+      //     selected_topics_pre.add(arr_mapping[parseInt(elem)]);
+      //   }
+
+
+        console.log(selected_topic_ids_pre);
+        console.log(selected_topic_ids_post);
+        
+
       var x =Array.from(document.getElementsByClassName("autocomplete-items"));
       var y=x[0];
       var z=Array.from(y.children);
@@ -185,6 +254,7 @@ export default {
           if(document.getElementById("pre").checked && !selected_topics_post.has(prereq)){
             selected_topics_pre.add(prereq);
             selected_topic_ids_pre.add(reverse_map[prereq]);
+            pre.push(prereq);
             l.innerHTML += '&nbsp;'; 
           l.appendChild(x);  
           }
@@ -192,8 +262,9 @@ export default {
             alert(prereq+ ":Topic already present as a Post-Requisite!");
           }
           else if(document.getElementById("post").checked && !selected_topics_pre.has(prereq)){
-            selected_topics_post.push(prereq);
-            selected_topic_ids_post.push(reverse_map[prereq]);
+            selected_topics_post.add(prereq);
+            selected_topic_ids_post.add(reverse_map[prereq]);
+            post.push(prereq);
             l2.innerHTML += '&nbsp;'; 
           l2.appendChild(x);  
           }
@@ -227,6 +298,8 @@ export default {
              // var k1 = selected_topic_ids_pre.indexOf(reverse_map.get(idn));
               selected_topics_pre.delete(idn);
               selected_topic_ids_pre.delete(reverse_map[idn]);
+              if(!arr.includes(idn))
+              arr.push(idn);
             }
 
             else if(document.getElementById("post").checked) {
@@ -234,8 +307,16 @@ export default {
               //var k1 = selected_topic_ids_post.indexOf(reverse_map.get(idn));
               selected_topics_post.delete(idn);
               selected_topic_ids_post.delete(reverse_map[idn]);
+              if(!arr.includes(idn))
+              arr.push(idn);
             }
           });
+
+        console.log("plZZZZ");
+        console.log(selected_topic_ids_post);
+        console.log(selected_topic_ids_pre);
+
+
       }
 
 
@@ -266,6 +347,43 @@ export default {
     },
 
     autocomplete() {
+
+
+
+
+      console.log("auto stuff and sele");
+        console.log(initial_selected_topic_ids_pre);
+        console.log(initial_selected_topic_ids_post);
+        if(initial_selected_topic_ids_pre){
+        for(var elem of initial_selected_topic_ids_pre){
+          console.log(elem);
+          selected_topic_ids_pre.add(parseInt(elem));
+          selected_topics_pre.add(arr_mapping[parseInt(elem)]);
+        }
+      }
+        
+        if(initial_selected_topic_ids_post){
+         for(var elem of initial_selected_topic_ids_post){
+          console.log(elem);
+          selected_topic_ids_post.add(parseInt(elem));
+          selected_topics_post.add(arr_mapping[parseInt(elem)]);
+        }
+      }
+
+
+        console.log(arr);
+        console.log(selected_topic_ids_pre);
+        console.log(selected_topics_pre);
+
+
+
+
+
+
+
+
+
+
       var inp=document.getElementById("myInput");
       var currentFocus;
       /*execute a function when someone writes in the text field:*/
@@ -310,11 +428,12 @@ export default {
             }
           }
         }*/
+        console.log(selected_topics);
         if(selected_topics)
         {
           for(var elem of selected_topics)
           {
-            var index = arr.indexOf(toString(elem));
+            var index = arr.indexOf(elem);
             if(index != -1) {
               arr.splice(index, 1);
             }

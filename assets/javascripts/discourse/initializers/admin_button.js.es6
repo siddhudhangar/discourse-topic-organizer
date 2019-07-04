@@ -6,7 +6,7 @@ var initial_selected_topics_pre = new Set();
 var initial_selected_topic_ids_post = new Set();
 var initial_selected_topics_post = new Set();
 
-var arr = [];
+var init_arr = [];
 var arr_mapping = {};
 var current_topic_id;
 var reverse_map = {};
@@ -33,7 +33,7 @@ export default {
 			const user = api.getCurrentUser();
 
 			arr_mapping = {};
-			arr=[];		// clears array for a fresh reuse of the plugin
+			init_arr=[];		// clears array for a fresh reuse of the plugin
 
 			var j;
 
@@ -49,13 +49,13 @@ export default {
 					arr_mapping[temp[j].id] = temp[j].title;
 					reverse_map[temp[j].title] = temp[j].id;
 					url_map[temp[j].id] = temp[j].slug;
-					arr.push(temp[j].title);
+					init_arr.push(temp[j].title);
 				}
 			}
 
 			request();
 
-			console.log(arr);
+			console.log(init_arr);
 
 			if(user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
 				// User is allowed to see the button
@@ -103,7 +103,7 @@ export default {
 				      })
 				      .catch(console.error);
 
-					arr.splice(arr.indexOf(arr_mapping[current_topic_id]), 1);
+					init_arr.splice(init_arr.indexOf(arr_mapping[current_topic_id]), 1);
 					/*
 						This removes the current page from arr so that it isn't displayed in the autocomplete drop down
 					 */
@@ -117,7 +117,7 @@ export default {
 
 export {
 	arr_mapping,
-	arr,
+	init_arr,
 	current_topic_id,
 	reverse_map,
 	url_map,
