@@ -25,7 +25,75 @@ export default {
       }
       this.set('notes', []);
       var prearr=Array.from(selected_topic_ids_pre);
-      var postarr=Array.from(selected_topic_ids_post)
+      var postarr=Array.from(selected_topic_ids_post);
+
+      this.store.findAll('note')
+          .then(result => {
+            for (const selectedTopicIdPre of prearr) {
+              // console.log("result.content.selectedTopicIdPre: "+result.content.selectedTopicIdPre);
+              var prereqsAreTheSame;
+              var postreqsToBeAdded;
+
+              if(result.content.selectedTopicIdPre) {
+                prereqsAreTheSame = result.content.selectedTopicIdPre['prior_topic_id'];
+                postreqsToBeAdded = result.content.selectedTopicIdPre['next_topic_id'];
+
+                if(!postReqsToBeAdded.includes(current_topic_id))
+                  postreqsToBeAdded.push(current_topic_id);
+              }
+
+              else {
+                postreqsToBeAdded = [];
+                postreqsToBeAdded.push(current_topic_id);
+              }
+
+              const topicRecord = this.store.createRecord('note', {
+                id: selectedTopicIdPre,
+                prior_topic_id: prereqsAreTheSame,
+                next_topic_id: postreqsToBeAdded
+              });
+
+              topicRecord.save()
+              .then(result => {
+                this.notes.pushObject(result.target);
+              })
+              .catch(console.error);
+
+            }
+
+
+            for (const selectedTopicIdPost of postarr) {
+              // console.log("result.content.selectedTopicIdPre: "+result.content.selectedTopicIdPre);
+              var prereqsToBeAdded;
+              var postreqsAreTheSame;
+
+              if(result.content.selectedTopicIdPost) {
+                prereqsToBeAdded = result.content.selectedTopicIdPost['prior_topic_id'];
+                postreqsAreTheSame = result.content.selectedTopicIdPost['next_topic_id'];
+
+                if(!prereqsToBeAdded.includes(current_topic_id))
+                  prereqsToBeAdded.push(current_topic_id);
+              }
+
+              else {
+                prereqsToBeAdded = [];
+                prereqsToBeAdded.push(current_topic_id);
+              }
+
+              const topicRecord = this.store.createRecord('note', {
+                id: selectedTopicIdPost,
+                prior_topic_id: prereqsToBeAdded,
+                next_topic_id: postreqsAreTheSame
+              });
+
+              topicRecord.save()
+              .then(result => {
+                this.notes.pushObject(result.target);
+              })
+              .catch(console.error);
+
+            }
+          });
 
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
@@ -38,10 +106,6 @@ export default {
         this.notes.pushObject(result.target);
       })
       .catch(console.error);
-
-
-
-      showSnackbar();
 
 
       function showSnackbar() {
@@ -87,37 +151,35 @@ export default {
           $("#postreq_list").append(text);
         }
 
-       window.setTimeout(this.send("closeForm"), 5000);
+       // window.setTimeout(this.send("closeForm"), 5000);
 
        showSnackbar();
-       
-
 
     },
 
     closeForm(){
-      function clearset(myarr)
-      {
+
+      function clearset(myarr) {
         if(myarr)
           myarr.clear();
       }
       clearset(selected_topic_ids_pre);
-       clearset(selected_topics_pre);
-       clearset(selected_topic_ids_post);
-       clearset(selected_topics_post);
-       clearset(initial_selected_topics_pre);
-       clearset(initial_selected_topics_post);
-       clearset(initial_selected_topic_ids_pre);
-       clearset(initial_selected_topic_ids_post);
-
-
+      clearset(selected_topics_pre);
+      clearset(selected_topic_ids_post);
+      clearset(selected_topics_post);
+      clearset(initial_selected_topics_pre);
+      clearset(initial_selected_topics_post);
+      clearset(initial_selected_topic_ids_pre);
+      clearset(initial_selected_topic_ids_post);
 
       document.getElementById("myInput").value = '';
       document.getElementById("prereq-list").innerHTML = "";
-       document.getElementById("postreq-list").innerHTML = "";
+      document.getElementById("postreq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none";
     },
-    /*clearall() {
+    
+    /*
+     clearall() {
       selected_topics_pre = initial_selected_topics_pre;
       selected_topic_ids_pre = initial_selected_topic_ids_pre;
       selected_topics_post = initial_selected_topics_post;
@@ -126,7 +188,8 @@ export default {
       document.getElementById("postreq-list").innerHTML="";
 
      // console.log(l);
-    },*/
+    },
+    */
 
     addtopic() {
       var x =Array.from(document.getElementsByClassName("autocomplete-items"));

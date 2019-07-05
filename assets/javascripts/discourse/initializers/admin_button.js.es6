@@ -22,7 +22,7 @@ export default {
 			init_arr=[];		// clears array for a fresh reuse of the plugin
 
 			var j;
-      let url=hostname[0]+ '//'+ hostname[2]+ 'latest.json';	
+      let url=hostname[0]+ '//'+ hostname[2]+ '/latest.json';	
 			const request = async () => {
 			  const response = await fetch(url);
 				const json = await response.json();
@@ -36,7 +36,7 @@ export default {
 					init_arr.push(temp[j].title);
 				}
 		 }
-  request();
+			  request();
 			if(user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
 				// User is allowed to see the button
 

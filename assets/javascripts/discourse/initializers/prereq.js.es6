@@ -57,27 +57,21 @@ export default {
         			for (const note of result.content) {
         				if(parseInt(note["id"])==current_topic_id){
 							var prior_ids=note["prior_topic_id"];
-       					//	console.log(prior_ids)
-       					for(var k=0;k<prior_ids.length;k++){	
-       						var idp=parseInt(prior_ids[k]);
-					//	console.log("id="+note["id"]+"  "+url_map.get(idp));
 
-							var ref=url_map.get(idp);
-							var lname=arr_mapping[idp];
-          					var text='<a class="btn btn-warning btn-xs"';
-         					text+='href="../';
-        					text+=ref;
-         					text+='/';
-          					text+=idp;
-         					text+='">';
-         					text+=lname;
-         					text+='</a>&nbsp;';
-       						//console.log(text);
-        					$("#prereq_list").append(text);
-
-
-
-
+	       					for(var k=0;k<prior_ids.length;k++){
+	       						var idp=parseInt(prior_ids[k]);
+								var ref=url_map.get(idp);
+								var lname=arr_mapping[idp];
+	          					var text='<a class="btn btn-warning btn-xs"';
+	         					text+='href="../';
+	        					text+=ref;
+	         					text+='/';
+	          					text+=idp;
+	         					text+='">';
+	         					text+=lname;
+	         					text+='</a>&nbsp;';
+	       						//console.log(text);
+	        					$("#prereq_list").append(text);
 							}
 						}
         			}
@@ -136,27 +130,21 @@ export default {
         			for (const note of result.content) {
         				if(parseInt(note["id"])==current_topic_id){
 							var prior_ids=note["next_topic_id"];
-       					//	console.log(prior_ids)
-       					for(var k=0;k<prior_ids.length;k++){	
-       						var idp=parseInt(prior_ids[k]);
-					//	console.log("id="+note["id"]+"  "+url_map.get(idp));
-
-							var ref=url_map.get(idp);
-							var lname=arr_mapping[idp];
-          					var text='<a class="btn btn-warning btn-xs"';
-         					text+='href="../';
-        					text+=ref;
-         					text+='/';
-          					text+=idp;
-         					text+='">';
-         					text+=lname;
-         					text+='</a>&nbsp;';
-       						//console.log(text);
-        					$("#postreq_list").append(text);
-
-
-
-
+							
+	       					for(var k=0;k<prior_ids.length;k++){	
+	       						var idp=parseInt(prior_ids[k]);
+								var ref=url_map.get(idp);
+								var lname=arr_mapping[idp];
+	          					var text='<a class="btn btn-warning btn-xs"';
+	         					text+='href="../';
+	        					text+=ref;
+	         					text+='/';
+	          					text+=idp;
+	         					text+='">';
+	         					text+=lname;
+	         					text+='</a>&nbsp;';
+	       						//console.log(text);
+	        					$("#postreq_list").append(text);
 							}
 						}
         			}
