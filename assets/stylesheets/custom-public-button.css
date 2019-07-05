@@ -8,11 +8,13 @@
     top: 0;
     width: 100%;
     z-index: 1000000;
+
 }
 .hover_bkgr_fricc.helper {
     display: inline-block;
     height: 100%;
     vertical-align: middle;
+
 }
 .hover_bkgr_fricc>div {
     background-color: #fff;
@@ -25,6 +27,7 @@
     position: relative;
     bottom: -20%;
     border: 10px solid #f1f1f1;
+
 }
 * {
     box-sizing: border-box;
@@ -87,7 +90,8 @@ input[type=submit] {
     height: 50px;
     font-size: 16px;
     line-height: 50px;
-    border-radius: 40px;
+    border-radius: 10px;
+    border: 2px;
     background-color: #99bdd8;
 }
 .closebtn {
