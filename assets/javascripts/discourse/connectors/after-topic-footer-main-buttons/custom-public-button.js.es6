@@ -1,7 +1,4 @@
 import { arr_mapping, init_arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post } from '../../initializers/admin_button';
-
-//var selected_topics=[];
-//var selected_topic_ids = [];
 var selected_topics_pre=new Set(initial_selected_topics_pre);
 var selected_topic_ids_pre= new Set(initial_selected_topic_ids_pre);
 var selected_topic_ids_post= new Set(initial_selected_topic_ids_post);
@@ -15,28 +12,21 @@ var post=[];
 var pre=[];
 export default {
   actions: {
-    // fetchnotes() {
-    //     this.store.findAll('note')
-    //   .then(result => {
-    //     for (const note of result.content) {
-    //       //this.notes.pushObject(note);
-    //       console.log(note);
-    //     }
-    //   })
-    //   .catch(console.error);
-    // },
-
+    
     createTopicRecord() {
-      // console.log(selected_topic_ids);
+      console.log("pre:");
+      console.log(selected_topic_ids_pre);
+      console.log("post:");
+      console.log(selected_topic_ids_post);
+
       if (!selected_topic_ids_pre && !selected_topic_ids_post) {
         console.log(":( the array empty");
         return;
       }
       this.set('notes', []);
-
-
       var prearr=Array.from(selected_topic_ids_pre);
       var postarr=Array.from(selected_topic_ids_post)
+
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
         prior_topic_id: prearr,
@@ -71,10 +61,6 @@ export default {
       for(var elem of selected_topic_ids_pre){
        // var text="";
          var tname = url_map[parseInt(elem)];
-
-        // var newStr = topicn.replace(/ /g, "-");
-        // var tname=newStr.toLowerCase();
-       // console.log(topicn+"-->"+newStr+"  "+tname);
        var text='<a class="btn btn-warning btn-xs"';
        text+='href="../';
        text+=tname;
@@ -98,13 +84,9 @@ export default {
           text+='">';
           text+=arr_mapping[parseInt(elem)];
           text+='</a>&nbsp;';
-       //console.log(text);
           $("#postreq_list").append(text);
-
-
-
         }
-       // document.getElementById("myForm").style.display = "none";
+
        window.setTimeout(this.send("closeForm"), 5000);
 
        showSnackbar();
@@ -114,7 +96,6 @@ export default {
     },
 
     closeForm(){
-      
       function clearset(myarr)
       {
         if(myarr)
@@ -136,107 +117,36 @@ export default {
        document.getElementById("postreq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none";
     },
+    /*clearall() {
+      selected_topics_pre = initial_selected_topics_pre;
+      selected_topic_ids_pre = initial_selected_topic_ids_pre;
+      selected_topics_post = initial_selected_topics_post;
+      selected_topic_ids_post = initial_selected_topic_ids_post;
+      var l=document.getElementById("prereq-list").innerHTML="";
+      document.getElementById("postreq-list").innerHTML="";
 
-    // clearall() {
-
-    //    function clearset(myarr)
-    //   {
-    //     if(myarr)
-    //       myarr.clear();
-    //   }
-    //   clearset(selected_topic_ids_pre);
-    //   clearset(selected_topic_ids_post);
-    //   clearset(selected_topics_post);
-    //   clearset(selected_topics_pre);
-
-    //   if(initial_selected_topic_ids_pre){
-    //     for(var elem of initial_selected_topic_ids_pre){
-    //       console.log(elem);
-    //       selected_topic_ids_pre.add(parseInt(elem));
-    //       selected_topics_pre.add(arr_mapping[parseInt(elem)]);
-    //     }
-    //   }
-        
-    //     if(initial_selected_topic_ids_post){
-    //      for(var elem of initial_selected_topic_ids_post){
-    //       console.log(elem);
-    //       selected_topic_ids_post.add(parseInt(elem));
-    //       selected_topics_post.add(arr_mapping[parseInt(elem)]);
-    //     }
-    //   }
-
-
-    //   //arr=arr.concat(pre.concat(post));
-
-    // document.getElementById("prereq-list").innerHTML="";
-    // document.getElementById("postreq-list").innerHTML="";
-    //  // console.log(l);
-    // },
+     // console.log(l);
+    },*/
 
     addtopic() {
-
-
-
-      // if(!selected_topics_pre)
-      // {
-      //   selected_topics_pre=new Set(initial_selected_topics_pre);
-      //   selected_topic_ids_pre= new Set(initial_selected_topic_ids_pre);
-      // }
-
-      // console.log("initial stuff and sele");
-      //   console.log(initial_selected_topic_ids_pre);
-      //   console.log(initial_selected_topic_ids_post);
-      //   for(var elem of initial_selected_topic_ids_pre){
-      //     console.log(elem);
-      //     selected_topic_ids_pre.add(elem);
-      //     selected_topics_pre.add(arr_mapping[parseInt(elem)]);
-      //   }
-
-
-        console.log(selected_topic_ids_pre);
-        console.log(selected_topic_ids_post);
-        
-
       var x =Array.from(document.getElementsByClassName("autocomplete-items"));
       var y=x[0];
       var z=Array.from(y.children);
-      // var selected_topics=[];
-      // selected_topic_ids = [];
-      // var prereq=document.getElementById("myInput").value;
-      // var flagv=document.getElementById("flag").value;
-     // console.log(x);
-      //console.log(typeof z[0]);
-      //console.log(z);
-    //  var c=x.childNodes;
+      console.log(z);
       for (var i = 0; i < z.length; i++) {
-        //console.log(z[i].id);
-        //console.log(typeof z[i].id);
         var ch_id='check'+z[i].id;
         var prereq=z[i].id;
         var flagv=document.getElementById(ch_id).checked;
         if(flagv==true){
-          // console.log(prereq);
-          // var l,x;
           var l,x,l2;
           l = document.getElementById("prereq-list");
           l2= document.getElementById("postreq-list");
           x = document.createElement("DIV");
           x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
-          x.setAttribute("padding","100px")
-
-          /* if(document.getElementById("pre").checked) {
-             selected_topics_pre.add(prereq);
-             selected_topic_ids_pre.add(reverse_map[prereq]);
-           }
-
-           else if(document.getElementById("post").checked) {
-             selected_topics_post.add(prereq);
-             selected_topic_ids_post.add(reverse_map[prereq]);
-           }
-          */
+          x.setAttribute("padding","100px");
           x.innerHTML=prereq;
-          //x.innerHTML+="<span class='closebtn'>&times;</span>";
+          
           var clb=document.createElement("SPAN");
           clb.setAttribute("class","closebtn");
           clb.setAttribute("id",prereq+"-button");
@@ -244,23 +154,9 @@ export default {
           clb.innerHTML='&times;';
           console.log(clb);
 
-          // var buttn=document.createElement("BUTTON");
-          // // buttn.setAttribute("type","close");
-          // clb.addEventListener("onclick",function(e){
-          //   console.log("inside addEventListener"+e.target.id);
-          // });
-
-        //  x.appendChild(buttn);
-
-         // document.getElementsByClassName('closebtn').onclick = function() { 
+          
           x.appendChild(clb);
-
-          console.log("its working..");
-           // document.getElementById("id").remove(); 
-
-          // console.log(x);
-          // console.log(x.innerHTML);
-          // console.log(x.children);
+          
 
 
           if(document.getElementById("pre").checked && !selected_topics_post.has(prereq)){
@@ -282,13 +178,7 @@ export default {
           }
           else if(document.getElementById("post").checked && selected_topics_pre.has(prereq)){
             alert(prereq+ ":Topic already present as a Pre-Requisite!")
-          }
-
-
-
-
-          // l.innerHTML += '&nbsp;'; 
-          // l.appendChild(x);     
+          }    
         }
       }
 
@@ -301,36 +191,26 @@ export default {
             var idn=e.target.parentNode.id;
             console.log(idn);
             document.getElementById(idn).remove();
-            // var k=selected_topics.indexOf(idn);
-
-            // selected_topics.splice(k,1);
-            
             if(document.getElementById("pre").checked) {
-              //var k = selected_topics_pre.indexOf(idn);
-             // var k1 = selected_topic_ids_pre.indexOf(reverse_map.get(idn));
+              
               selected_topics_pre.delete(idn);
               selected_topic_ids_pre.delete(reverse_map[idn]);
               if(!arr.includes(idn)){
-              arr.push(idn);}
+              arr.push(idn);
+              }
             }
 
             else if(document.getElementById("post").checked) {
-              //var k = selected_topics_post.indexOf(idn);
-              //var k1 = selected_topic_ids_post.indexOf(reverse_map.get(idn));
               selected_topics_post.delete(idn);
               selected_topic_ids_post.delete(reverse_map[idn]);
               if(!arr.includes(idn)){
-              arr.push(idn);}
-            }
+              arr.push(idn);
+              }
+            } 
           });
-
-        console.log("plZZZZ");
-        console.log(selected_topic_ids_post);
-        console.log(selected_topic_ids_pre);
-
-
       }
 
+      
 
       var br = document.createElement('br'); 
       document.getElementById("myInput").value = '';
@@ -382,20 +262,6 @@ export default {
         }
       }
 
-
-        console.log(arr);
-        console.log(selected_topic_ids_pre);
-        console.log(selected_topics_pre);
-
-
-
-
-
-
-
-
-
-
       var inp=document.getElementById("myInput");
       var currentFocus;
       /*execute a function when someone writes in the text field:*/
@@ -419,6 +285,7 @@ export default {
 
         var x;
 
+
         var selected_topics=new Set();
 
         /*if(document.getElementById("pre").checked)
@@ -431,15 +298,6 @@ export default {
 
         for(var elem of selected_topics_post)
           selected_topics.add(elem);
-
-        /*if(selected_topics) {
-          for(x = 0; x<selected_topics.length; x++) {
-            var index = arr.indexOf(selected_topics[x]);
-            if(index != -1) {
-              arr.splice(index, 1);
-            }
-          }
-        }*/
         console.log(selected_topics);
         if(selected_topics)
         {
@@ -451,6 +309,8 @@ export default {
             }
           }
         }
+
+        console.log(Date.now()+" "+arr+" "+arr.length);
 
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/
@@ -467,22 +327,16 @@ export default {
             b.innerHTML+='&nbsp;';
             b.innerHTML+= arr[i].substr(0,pos);
 
-            b.innerHTML+="<strong>" + arr[i].substr(pos, val.length) + "</strong>";
-
-            // b.innerHTML=arr[i].substr(0,pos);
-            // /*make the matching letters bold:*/
-            // b.innerHTML = "<strong>" + arr[i].substr(pos, val.length) + "</strong>";
+            b.innerHTML+="<strong>" + arr[i].substr(pos, val.length) + "</strong>";        
             b.innerHTML += arr[i].substr(pos+val.length);
             /*insert a input field that will hold the current array item's value:*/
-          //  b.innerHTML += "<input id='check"+arr[i]+"' type='checkbox' align='right' value='" + arr[i] + "'>";
+          
             /*execute a function when someone clicks on the item value (DIV element):*/
             b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
-              //  inp.value = this.getElementsByTagName("input")[0].value;
                 /*close the list of autocompleted values,
                 (or any other open lists of autocompleted values:*/
                 document.getElementById("flag").value="true";
-               // closeAllLists();
              });
             a.appendChild(b); 
           }
@@ -559,9 +413,3 @@ export default {
 
 }
 };
-
-
-  // export {
-  //   selected_topic_ids,
-  //   current_topic_id
-  // };
