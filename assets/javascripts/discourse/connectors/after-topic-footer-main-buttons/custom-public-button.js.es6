@@ -1,15 +1,17 @@
 import { arr_mapping, init_arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post } from '../../initializers/admin_button';
+
 var selected_topics_pre=new Set(initial_selected_topics_pre);
 var selected_topic_ids_pre= new Set(initial_selected_topic_ids_pre);
 var selected_topic_ids_post= new Set(initial_selected_topic_ids_post);
 var selected_topics_post= new Set(initial_selected_topics_post);
- var arr=init_arr;
-//var selected_topics_pre = initial_selected_topics_pre;
-//var selected_topic_ids_pre = initial_selected_topic_ids_pre;
-//var selected_topics_post = initial_selected_topics_post;
-//var selected_topic_ids_post = initial_selected_topic_ids_post;
+var arr=init_arr;
+
 var post=[];
 var pre=[];
+
+var noOfPreTopicsAdded = 0;
+var noOfPostTopicsAdded = 0;
+
 export default {
   actions: {
     
@@ -30,27 +32,32 @@ export default {
       this.store.findAll('note')
           .then(result => {
             for (const selectedTopicIdPre of prearr) {
-              // console.log("result.content.selectedTopicIdPre: "+result.content.selectedTopicIdPre);
               var prereqsAreTheSame;
               var postreqsToBeAdded;
+              var recordExistsFlag = false;
 
-              if(result.content.selectedTopicIdPre) {
-                prereqsAreTheSame = result.content.selectedTopicIdPre['prior_topic_id'];
-                postreqsToBeAdded = result.content.selectedTopicIdPre['next_topic_id'];
+              for(const note of result.content) {
+                if(note['id'] == selectedTopicIdPre) {
+                  recordExistsFlag = true;
+                  prereqsAreTheSame = note['prior_topic_id'];
+                  postreqsToBeAdded = note['next_topic_id'];
 
-                if(!postReqsToBeAdded.includes(current_topic_id))
-                  postreqsToBeAdded.push(current_topic_id);
+                  if(!postreqsToBeAdded.includes(current_topic_id))
+                    postreqsToBeAdded.push(current_topic_id);
+                  break;
+                }
               }
 
-              else {
+              if(!recordExistsFlag) {
                 postreqsToBeAdded = [];
                 postreqsToBeAdded.push(current_topic_id);
               }
 
               const topicRecord = this.store.createRecord('note', {
                 id: selectedTopicIdPre,
-                prior_topic_id: prereqsAreTheSame,
-                next_topic_id: postreqsToBeAdded
+                prior_topic_id: Array.from(new Set(prereqsAreTheSame)),
+                next_topic_id: Array.from(new Set(postreqsToBeAdded)),
+                sequence_on: ""+document.getElementById("sequencer_checkbox").checked
               });
 
               topicRecord.save()
@@ -63,27 +70,32 @@ export default {
 
 
             for (const selectedTopicIdPost of postarr) {
-              // console.log("result.content.selectedTopicIdPre: "+result.content.selectedTopicIdPre);
               var prereqsToBeAdded;
               var postreqsAreTheSame;
+              var recordExistsFlag = false;
+              
+              for(const note of result.content) {
+                if(note['id'] == selectedTopicIdPost) {
+                  recordExistsFlag = true;
+                  prereqsToBeAdded = note['prior_topic_id'];
+                  postreqsAreTheSame = note['next_topic_id'];
 
-              if(result.content.selectedTopicIdPost) {
-                prereqsToBeAdded = result.content.selectedTopicIdPost['prior_topic_id'];
-                postreqsAreTheSame = result.content.selectedTopicIdPost['next_topic_id'];
-
-                if(!prereqsToBeAdded.includes(current_topic_id))
-                  prereqsToBeAdded.push(current_topic_id);
+                  if(!prereqsToBeAdded.includes(current_topic_id))
+                    prereqsToBeAdded.push(current_topic_id);
+                  break;
+                }
               }
 
-              else {
+              if(!recordExistsFlag) {
                 prereqsToBeAdded = [];
                 prereqsToBeAdded.push(current_topic_id);
               }
 
               const topicRecord = this.store.createRecord('note', {
                 id: selectedTopicIdPost,
-                prior_topic_id: prereqsToBeAdded,
-                next_topic_id: postreqsAreTheSame
+                prior_topic_id: Array.from(new Set(prereqsToBeAdded)),
+                next_topic_id: Array.from(new Set(postreqsAreTheSame)),
+                sequence_on: ""+document.getElementById("sequencer_checkbox").checked
               });
 
               topicRecord.save()
@@ -98,7 +110,8 @@ export default {
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
         prior_topic_id: prearr,
-        next_topic_id: postarr
+        next_topic_id: postarr,
+        sequence_on: ""+document.getElementById("sequencer_checkbox").checked
       });
 
       topicRecord.save()
@@ -151,7 +164,10 @@ export default {
           $("#postreq_list").append(text);
         }
 
-       // window.setTimeout(this.send("closeForm"), 5000);
+        // noOfPostTopicsAdded = 0;
+        // noOfPreTopicsAdded = 0;
+
+       window.setTimeout(this.send("closeForm"), 5000);
 
        showSnackbar();
 
@@ -176,8 +192,32 @@ export default {
       document.getElementById("prereq-list").innerHTML = "";
       document.getElementById("postreq-list").innerHTML = "";
       document.getElementById("myForm").style.display = "none";
+
+      noOfPostTopicsAdded = 0;
+      noOfPreTopicsAdded = 0;
     },
-    
+
+
+    checkIfSequencerValid() {
+      // console.log("checkIfSequencerValid called");
+      // console.log(initial_selected_topic_ids_pre);
+      console.log(noOfPreTopicsAdded);
+      if(((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length+noOfPreTopicsAdded)>1) || (noOfPreTopicsAdded>1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length+noOfPostTopicsAdded)>1) || (noOfPostTopicsAdded>1))) {
+        document.getElementById("sequencer_checkbox").checked = false;
+        alert("Sequencer is not valid for your current selection of topics. Turning sequencer off.");
+      }
+
+      else if(document.getElementById("sequencer_checkbox").checked) {
+        alert("Sequencing is on. At most one pre and one post topic may be added");
+      }
+    },
+
+    // checkSequencerForPre() {
+    //   if(document.getElementById("sequencer_checkbox").checked) {
+    //     if(initial_selected_topic_ids_pre && initial_selected_topic_ids_pre.length == 1)
+    //   }
+    // }
+
     /*
      clearall() {
       selected_topics_pre = initial_selected_topics_pre;
@@ -192,10 +232,52 @@ export default {
     */
 
     addtopic() {
+
+      // if(!document.getElementById("pre").checked && !document.getElementById("post").checked)
+      //   alert("You have not selected one of pre/post");
+
       var x =Array.from(document.getElementsByClassName("autocomplete-items"));
       var y=x[0];
       var z=Array.from(y.children);
       console.log(z);
+
+      function returnNumberOfChecked(z) {
+        var count = 0;
+        for(var i = 0; i<z.length; i++) {
+          var ch_id='check'+z[i].id;
+          if(document.getElementById('check'+z[i].id).checked)
+            count+=1;
+        }
+        return count;
+      } 
+
+      if(document.getElementById("pre").checked) {
+        // console.log("z.length: "+z.length);
+        noOfPreTopicsAdded += returnNumberOfChecked(z);
+      }
+      else if(document.getElementById("post").checked) {
+        // console.log("z.length: "+z.length);
+        noOfPostTopicsAdded += returnNumberOfChecked(z);
+      }
+
+      console.log(noOfPreTopicsAdded);
+
+      if(document.getElementById("sequencer_checkbox").checked) {
+        if(((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length+noOfPreTopicsAdded)>1) || (noOfPreTopicsAdded>1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length+noOfPostTopicsAdded)>1) || (noOfPostTopicsAdded>1))) {
+          document.getElementById("sequencer_checkbox").checked = false;
+          alert("Sequencer is not valid for your current selection of topics. Turning sequencer off.");
+          if(document.getElementById("pre").checked) {
+            // console.log("z.length: "+z.length);
+            noOfPreTopicsAdded -= returnNumberOfChecked(z);
+          }
+          else if(document.getElementById("post").checked) {
+            // console.log("z.length: "+z.length);
+            noOfPostTopicsAdded -= returnNumberOfChecked(z);
+          }
+          return;
+        }
+      }
+
       for (var i = 0; i < z.length; i++) {
         var ch_id='check'+z[i].id;
         var prereq=z[i].id;
@@ -255,7 +337,7 @@ export default {
             console.log(idn);
             document.getElementById(idn).remove();
             if(document.getElementById("pre").checked) {
-              
+              noOfPreTopicsAdded-=1;
               selected_topics_pre.delete(idn);
               selected_topic_ids_pre.delete(reverse_map[idn]);
               if(!arr.includes(idn)){
@@ -264,6 +346,7 @@ export default {
             }
 
             else if(document.getElementById("post").checked) {
+              noOfPostTopicsAdded-=1;
               selected_topics_post.delete(idn);
               selected_topic_ids_post.delete(reverse_map[idn]);
               if(!arr.includes(idn)){
@@ -291,34 +374,29 @@ export default {
         }
       }
 
-      //this. autocomplete();
-      // this.sendAction('createTopicRecord', selected_topic_ids);
-
-      // this.send('autocomplete', selected_topics);
-      
-      //this.send('autocomplete', selected_topics_pre,selected_topics_post);
-    
-
     },
 
     autocomplete() {
 
+      // if(document.getElementById("sequencer_checkbox").checked) {
+      //   if(noOfPreTopicsAdded>=1 && document.getElementById("pre").checked)
+      //     document.getElementById("myInput").disabled = true;
+      //   else if(noOfPostTopicsAdded>=1 && document.getElementById("post").checked)
+      //     document.getElementById("myInput").disabled = true;
+      //   else
+      //     document.getElementById("myInput").disabled = false;
+      // }
 
-
-
-      console.log("auto stuff and sele");
-        console.log(initial_selected_topic_ids_pre);
-        console.log(initial_selected_topic_ids_post);
-        if(initial_selected_topic_ids_pre){
-        for(var elem of initial_selected_topic_ids_pre){
+      if(initial_selected_topic_ids_pre) {
+        for(var elem of initial_selected_topic_ids_pre) {
           console.log(elem);
           selected_topic_ids_pre.add(parseInt(elem));
           selected_topics_pre.add(arr_mapping[parseInt(elem)]);
         }
       }
         
-        if(initial_selected_topic_ids_post){
-         for(var elem of initial_selected_topic_ids_post){
+      if(initial_selected_topic_ids_post) {
+        for(var elem of initial_selected_topic_ids_post) {
           console.log(elem);
           selected_topic_ids_post.add(parseInt(elem));
           selected_topics_post.add(arr_mapping[parseInt(elem)]);

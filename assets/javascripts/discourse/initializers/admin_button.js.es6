@@ -6,7 +6,6 @@ var initial_selected_topics_pre = new Set();
 var initial_selected_topic_ids_post = new Set();
 var initial_selected_topics_post = new Set();
 
-
 var init_arr = [];
 var arr_mapping = {};
 var current_topic_id;
@@ -16,6 +15,7 @@ export default {
 	name: 'tl-post-lock',
 	initialize(container) {
 		withPluginApi('0.8.24', function(api) {
+			console.log("initialize has been called!");
       const hostname=window.location.href.split('/');
 			const user = api.getCurrentUser();
 			arr_mapping = {};
@@ -29,7 +29,6 @@ export default {
 
 				var temp = json['topic_list']['topics'];
 			 	for (j = 0; j<temp.length; j++) {
-			 		console.log(typeof temp[j].id);
 					arr_mapping[temp[j].id] = temp[j].title;
 					reverse_map[temp[j].title] = temp[j].id;
 					url_map[temp[j].id] = temp[j].slug;
@@ -61,27 +60,41 @@ export default {
 						        //initial_selected_topics_pre = arr_mapping[note["prior_topic_id"]];
 						        initial_selected_topic_ids_post = note["next_topic_id"];
 						        //initial_selected_topics_post = arr_mapping[note["next_topic_id"]];
-						        var temp=Array.from(initial_selected_topic_ids_pre);
-						        var k=0;
-						        for( k=0 ; k<note["prior_topic_id"].length; k++)
-						        {
-						        	initial_selected_topics_pre.add(arr_mapping[parseInt(note["prior_topic_id"][k])]);
-						        }
+						        if(initial_selected_topic_ids_pre) {
+							        var temp=Array.from(initial_selected_topic_ids_pre);
+							        var k;
+							        for(k=0 ; k<note["prior_topic_id"].length; k++) {
+							        	initial_selected_topics_pre.add(arr_mapping[parseInt(note["prior_topic_id"][k])]);
+							        }
+							    }
 
-						        var temp=Array.from(initial_selected_topic_ids_post);
-						        var k=0;
-						        for( k=0 ; k<note["next_topic_id"].length; k++)
-						        {
-						        	initial_selected_topics_post.add(arr_mapping[parseInt(note["next_topic_id"][k])]);
-						        }     
-
-						      }
+							    if(initial_selected_topic_ids_post) {
+							        var temp=Array.from(initial_selected_topic_ids_post);
+							        for( k=0 ; k<note["next_topic_id"].length; k++) {
+							        	initial_selected_topics_post.add(arr_mapping[parseInt(note["next_topic_id"][k])]);
+							        } 
+						        } 
+						    }
 				        }
 				      })
 				      .catch(console.error);
 
-					init_arr.splice(init_arr.indexOf(arr_mapping[current_topic_id]), 1);
+				    // console.log(document.getElementById("sequencer_checkbox").checked);
+				    // 
+				    if(init_arr.indexOf(arr_mapping[current_topic_id]) != -1)
+						init_arr.splice(init_arr.indexOf(arr_mapping[current_topic_id]), 1);
+					
 					document.getElementById("myForm").style.display = "block";
+
+					// console.log("we're here");
+
+					// console.log(initial_selected_topics_pre.size);
+				 //    if(initial_selected_topics_pre.size>1 || initial_selected_topics_post.size>1) {
+				 //    	console.log("inside if");
+				 //      	document.getElementById("sequencer_checkbox").disabled = true;
+				 //    }
+				 //    else
+				 //      	document.getElementById("sequencer_checkbox").disabled = false;
 				});
 				
 			}

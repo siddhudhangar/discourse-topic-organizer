@@ -19,26 +19,35 @@
   
     <input type="hidden" id="flag" value="false">
 
-    <!-- {{!-- <div class="onoffswitch">
-        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-        <label class="onoffswitch-label" for="myonoffswitch">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
-        </label>
-    </div> --}} -->
-
     <div class="pre_post_switch">
-        <input type="radio" name="toggle" id="pre" checked>Pre-requisite
-        <input type="radio" name="toggle" id="post">Post-requisite
+        <input type="radio" name="toggle" id="pre" checked>Pre
+        <input type="radio" name="toggle" id="post">Post
     <hr><br>
     </div>
 
+    {{!-- Sequence ON/OFF toggle switch begins --}}
+    {{!-- <div class="containerForSwitch" align="center">
+      <div class="onoffswitch">
+          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+          <label class="onoffswitch-label" for="myonoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+          </label>
+      </div>
+    </div>
+    <hr> --}}
+    {{!-- Sequence ON/OFF toggle switch ends --}}
+
+      <div align="center"><b>Sequence on?</b>
+          <input id="sequencer_checkbox" type="checkbox" checked={{isChecked}} onclick={{action "checkIfSequencerValid" value="target.checked"}}/>
+      </div>
+
 
 </form>
-   <p><b>Pre-requisites</b></p>
+   <p><b>Pre</b></p>
     <div id="prereq-list" align="left" padding="100px" ></div>
      <br><br>
-     <p><b>Post-requisites</b></p>
+     <p><b>Post</b></p>
     <div id="postreq-list" align="left" padding="100px" ></div>
      <br><br>
      
@@ -50,6 +59,8 @@
 </div>
 
 <div id="snackbar">Successfully added!</div>
+
+{{!-- <div id="snack">Sequencer is not valid for your selection of topics</div> --}}
 
 {{/if}}
     

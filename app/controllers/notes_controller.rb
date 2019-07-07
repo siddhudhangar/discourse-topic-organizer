@@ -13,7 +13,8 @@ class NotesController < ApplicationController
     note = {
       'id' => topic_id,
       'prior_topic_id' => params[:note][:prior_topic_id],
-      'next_topic_id' => params[:note][:next_topic_id]
+      'next_topic_id' => params[:note][:next_topic_id],
+      'sequence_on' => params[:note][:sequence_on]
     }
 
     NoteStore.add_note(topic_id, note)
