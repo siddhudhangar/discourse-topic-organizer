@@ -68,7 +68,7 @@ export default {
 		         					text+='/';
 		          					text+=idp;
 		         					text+='">';
-		         					if(prior_ids.length==1)
+		         					if(note["sequence_on"] == "true")
 		         						text+='Prev';
 		         					else
 		         						text+=lname;
@@ -146,7 +146,7 @@ export default {
 		         					text+='/';
 		          					text+=idp;
 		         					text+='">';
-		         					if(prior_ids.length==1)
+		         					if(note["sequence_on"] == 'true')
 		         						text+='Next';
 		         					else
 		         						text+=lname;

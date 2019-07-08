@@ -16,26 +16,29 @@ export default {
 	initialize(container) {
 		withPluginApi('0.8.24', function(api) {
 			console.log("initialize has been called!");
-      const hostname=window.location.href.split('/');
+      		const hostname=window.location.href.split('/');
 			const user = api.getCurrentUser();
 			arr_mapping = {};
 			init_arr=[];		// clears array for a fresh reuse of the plugin
 
 			var j;
-      let url=hostname[0]+ '//'+ hostname[2]+ '/latest.json';	
-			const request = async () => {
-			  const response = await fetch(url);
-				const json = await response.json();
+      		let url=hostname[0]+ '//'+ hostname[2]+ '/latest.json';	
+			
+			fetch(url)
+		    	.then(function(response) {
+		    		return response.json();
+		    	})
+		    	.then(function(json) {
+		    		var temp = json['topic_list']['topics'];
+				 	for (j = 0; j<temp.length; j++) {
+						arr_mapping[temp[j].id] = temp[j].title;
+						reverse_map[temp[j].title] = temp[j].id;
+						url_map[temp[j].id] = temp[j].slug;
+						init_arr.push(temp[j].title);
+					}
+		    	})
+		    	.catch(console.error);
 
-				var temp = json['topic_list']['topics'];
-			 	for (j = 0; j<temp.length; j++) {
-					arr_mapping[temp[j].id] = temp[j].title;
-					reverse_map[temp[j].title] = temp[j].id;
-					url_map[temp[j].id] = temp[j].slug;
-					init_arr.push(temp[j].title);
-				}
-		 }
-			  request();
 			if(user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
 				// User is allowed to see the button
 
@@ -83,7 +86,7 @@ export default {
 				    // 
 				    if(init_arr.indexOf(arr_mapping[current_topic_id]) != -1)
 						init_arr.splice(init_arr.indexOf(arr_mapping[current_topic_id]), 1);
-					
+
 					document.getElementById("myForm").style.display = "block";
 
 					// console.log("we're here");
