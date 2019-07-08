@@ -158,7 +158,7 @@ export default {
        text+='/';
        text+=parseInt(elem);
        text+='">';
-       if(note["sequence_on"] == 'true')
+       if(selected_topic_ids_pre.length==1)
           text+='Prev';
        else
           text+=arr_mapping[parseInt(elem)];
@@ -176,7 +176,7 @@ export default {
           text+='/';
           text+=parseInt(elem);
           text+='">';
-          if(note["sequence_on"] == 'true')
+          if(selected_topic_ids_pre.length==1)
             text+='Next';
           else
             text+=arr_mapping[parseInt(elem)];
