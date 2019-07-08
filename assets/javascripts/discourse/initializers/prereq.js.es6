@@ -68,7 +68,10 @@ export default {
 		         					text+='/';
 		          					text+=idp;
 		         					text+='">';
-		         					text+=lname;
+		         					if(prior_ids.length==1)
+		         						text+='Prev';
+		         					else
+		         						text+=lname;
 		         					text+='</a>&nbsp;';
 		       						//console.log(text);
 		        					$("#prereq_list").append(text);
@@ -143,7 +146,10 @@ export default {
 		         					text+='/';
 		          					text+=idp;
 		         					text+='">';
-		         					text+=lname;
+		         					if(prior_ids.length==1)
+		         						text+='Next';
+		         					else
+		         						text+=lname;
 		         					text+='</a>&nbsp;';
 		       						//console.log(text);
 		        					$("#postreq_list").append(text);
