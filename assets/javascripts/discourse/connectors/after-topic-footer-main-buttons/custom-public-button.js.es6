@@ -29,6 +29,12 @@ export default {
       var prearr=Array.from(selected_topic_ids_pre);
       var postarr=Array.from(selected_topic_ids_post);
 
+      var prearr=new Set(prearr);
+      var postarr=new Set(postarr);
+
+      var prearr=Array.from(selected_topic_ids_pre);
+      var postarr=Array.from(selected_topic_ids_post);      
+
       this.store.findAll('note')
           .then(result => {
             for (const selectedTopicIdPre of prearr) {
@@ -53,10 +59,12 @@ export default {
                 postreqsToBeAdded.push(current_topic_id);
               }
 
+              prereqsAreTheSame=new Set(prereqsAreTheSame);
+              postreqsToBeAdded=new Set(postreqsToBeAdded);
               const topicRecord = this.store.createRecord('note', {
                 id: selectedTopicIdPre,
-                prior_topic_id: Array.from(new Set(prereqsAreTheSame)),
-                next_topic_id: Array.from(new Set(postreqsToBeAdded)),
+                prior_topic_id: Array.from(prereqsAreTheSame),
+                next_topic_id: Array.from(postreqsToBeAdded),
                 sequence_on: ""+document.getElementById("sequencer_checkbox").checked
               });
 
@@ -91,10 +99,12 @@ export default {
                 prereqsToBeAdded.push(current_topic_id);
               }
 
+              prereqsToBeAdded=new Set(prereqsToBeAdded);
+              postreqsAreTheSame=new Set(postreqsAreTheSame);
               const topicRecord = this.store.createRecord('note', {
                 id: selectedTopicIdPost,
-                prior_topic_id: Array.from(new Set(prereqsToBeAdded)),
-                next_topic_id: Array.from(new Set(postreqsAreTheSame)),
+                prior_topic_id: Array.from(prereqsToBeAdded),
+                next_topic_id: Array.from(postreqsAreTheSame),
                 sequence_on: ""+document.getElementById("sequencer_checkbox").checked
               });
 
