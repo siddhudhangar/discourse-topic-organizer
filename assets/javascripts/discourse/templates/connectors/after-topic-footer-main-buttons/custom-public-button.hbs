@@ -1,66 +1,45 @@
 {{#if currentUser.can_see_topic_group_button}}
-    <div class="hover_bkgr_fricc" id="myForm">
-    	<span class="helper"></span>
-    <div>
+
+<div class="hover_bkgr_fricc" id="myForm">
+  <span class="helper"></span>
+
+  <div>
     <h1>Topic-Organizer</h1>
-
     <form autocomplete="off">
-        <div class="autocomplete" style="width:300px;">
 
-            <!-- {{!-- <input id="myInput" type="text" name="myCountry" placeholder="Search for topics.." onkeyup={{action "autocomplete"}}>  --}} -->
+      <div class="autocomplete" style="width:300px;">
+        {{input id="myInput" type='text' value=input_text name="myCountry" placeholder="Search for topics.." key-press=(action "autocomplete") }}
+      </div>
 
-            {{input id="myInput" type='text' value=input_text name="myCountry" placeholder="Search for topics.." key-press=(action "autocomplete") }}
-
-        </div>
-
-        
       <button id="addt" type="submit" {{action "addtopic"}}>Add</button>
+      <input type="hidden" id="flag" value="false">
 
-  
-    <input type="hidden" id="flag" value="false">
-
-    <div class="pre_post_switch">
+      <div class="pre_post_switch">
         <input type="radio" name="toggle" id="pre" checked>Pre
         <input type="radio" name="toggle" id="post">Post
-    <hr><br>
-    </div>
-
-    {{!-- Sequence ON/OFF toggle switch begins --}}
-    {{!-- <div class="containerForSwitch" align="center">
-      <div class="onoffswitch">
-          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-          <label class="onoffswitch-label" for="myonoffswitch">
-              <span class="onoffswitch-inner"></span>
-              <span class="onoffswitch-switch"></span>
-          </label>
+        <hr><br>
       </div>
-    </div>
-    <hr> --}}
-    {{!-- Sequence ON/OFF toggle switch ends --}}
 
       <div align="center"><b>Sequence on?</b>
-          <input id="sequencer_checkbox" type="checkbox" checked={{isChecked}} onclick={{action "checkIfSequencerValid" value="target.checked"}}/>
+        <input id="sequencer_checkbox" type="checkbox" checked={{isChecked}} onclick={{action "checkIfSequencerValid" value="target.checked"}} />
       </div>
 
+    </form>
 
-</form>
-   <p><b>Pre</b></p>
-    <div id="prereq-list" align="left" padding="100px" ></div>
-     <br><br>
-     <p><b>Post</b></p>
-    <div id="postreq-list" align="left" padding="100px" ></div>
-     <br><br>
-     
+    <p><b>Pre</b></p>
+    <div id="prereq-list" align="left" padding="100px"></div>
+    <br><br>
+    <p><b>Post</b></p>
+    <div id="postreq-list" align="left" padding="100px"></div>
+    <br><br>
 
     <button type="submit" class="btn submit" {{ action "createTopicRecord" }}>OK</button>
-   <!--  <button type="button" class="btn clear" {{action "clearall"}}>Clear All</button> -->
+    <!--  <button type="button" class="btn clear" {{action "clearall"}}>Clear All</button> -->
     <button type="button" class="btn cancel" {{action "closeForm"}}>Close</button>
-  	</div>
-</div>
+    
+  </div>
 
+</div>
 <div id="snackbar">Successfully added!</div>
 
-{{!-- <div id="snack">Sequencer is not valid for your selection of topics</div> --}}
-
 {{/if}}
-    

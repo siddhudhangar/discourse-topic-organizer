@@ -1,20 +1,20 @@
 import { arr_mapping, init_arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post } from '../../initializers/admin_button';
 
-var selected_topics_pre=new Set(initial_selected_topics_pre);
-var selected_topic_ids_pre= new Set(initial_selected_topic_ids_pre);
-var selected_topic_ids_post= new Set(initial_selected_topic_ids_post);
-var selected_topics_post= new Set(initial_selected_topics_post);
-var arr=init_arr;
+var selected_topics_pre = new Set(initial_selected_topics_pre);
+var selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
+var selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
+var selected_topics_post = new Set(initial_selected_topics_post);
+var arr = init_arr;
 
-var post=[];
-var pre=[];
+var post = [];
+var pre = [];
 
 var noOfPreTopicsAdded = 0;
 var noOfPostTopicsAdded = 0;
 
 export default {
   actions: {
-    
+
     createTopicRecord() {
       console.log("pre:");
       console.log(selected_topic_ids_pre);
@@ -26,127 +26,127 @@ export default {
         return;
       }
       this.set('notes', []);
-      var prearr=Array.from(selected_topic_ids_pre);
-      var postarr=Array.from(selected_topic_ids_post);
+      var prearr = Array.from(selected_topic_ids_pre);
+      var postarr = Array.from(selected_topic_ids_post);
 
-      var prearr=new Set(prearr);
-      var postarr=new Set(postarr);
+      var prearr = new Set(prearr);
+      var postarr = new Set(postarr);
 
-      var prearr=Array.from(selected_topic_ids_pre);
-      var postarr=Array.from(selected_topic_ids_post);      
+      var prearr = Array.from(selected_topic_ids_pre);
+      var postarr = Array.from(selected_topic_ids_post);
 
       this.store.findAll('note')
-          .then(result => {
-            for (const selectedTopicIdPre of prearr) {
-              var prereqsAreTheSame;
-              var postreqsToBeAdded;
-              var isSequenceOn;
-              var recordExistsFlag = false;
+        .then(result => {
+          for (const selectedTopicIdPre of prearr) {
+            var prereqsAreTheSame;
+            var postreqsToBeAdded;
+            var isSequenceOn;
+            var recordExistsFlag = false;
 
-              for(const note of result.content) {
-                if(note['id'] == selectedTopicIdPre) {
-                  recordExistsFlag = true;
-                  prereqsAreTheSame = note['prior_topic_id'];
-                  postreqsToBeAdded = note['next_topic_id'];
-                  isSequenceOn = note['sequence_on'];
+            for (const note of result.content) {
+              if (note['id'] == selectedTopicIdPre) {
+                recordExistsFlag = true;
+                prereqsAreTheSame = note['prior_topic_id'];
+                postreqsToBeAdded = note['next_topic_id'];
+                isSequenceOn = note['sequence_on'];
 
-                  if(!postreqsToBeAdded.includes(""+current_topic_id)){
-                    // console.log("checking if includes");
-                    // console.log(postreqsToBeAdded);
-                    postreqsToBeAdded.push(""+current_topic_id);
-                    if(isSequenceOn == "true") {
-                      if(postreqsToBeAdded.length>1)
-                        isSequenceOn = "false";
-                    }
+                if (!postreqsToBeAdded.includes("" + current_topic_id)) {
+                  // console.log("checking if includes");
+                  // console.log(postreqsToBeAdded);
+                  postreqsToBeAdded.push("" + current_topic_id);
+                  if (isSequenceOn == "true") {
+                    if (postreqsToBeAdded.length > 1)
+                      isSequenceOn = "false";
                   }
-                  break;
                 }
+                break;
               }
+            }
 
-              if(!recordExistsFlag) {
-                postreqsToBeAdded = [];
-                postreqsToBeAdded.push(current_topic_id);
-                isSequenceOn = "false";
-              }
+            if (!recordExistsFlag) {
+              postreqsToBeAdded = [];
+              postreqsToBeAdded.push(current_topic_id);
+              isSequenceOn = "false";
+            }
 
-              prereqsAreTheSame=new Set(prereqsAreTheSame);
-              postreqsToBeAdded=new Set(postreqsToBeAdded);
-              const topicRecord = this.store.createRecord('note', {
-                id: selectedTopicIdPre,
-                prior_topic_id: Array.from(prereqsAreTheSame),
-                next_topic_id: Array.from(postreqsToBeAdded),
-                sequence_on: isSequenceOn
-              });
+            prereqsAreTheSame = new Set(prereqsAreTheSame);
+            postreqsToBeAdded = new Set(postreqsToBeAdded);
+            const topicRecord = this.store.createRecord('note', {
+              id: selectedTopicIdPre,
+              prior_topic_id: Array.from(prereqsAreTheSame),
+              next_topic_id: Array.from(postreqsToBeAdded),
+              sequence_on: isSequenceOn
+            });
 
-              topicRecord.save()
+            topicRecord.save()
               .then(result => {
                 this.notes.pushObject(result.target);
               })
               .catch(console.error);
 
+          }
+
+
+          for (const selectedTopicIdPost of postarr) {
+            var prereqsToBeAdded;
+            var postreqsAreTheSame;
+            var isSequenceOn;
+            var recordExistsFlag = false;
+
+            for (const note of result.content) {
+              if (note['id'] == selectedTopicIdPost) {
+                recordExistsFlag = true;
+                prereqsToBeAdded = note['prior_topic_id'];
+                postreqsAreTheSame = note['next_topic_id'];
+                isSequenceOn = note['sequence_on'];
+
+                if (!prereqsToBeAdded.includes("" + current_topic_id)) {
+                  prereqsToBeAdded.push("" + current_topic_id);
+                  if (isSequenceOn == "true") {
+                    if (prereqsToBeAdded.length > 1)
+                      isSequenceOn = "false";
+                  }
+                }
+                break;
+              }
             }
 
+            if (!recordExistsFlag) {
+              prereqsToBeAdded = [];
+              prereqsToBeAdded.push(current_topic_id);
+              isSequenceOn = "false";
+            }
 
-            for (const selectedTopicIdPost of postarr) {
-              var prereqsToBeAdded;
-              var postreqsAreTheSame;
-              var isSequenceOn;
-              var recordExistsFlag = false;
-              
-              for(const note of result.content) {
-                if(note['id'] == selectedTopicIdPost) {
-                  recordExistsFlag = true;
-                  prereqsToBeAdded = note['prior_topic_id'];
-                  postreqsAreTheSame = note['next_topic_id'];
-                  isSequenceOn = note['sequence_on'];
+            prereqsToBeAdded = new Set(prereqsToBeAdded);
+            postreqsAreTheSame = new Set(postreqsAreTheSame);
+            const topicRecord = this.store.createRecord('note', {
+              id: selectedTopicIdPost,
+              prior_topic_id: Array.from(prereqsToBeAdded),
+              next_topic_id: Array.from(postreqsAreTheSame),
+              sequence_on: isSequenceOn
+            });
 
-                  if(!prereqsToBeAdded.includes(""+current_topic_id)) {
-                    prereqsToBeAdded.push(""+current_topic_id);
-                    if(isSequenceOn == "true") {
-                      if(prereqsToBeAdded.length>1)
-                        isSequenceOn = "false";
-                    }
-                  }
-                  break;
-                }
-              }
-
-              if(!recordExistsFlag) {
-                prereqsToBeAdded = [];
-                prereqsToBeAdded.push(current_topic_id);
-                isSequenceOn = "false";
-              }
-
-              prereqsToBeAdded=new Set(prereqsToBeAdded);
-              postreqsAreTheSame=new Set(postreqsAreTheSame);
-              const topicRecord = this.store.createRecord('note', {
-                id: selectedTopicIdPost,
-                prior_topic_id: Array.from(prereqsToBeAdded),
-                next_topic_id: Array.from(postreqsAreTheSame),
-                sequence_on: isSequenceOn
-              });
-
-              topicRecord.save()
+            topicRecord.save()
               .then(result => {
                 this.notes.pushObject(result.target);
               })
               .catch(console.error);
 
-            }
-          });
+          }
+        });
 
       const topicRecord = this.store.createRecord('note', {
         id: current_topic_id,
         prior_topic_id: prearr,
         next_topic_id: postarr,
-        sequence_on: ""+document.getElementById("sequencer_checkbox").checked
+        sequence_on: "" + document.getElementById("sequencer_checkbox").checked
       });
 
       topicRecord.save()
-      .then(result => {
-        this.notes.pushObject(result.target);
-      })
-      .catch(console.error);
+        .then(result => {
+          this.notes.pushObject(result.target);
+        })
+        .catch(console.error);
 
 
       function showSnackbar() {
@@ -157,60 +157,60 @@ export default {
         x.className = "show";
 
         // After 3 seconds, remove the show class from DIV
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
       }
 
       $("#prereq_list").empty();
       $("#postreq_list").empty();
-       var j;
-      for(var elem of selected_topic_ids_pre){
-       // var text="";
-         var tname = url_map[parseInt(elem)];
-       var text='<a class="btn btn-warning btn-xs"';
-       text+='href="http://localhost:9292/t/';
-       text+=tname;
-       text+='/';
-       text+=parseInt(elem);
-       text+='">';
-       if(selected_topic_ids_pre.length==1)
-          text+='Prev';
-       else
-          text+=arr_mapping[parseInt(elem)];
-       text+='</a>&nbsp;';
-       console.log(text);
-          $("#prereq_list").append(text);
-        }
+      var j;
+      for (var elem of selected_topic_ids_pre) {
+        // var text="";
+        var tname = url_map[parseInt(elem)];
+        var text = '<a class="btn btn-warning btn-xs"';
+        text += 'href="http://localhost:9292/t/';
+        text += tname;
+        text += '/';
+        text += parseInt(elem);
+        text += '">';
+        if (selected_topic_ids_pre.length == 1)
+          text += 'Prev';
+        else
+          text += arr_mapping[parseInt(elem)];
+        text += '</a>&nbsp;';
+        console.log(text);
+        $("#prereq_list").append(text);
+      }
 
-        for(var elem of selected_topic_ids_post){
-          var lname=url_map[parseInt(elem)];
+      for (var elem of selected_topic_ids_post) {
+        var lname = url_map[parseInt(elem)];
 
-          var text='<a class="btn btn-warning btn-xs"';
-          text+='href="http://localhost:9292/t/';
-          text+=lname;
-          text+='/';
-          text+=parseInt(elem);
-          text+='">';
-          if(selected_topic_ids_pre.length==1)
-            text+='Next';
-          else
-            text+=arr_mapping[parseInt(elem)];
-          text+='</a>&nbsp;';
-          $("#postreq_list").append(text);
-        }
+        var text = '<a class="btn btn-warning btn-xs"';
+        text += 'href="http://localhost:9292/t/';
+        text += lname;
+        text += '/';
+        text += parseInt(elem);
+        text += '">';
+        if (selected_topic_ids_pre.length == 1)
+          text += 'Next';
+        else
+          text += arr_mapping[parseInt(elem)];
+        text += '</a>&nbsp;';
+        $("#postreq_list").append(text);
+      }
 
-        // noOfPostTopicsAdded = 0;
-        // noOfPreTopicsAdded = 0;
+      // noOfPostTopicsAdded = 0;
+      // noOfPreTopicsAdded = 0;
 
-       window.setTimeout(this.send("closeForm"), 5000);
+      window.setTimeout(this.send("closeForm"), 5000);
 
-       showSnackbar();
+      showSnackbar();
 
     },
 
-    closeForm(){
+    closeForm() {
 
       function clearset(myarr) {
-        if(myarr)
+        if (myarr)
           myarr.clear();
       }
       clearset(selected_topic_ids_pre);
@@ -236,12 +236,10 @@ export default {
       // console.log("checkIfSequencerValid called");
       // console.log(initial_selected_topic_ids_pre);
       console.log(noOfPreTopicsAdded);
-      if(((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length+noOfPreTopicsAdded)>1) || (noOfPreTopicsAdded>1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length+noOfPostTopicsAdded)>1) || (noOfPostTopicsAdded>1))) {
+      if (((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length + noOfPreTopicsAdded) > 1) || (noOfPreTopicsAdded > 1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length + noOfPostTopicsAdded) > 1) || (noOfPostTopicsAdded > 1))) {
         document.getElementById("sequencer_checkbox").checked = false;
         alert("Sequencer is not valid for your current selection of topics. Turning sequencer off.");
-      }
-
-      else if(document.getElementById("sequencer_checkbox").checked) {
+      } else if (document.getElementById("sequencer_checkbox").checked) {
         alert("Sequencing is on. At most one pre and one post topic may be added");
       }
     },
@@ -270,41 +268,39 @@ export default {
       // if(!document.getElementById("pre").checked && !document.getElementById("post").checked)
       //   alert("You have not selected one of pre/post");
 
-      var x =Array.from(document.getElementsByClassName("autocomplete-items"));
-      var y=x[0];
-      var z=Array.from(y.children);
+      var x = Array.from(document.getElementsByClassName("autocomplete-items"));
+      var y = x[0];
+      var z = Array.from(y.children);
       console.log(z);
 
       function returnNumberOfChecked(z) {
         var count = 0;
-        for(var i = 0; i<z.length; i++) {
-          var ch_id='check'+z[i].id;
-          if(document.getElementById('check'+z[i].id).checked)
-            count+=1;
+        for (var i = 0; i < z.length; i++) {
+          var ch_id = 'check' + z[i].id;
+          if (document.getElementById('check' + z[i].id).checked)
+            count += 1;
         }
         return count;
-      } 
+      }
 
-      if(document.getElementById("pre").checked) {
+      if (document.getElementById("pre").checked) {
         // console.log("z.length: "+z.length);
         noOfPreTopicsAdded += returnNumberOfChecked(z);
-      }
-      else if(document.getElementById("post").checked) {
+      } else if (document.getElementById("post").checked) {
         // console.log("z.length: "+z.length);
         noOfPostTopicsAdded += returnNumberOfChecked(z);
       }
 
       console.log(noOfPreTopicsAdded);
 
-      if(document.getElementById("sequencer_checkbox").checked) {
-        if(((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length+noOfPreTopicsAdded)>1) || (noOfPreTopicsAdded>1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length+noOfPostTopicsAdded)>1) || (noOfPostTopicsAdded>1))) {
+      if (document.getElementById("sequencer_checkbox").checked) {
+        if (((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length + noOfPreTopicsAdded) > 1) || (noOfPreTopicsAdded > 1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length + noOfPostTopicsAdded) > 1) || (noOfPostTopicsAdded > 1))) {
           document.getElementById("sequencer_checkbox").checked = false;
           alert("Sequencer is not valid for your current selection of topics. Turning sequencer off.");
-          if(document.getElementById("pre").checked) {
+          if (document.getElementById("pre").checked) {
             // console.log("z.length: "+z.length);
             noOfPreTopicsAdded -= returnNumberOfChecked(z);
-          }
-          else if(document.getElementById("post").checked) {
+          } else if (document.getElementById("post").checked) {
             // console.log("z.length: "+z.length);
             noOfPostTopicsAdded -= returnNumberOfChecked(z);
           }
@@ -313,93 +309,89 @@ export default {
       }
 
       for (var i = 0; i < z.length; i++) {
-        var ch_id='check'+z[i].id;
-        var prereq=z[i].id;
-        var flagv=document.getElementById(ch_id).checked;
-        if(flagv==true){
-          var l,x,l2;
+        var ch_id = 'check' + z[i].id;
+        var prereq = z[i].id;
+        var flagv = document.getElementById(ch_id).checked;
+        if (flagv == true) {
+          var l, x, l2;
           l = document.getElementById("prereq-list");
-          l2= document.getElementById("postreq-list");
+          l2 = document.getElementById("postreq-list");
           x = document.createElement("DIV");
           x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
-          x.setAttribute("padding","100px");
-          x.innerHTML=prereq;
-          
-          var clb=document.createElement("SPAN");
-          clb.setAttribute("class","closebtn");
-          clb.setAttribute("id",prereq+"-button");
+          x.setAttribute("padding", "100px");
+          x.innerHTML = prereq;
 
-          clb.innerHTML='&times;';
+          var clb = document.createElement("SPAN");
+          clb.setAttribute("class", "closebtn");
+          clb.setAttribute("id", prereq + "-button");
+
+          clb.innerHTML = '&times;';
           console.log(clb);
 
-          
+
           x.appendChild(clb);
-          
 
 
-          if(document.getElementById("pre").checked && !selected_topics_post.has(prereq)){
+
+          if (document.getElementById("pre").checked && !selected_topics_post.has(prereq)) {
             selected_topics_pre.add(prereq);
             selected_topic_ids_pre.add(reverse_map[prereq]);
             pre.push(prereq);
-            l.innerHTML += '&nbsp;'; 
-          l.appendChild(x);  
-          }
-          else if(document.getElementById("pre").checked && selected_topics_post.has(prereq)){
-            alert(prereq+ ":Topic already present as a Post-Requisite!");
-          }
-          else if(document.getElementById("post").checked && !selected_topics_pre.has(prereq)){
+            l.innerHTML += '&nbsp;';
+            l.appendChild(x);
+          } else if (document.getElementById("pre").checked && selected_topics_post.has(prereq)) {
+            alert(prereq + ":Topic already present as a Post-Requisite!");
+          } else if (document.getElementById("post").checked && !selected_topics_pre.has(prereq)) {
             selected_topics_post.add(prereq);
             selected_topic_ids_post.add(reverse_map[prereq]);
             post.push(prereq);
-            l2.innerHTML += '&nbsp;'; 
-          l2.appendChild(x);  
+            l2.innerHTML += '&nbsp;';
+            l2.appendChild(x);
+          } else if (document.getElementById("post").checked && selected_topics_pre.has(prereq)) {
+            alert(prereq + ":Topic already present as a Pre-Requisite!")
           }
-          else if(document.getElementById("post").checked && selected_topics_pre.has(prereq)){
-            alert(prereq+ ":Topic already present as a Pre-Requisite!")
-          }    
         }
       }
 
-      var plist=document.getElementsByClassName("closebtn");
+      var plist = document.getElementsByClassName("closebtn");
 
-     // console.log(plist[0]);
-      for(var j=0;j<plist.length;j++) {
-        plist[j].addEventListener("click",function(e) {
-            // body...
-            var idn=e.target.parentNode.id;
-            console.log(idn);
-            document.getElementById(idn).remove();
-            if(document.getElementById("pre").checked) {
-              noOfPreTopicsAdded-=1;
-              selected_topics_pre.delete(idn);
-              selected_topic_ids_pre.delete(reverse_map[idn]);
-              if(!arr.includes(idn)){
+      // console.log(plist[0]);
+      for (var j = 0; j < plist.length; j++) {
+        plist[j].addEventListener("click", function(e) {
+          // body...
+          var idn = e.target.parentNode.id;
+          console.log(idn);
+          document.getElementById(idn).remove();
+          if (document.getElementById("pre").checked) {
+            noOfPreTopicsAdded -= 1;
+            selected_topics_pre.delete(idn);
+            selected_topic_ids_pre.delete(reverse_map[idn]);
+            if (!arr.includes(idn)) {
               arr.push(idn);
-              }
             }
-
-            else if(document.getElementById("post").checked) {
-              noOfPostTopicsAdded-=1;
-              selected_topics_post.delete(idn);
-              selected_topic_ids_post.delete(reverse_map[idn]);
-              if(!arr.includes(idn)){
+          } else if (document.getElementById("post").checked) {
+            noOfPostTopicsAdded -= 1;
+            selected_topics_post.delete(idn);
+            selected_topic_ids_post.delete(reverse_map[idn]);
+            if (!arr.includes(idn)) {
               arr.push(idn);
-              }
-            } 
-          });
+            }
+          }
+        });
       }
 
-      
 
-      var br = document.createElement('br'); 
+
+      var br = document.createElement('br');
       document.getElementById("myInput").value = '';
       closeAllLists();
-      
-      console.log(selected_topic_ids_post+"  "+selected_topic_ids_pre);
+
+      console.log(selected_topic_ids_post + "  " + selected_topic_ids_pre);
+
       function closeAllLists(elmnt) {
-          /*close all autocomplete lists in the document,
-           except the one passed as an argument:*/
+        /*close all autocomplete lists in the document,
+         except the one passed as an argument:*/
         var x = document.getElementsByClassName("autocomplete-items");
         for (var i = 0; i < x.length; i++) {
           if (elmnt != x[i]) {
@@ -421,30 +413,30 @@ export default {
       //     document.getElementById("myInput").disabled = false;
       // }
 
-      if(initial_selected_topic_ids_pre) {
-        for(var elem of initial_selected_topic_ids_pre) {
+      if (initial_selected_topic_ids_pre) {
+        for (var elem of initial_selected_topic_ids_pre) {
           console.log(elem);
           selected_topic_ids_pre.add(parseInt(elem));
           selected_topics_pre.add(arr_mapping[parseInt(elem)]);
         }
       }
-        
-      if(initial_selected_topic_ids_post) {
-        for(var elem of initial_selected_topic_ids_post) {
+
+      if (initial_selected_topic_ids_post) {
+        for (var elem of initial_selected_topic_ids_post) {
           console.log(elem);
           selected_topic_ids_post.add(parseInt(elem));
           selected_topics_post.add(arr_mapping[parseInt(elem)]);
         }
       }
 
-      var inp=document.getElementById("myInput");
+      var inp = document.getElementById("myInput");
       var currentFocus;
       /*execute a function when someone writes in the text field:*/
       inp.addEventListener("input", function(e) {
         var a, b, i, val = this.value;
         /*close any already open lists of autocompleted values*/
         closeAllLists();
-        if (!val) { return false;}
+        if (!val) { return false; }
         currentFocus = -1;
         /*create a DIV element that will contain the items (values):*/
         a = document.createElement("DIV");
@@ -455,72 +447,70 @@ export default {
         /*for each item in the array...*/
 
 
-        var flag=false;
-        document.getElementById("flag").value="false";
+        var flag = false;
+        document.getElementById("flag").value = "false";
 
         var x;
 
 
-        var selected_topics=new Set();
+        var selected_topics = new Set();
 
         /*if(document.getElementById("pre").checked)
           selected_topics = selected_topics_pre;
 
         else if(document.getElementById("post").checked)
           selected_topics = selected_topics_post;*/
-        for(var elem of selected_topics_pre)
+        for (var elem of selected_topics_pre)
           selected_topics.add(elem);
 
-        for(var elem of selected_topics_post)
+        for (var elem of selected_topics_post)
           selected_topics.add(elem);
         console.log(selected_topics);
-        if(selected_topics)
-        {
-          for(var elem of selected_topics)
-          {
+        if (selected_topics) {
+          for (var elem of selected_topics) {
             var index = arr.indexOf(elem);
-            if(index != -1) {
+            if (index != -1) {
               arr.splice(index, 1);
             }
           }
         }
 
-        console.log(Date.now()+" "+arr+" "+arr.length);
+        console.log(Date.now() + " " + arr + " " + arr.length);
 
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/
           if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
             /*create a DIV element for each matching element:*/
             b = document.createElement("DIV");
-            b.setAttribute("id",arr[i]);
-            b.setAttribute("align","left");
-            flag=true;
+            b.setAttribute("id", arr[i]);
+            b.setAttribute("align", "left");
+            flag = true;
 
-            var pos=arr[i].toUpperCase().indexOf(val.toUpperCase());
+            var pos = arr[i].toUpperCase().indexOf(val.toUpperCase());
 
-            b.innerHTML = "<input id='check"+arr[i]+"' type='checkbox' value='" + arr[i] + "'>";
-            b.innerHTML+='&nbsp;';
-            b.innerHTML+= arr[i].substr(0,pos);
+            b.innerHTML = "<input id='check" + arr[i] + "' type='checkbox' value='" + arr[i] + "'>";
+            b.innerHTML += '&nbsp;';
+            b.innerHTML += arr[i].substr(0, pos);
 
-            b.innerHTML+="<strong>" + arr[i].substr(pos, val.length) + "</strong>";        
-            b.innerHTML += arr[i].substr(pos+val.length);
+            b.innerHTML += "<strong>" + arr[i].substr(pos, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(pos + val.length);
             /*insert a input field that will hold the current array item's value:*/
-          
+
             /*execute a function when someone clicks on the item value (DIV element):*/
             b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
-                /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
-                document.getElementById("flag").value="true";
-             });
-            a.appendChild(b); 
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              document.getElementById("flag").value = "true";
+            });
+            a.appendChild(b);
           }
         }
 
-        if(!flag) {
-          var notfound=document.createElement("DIV");
-          notfound.setAttribute("align","left");
-          notfound.innerHTML="Not Found...";
+        if (!flag) {
+          var notfound = document.createElement("DIV");
+          notfound.setAttribute("align", "left");
+          notfound.innerHTML = "Not Found...";
           a.appendChild(notfound);
         }
       });
@@ -534,15 +524,13 @@ export default {
           currentFocus++;
           /*and and make the current item more visible:*/
           addActive(x);
-        } 
-        else if (e.keyCode == 38) { //up
+        } else if (e.keyCode == 38) { //up
           /*If the arrow UP key is pressed,
           decrease the currentFocus variable:*/
           currentFocus--;
           /*and and make the current item more visible:*/
           addActive(x);
-        } 
-        else if (e.keyCode == 13) {
+        } else if (e.keyCode == 13) {
           /*If the ENTER key is pressed, prevent the form from being submitted,*/
           e.preventDefault();
           if (currentFocus > -1) {
@@ -550,41 +538,44 @@ export default {
             if (x) {
               x[currentFocus].click();
             }
+          }
+        }
+      });
+
+      function addActive(x) {
+        /*a function to classify an item as "active":*/
+        if (!x) return false;
+        /*start by removing the "active" class on all items:*/
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        /*add class "autocomplete-active":*/
+        x[currentFocus].classList.add("autocomplete-active");
+      }
+
+      function removeActive(x) {
+        /*a function to remove the "active" class from all autocomplete items:*/
+        for (var i = 0; i < x.length; i++) {
+          x[i].classList.remove("autocomplete-active");
         }
       }
-    });
-  function addActive(x) {
-    /*a function to classify an item as "active":*/
-    if (!x) return false;
-    /*start by removing the "active" class on all items:*/
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = (x.length - 1);
-    /*add class "autocomplete-active":*/
-    x[currentFocus].classList.add("autocomplete-active");
-  }
-  function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
-    for (var i = 0; i < x.length; i++) {
-      x[i].classList.remove("autocomplete-active");
-    }
-  }
-  function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document,
-    except the one passed as an argument:*/
-    var x = document.getElementsByClassName("autocomplete-items");
-    for (var i = 0; i < x.length; i++) {
-      if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
+
+      function closeAllLists(elmnt) {
+        /*close all autocomplete lists in the document,
+        except the one passed as an argument:*/
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+          if (elmnt != x[i] && elmnt != inp) {
+            x[i].parentNode.removeChild(x[i]);
+          }
+        }
       }
+      /*execute a function when someone clicks in the document:*/
+      document.addEventListener("click", function(e) {
+        // closeAllLists(e.target);
+      });
     }
+
+
   }
-  /*execute a function when someone clicks in the document:*/
-  document.addEventListener("click", function (e) {
-     // closeAllLists(e.target);
-   });
-}
-
-
-}
 };
