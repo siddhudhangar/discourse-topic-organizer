@@ -42,8 +42,11 @@ export default {
                   prereqsAreTheSame = note['prior_topic_id'];
                   postreqsToBeAdded = note['next_topic_id'];
 
-                  if(!postreqsToBeAdded.includes(current_topic_id))
-                    postreqsToBeAdded.push(current_topic_id);
+                  if(!postreqsToBeAdded.includes(""+current_topic_id)){
+                    console.log("checking if includes");
+                    console.log(postreqsToBeAdded);
+                    postreqsToBeAdded.push(""+current_topic_id);
+                  }
                   break;
                 }
               }
@@ -80,8 +83,9 @@ export default {
                   prereqsToBeAdded = note['prior_topic_id'];
                   postreqsAreTheSame = note['next_topic_id'];
 
-                  if(!prereqsToBeAdded.includes(current_topic_id))
-                    prereqsToBeAdded.push(current_topic_id);
+                  if(!prereqsToBeAdded.includes(""+current_topic_id)){
+                    prereqsToBeAdded.push(""+current_topic_id);
+                  }
                   break;
                 }
               }
@@ -139,12 +143,15 @@ export default {
        // var text="";
          var tname = url_map[parseInt(elem)];
        var text='<a class="btn btn-warning btn-xs"';
-       text+='href="../';
+       text+='href="http://localhost:9292/t/';
        text+=tname;
        text+='/';
        text+=parseInt(elem);
        text+='">';
-       text+=arr_mapping[parseInt(elem)];
+       if(note["sequence_on"] == 'true')
+          text+='Prev';
+       else
+          text+=arr_mapping[parseInt(elem)];
        text+='</a>&nbsp;';
        console.log(text);
           $("#prereq_list").append(text);
@@ -154,12 +161,15 @@ export default {
           var lname=url_map[parseInt(elem)];
 
           var text='<a class="btn btn-warning btn-xs"';
-          text+='href="../';
+          text+='href="http://localhost:9292/t/';
           text+=lname;
           text+='/';
           text+=parseInt(elem);
           text+='">';
-          text+=arr_mapping[parseInt(elem)];
+          if(note["sequence_on"] == 'true')
+            text+='Next';
+          else
+            text+=arr_mapping[parseInt(elem)];
           text+='</a>&nbsp;';
           $("#postreq_list").append(text);
         }
