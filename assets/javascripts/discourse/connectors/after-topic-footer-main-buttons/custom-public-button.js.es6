@@ -75,7 +75,7 @@ export default {
                 id: selectedTopicIdPre,
                 prior_topic_id: Array.from(prereqsAreTheSame),
                 next_topic_id: Array.from(postreqsToBeAdded),
-                sequence_on: ""+document.getElementById("sequencer_checkbox").checked
+                sequence_on: isSequenceOn;
               });
 
               topicRecord.save()
