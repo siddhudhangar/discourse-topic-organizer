@@ -40,6 +40,7 @@ export default {
             for (const selectedTopicIdPre of prearr) {
               var prereqsAreTheSame;
               var postreqsToBeAdded;
+              var isSequenceOn;
               var recordExistsFlag = false;
 
               for(const note of result.content) {
@@ -47,11 +48,16 @@ export default {
                   recordExistsFlag = true;
                   prereqsAreTheSame = note['prior_topic_id'];
                   postreqsToBeAdded = note['next_topic_id'];
+                  isSequenceOn = note['sequence_on'];
 
                   if(!postreqsToBeAdded.includes(""+current_topic_id)){
-                    console.log("checking if includes");
-                    console.log(postreqsToBeAdded);
+                    // console.log("checking if includes");
+                    // console.log(postreqsToBeAdded);
                     postreqsToBeAdded.push(""+current_topic_id);
+                    if(isSequenceOn == "true") {
+                      if(postreqsToBeAdded.length>1)
+                        isSequenceOn = "false";
+                    }
                   }
                   break;
                 }
@@ -60,6 +66,7 @@ export default {
               if(!recordExistsFlag) {
                 postreqsToBeAdded = [];
                 postreqsToBeAdded.push(current_topic_id);
+                isSequenceOn = "false";
               }
 
               prereqsAreTheSame=new Set(prereqsAreTheSame);
@@ -83,6 +90,7 @@ export default {
             for (const selectedTopicIdPost of postarr) {
               var prereqsToBeAdded;
               var postreqsAreTheSame;
+              var isSequenceOn;
               var recordExistsFlag = false;
               
               for(const note of result.content) {
@@ -90,9 +98,14 @@ export default {
                   recordExistsFlag = true;
                   prereqsToBeAdded = note['prior_topic_id'];
                   postreqsAreTheSame = note['next_topic_id'];
+                  isSequenceOn = note['sequence_on'];
 
-                  if(!prereqsToBeAdded.includes(""+current_topic_id)){
+                  if(!prereqsToBeAdded.includes(""+current_topic_id)) {
                     prereqsToBeAdded.push(""+current_topic_id);
+                    if(isSequenceOn == "true") {
+                      if(prereqsToBeAdded.length>1)
+                        isSequenceOn = "false";
+                    }
                   }
                   break;
                 }
@@ -101,6 +114,7 @@ export default {
               if(!recordExistsFlag) {
                 prereqsToBeAdded = [];
                 prereqsToBeAdded.push(current_topic_id);
+                isSequenceOn = "false";
               }
 
               prereqsToBeAdded=new Set(prereqsToBeAdded);
@@ -109,7 +123,7 @@ export default {
                 id: selectedTopicIdPost,
                 prior_topic_id: Array.from(prereqsToBeAdded),
                 next_topic_id: Array.from(postreqsAreTheSame),
-                sequence_on: ""+document.getElementById("sequencer_checkbox").checked
+                sequence_on: isSequenceOn;
               });
 
               topicRecord.save()
