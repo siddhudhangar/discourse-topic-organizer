@@ -75,7 +75,7 @@ export default {
                 id: selectedTopicIdPre,
                 prior_topic_id: Array.from(prereqsAreTheSame),
                 next_topic_id: Array.from(postreqsToBeAdded),
-                sequence_on: isSequenceOn;
+                sequence_on: isSequenceOn
               });
 
               topicRecord.save()
@@ -123,7 +123,7 @@ export default {
                 id: selectedTopicIdPost,
                 prior_topic_id: Array.from(prereqsToBeAdded),
                 next_topic_id: Array.from(postreqsAreTheSame),
-                sequence_on: isSequenceOn;
+                sequence_on: isSequenceOn
               });
 
               topicRecord.save()
