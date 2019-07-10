@@ -6,6 +6,9 @@ var initial_selected_topics_pre = new Set();
 var initial_selected_topic_ids_post = new Set();
 var initial_selected_topics_post = new Set();
 
+var init_pre = [];
+var init_post = [];
+
 var init_arr = [];
 var arr_mapping = {};
 var current_topic_id;
@@ -68,6 +71,32 @@ export default {
                     var k;
                     for (k = 0; k < note["prior_topic_id"].length; k++) {
                       initial_selected_topics_pre.add(arr_mapping[parseInt(note["prior_topic_id"][k])]);
+
+                      // This is code to display initial selected pre topics as chips in the popup form
+                      var elem = arr_mapping[parseInt(note["prior_topic_id"][k])];
+                      console.log(elem);
+                      var l, x, l2;
+                      l = document.getElementById("prereq-list");
+                      console.log("this is l: " + l);
+                      l2 = document.getElementById("postreq-list");
+                      x = document.createElement("DIV");
+                      x.setAttribute("class", "chip");
+                      x.setAttribute("id", elem);
+                      x.setAttribute("padding", "100px");
+                      x.innerHTML = elem;
+
+                      var clb = document.createElement("SPAN");
+                      clb.setAttribute("class", "closebtn");
+                      clb.setAttribute("id", elem + "-button");
+
+                      clb.innerHTML = '&times;';
+                      console.log(clb);
+
+
+                      x.appendChild(clb);
+                      init_pre.push(elem);
+                      l.innerHTML += '&nbsp;';
+                      l.appendChild(x);
                     }
                   }
 
@@ -75,18 +104,110 @@ export default {
                     var temp = Array.from(initial_selected_topic_ids_post);
                     for (k = 0; k < note["next_topic_id"].length; k++) {
                       initial_selected_topics_post.add(arr_mapping[parseInt(note["next_topic_id"][k])]);
+
+                      // This is code to display initial selected post topics as chips in the popup form
+                      var elem = arr_mapping[parseInt(note["next_topic_id"][k])];
+                      var l, x, l2;
+                      l = document.getElementById("prereq-list");
+                      l2 = document.getElementById("postreq-list");
+                      x = document.createElement("DIV");
+                      x.setAttribute("class", "chip");
+                      x.setAttribute("id", elem);
+                      x.setAttribute("padding", "100px");
+                      x.innerHTML = elem;
+
+                      var clb = document.createElement("SPAN");
+                      clb.setAttribute("class", "closebtn");
+                      clb.setAttribute("id", elem + "-button");
+
+                      clb.innerHTML = '&times;';
+                      console.log(clb);
+
+
+                      x.appendChild(clb);
+                      init_post.push(elem);
+                      l2.innerHTML += '&nbsp;';
+                      l2.appendChild(x);
                     }
                   }
                 }
               }
+
+              // Start
+              var plist = document.getElementsByClassName("closebtn");
+              initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
+
+              console.log("plist.length: " + plist.length);
+
+              // console.log(plist[0]);
+              for (var j = 0; j < plist.length; j++) {
+                plist[j].addEventListener("click", function(e) {
+                  console.log("Called in admin_button.js.es6");
+                  // body...
+                  var idn = e.target.parentNode.id;
+                  console.log(idn);
+                  document.getElementById(idn).remove();
+                  if (document.getElementById("pre").checked) {
+                    // noOfPreTopicsAdded -= 1;
+                    initial_selected_topics_pre.delete(idn);
+                    // console.log(Array.isArray(initial_selected_topic_ids_pre));
+                    initial_selected_topic_ids_pre.delete(reverse_map[idn]);
+                    // if (!arr.includes(idn)) {
+                    //   arr.push(idn);
+                    // }
+                  } else if (document.getElementById("post").checked) {
+                    // noOfPostTopicsAdded -= 1;
+                    initial_selected_topics_post.delete(idn);
+                    initial_selected_topic_ids_post.delete(reverse_map[idn]);
+                    // if (!arr.includes(idn)) {
+                    //   arr.push(idn);
+                    // }
+                  }
+                });
+              }
+              // End
+
             })
             .catch(console.error);
+
+          // var plist = document.getElementsByClassName("closebtn");
+
+          // console.log("plist.length: "+plist.length);
+
+          // // console.log(plist[0]);
+          // for (var j = 0; j < plist.length; j++) {
+          //   plist[j].addEventListener("click", function(e) {
+          //     // body...
+          //     var idn = e.target.parentNode.id;
+          //     console.log(idn);
+          //     document.getElementById(idn).remove();
+          //     if (document.getElementById("pre").checked) {
+          //       // noOfPreTopicsAdded -= 1;
+          //       initial_selected_topics_pre.delete(idn);
+          //       initial_selected_topic_ids_pre.delete(reverse_map[idn]);
+          //       // if (!arr.includes(idn)) {
+          //       //   arr.push(idn);
+          //       // }
+          //     } else if (document.getElementById("post").checked) {
+          //       // noOfPostTopicsAdded -= 1;
+          //       initial_selected_topics_post.delete(idn);
+          //       initial_selected_topic_ids_post.delete(reverse_map[idn]);
+          //       // if (!arr.includes(idn)) {
+          //       //   arr.push(idn);
+          //       // }
+          //     }
+          //   });
+          // }
+          
 
           if (init_arr.indexOf(arr_mapping[current_topic_id]) != -1)
             init_arr.splice(init_arr.indexOf(arr_mapping[current_topic_id]), 1);
 
           document.getElementById("myForm").style.display = "block";
           document.getElementById("myInput").disabled = false;
+
+          console.log("initial_selected_topics_pre.size: " + initial_selected_topics_pre.size);
+
         });
 
       }
@@ -103,5 +224,7 @@ export {
   initial_selected_topic_ids_post,
   initial_selected_topics_post,
   initial_selected_topic_ids_pre,
-  initial_selected_topics_pre
+  initial_selected_topics_pre,
+  init_pre,
+  init_post
 };

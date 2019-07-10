@@ -1,4 +1,4 @@
-import { arr_mapping, init_arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post } from '../../initializers/admin_button';
+import { arr_mapping, init_arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post, init_pre, init_post } from '../../initializers/admin_button';
 
 var selected_topics_pre = new Set(initial_selected_topics_pre);
 var selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
@@ -6,8 +6,8 @@ var selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
 var selected_topics_post = new Set(initial_selected_topics_post);
 var arr = init_arr;
 
-var post = [];
-var pre = [];
+var pre = init_pre.slice();
+var post = init_post.slice();
 
 var noOfPreTopicsAdded = 0;
 var noOfPostTopicsAdded = 0;
@@ -16,6 +16,7 @@ export default {
   actions: {
 
     createTopicRecord() {
+      
       console.log("pre:");
       console.log(selected_topic_ids_pre);
       console.log("post:");
@@ -281,6 +282,8 @@ export default {
 
       // if(!document.getElementById("pre").checked && !document.getElementById("post").checked)
       //   alert("You have not selected one of pre/post");
+      //   
+      console.log(initial_selected_topics_pre);
 
       var x = Array.from(document.getElementsByClassName("autocomplete-items"));
       var y = x[0];
@@ -351,53 +354,53 @@ export default {
       //     return;
       //   }
       // }
-      for(var elem of selected_topics_pre){
-          var l, x, l2;
-          l = document.getElementById("prereq-list");
-          l2 = document.getElementById("postreq-list");
-          x = document.createElement("DIV");
-          x.setAttribute("class", "chip");
-          x.setAttribute("id", elem);
-          x.setAttribute("padding", "100px");
-          x.innerHTML = elem;
+      // for(var elem of selected_topics_pre){
+      //     var l, x, l2;
+      //     l = document.getElementById("prereq-list");
+      //     l2 = document.getElementById("postreq-list");
+      //     x = document.createElement("DIV");
+      //     x.setAttribute("class", "chip");
+      //     x.setAttribute("id", elem);
+      //     x.setAttribute("padding", "100px");
+      //     x.innerHTML = elem;
 
-          var clb = document.createElement("SPAN");
-          clb.setAttribute("class", "closebtn");
-          clb.setAttribute("id", elem + "-button");
+      //     var clb = document.createElement("SPAN");
+      //     clb.setAttribute("class", "closebtn");
+      //     clb.setAttribute("id", elem + "-button");
 
-          clb.innerHTML = '&times;';
-          console.log(clb);
-
-
-          x.appendChild(clb);
-          pre.push(elem);
-            l.innerHTML += '&nbsp;';
-            l.appendChild(x);
-      }
-
-      for(var elem of selected_topics_post){
-          var l, x, l2;
-          l = document.getElementById("prereq-list");
-          l2 = document.getElementById("postreq-list");
-          x = document.createElement("DIV");
-          x.setAttribute("class", "chip");
-          x.setAttribute("id", elem);
-          x.setAttribute("padding", "100px");
-          x.innerHTML = elem;
-
-          var clb = document.createElement("SPAN");
-          clb.setAttribute("class", "closebtn");
-          clb.setAttribute("id", elem + "-button");
-
-          clb.innerHTML = '&times;';
-          console.log(clb);
+      //     clb.innerHTML = '&times;';
+      //     console.log(clb);
 
 
-          x.appendChild(clb);
-          post.push(elem);
-            l.innerHTML += '&nbsp;';
-            l.appendChild(x);
-      }
+      //     x.appendChild(clb);
+      //     pre.push(elem);
+      //       l.innerHTML += '&nbsp;';
+      //       l.appendChild(x);
+      // }
+
+      // for(var elem of selected_topics_post){
+      //     var l, x, l2;
+      //     l = document.getElementById("prereq-list");
+      //     l2 = document.getElementById("postreq-list");
+      //     x = document.createElement("DIV");
+      //     x.setAttribute("class", "chip");
+      //     x.setAttribute("id", elem);
+      //     x.setAttribute("padding", "100px");
+      //     x.innerHTML = elem;
+
+      //     var clb = document.createElement("SPAN");
+      //     clb.setAttribute("class", "closebtn");
+      //     clb.setAttribute("id", elem + "-button");
+
+      //     clb.innerHTML = '&times;';
+      //     console.log(clb);
+
+
+      //     x.appendChild(clb);
+      //     post.push(elem);
+      //       l.innerHTML += '&nbsp;';
+      //       l.appendChild(x);
+      // }
 
 
 
@@ -457,6 +460,7 @@ export default {
       // console.log(plist[0]);
       for (var j = 0; j < plist.length; j++) {
         plist[j].addEventListener("click", function(e) {
+          console.log("Called in custom-public-button.js.es6");
           // body...
           var idn = e.target.parentNode.id;
           console.log(idn);
