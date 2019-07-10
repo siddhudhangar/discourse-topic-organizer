@@ -23,14 +23,14 @@
       <div align="center"><b>Sequence on?</b>
         <input id="sequencer_checkbox" type="checkbox" checked={{isChecked}} onclick={{action "checkIfSequencerValid" value="target.checked"}} />
       </div>
-
+      <button id="dis" type="ok" {{action "displayprepost"}}>UPDATE</button>
     </form>
 
     <p><b>Pre</b></p>
-    <div id="prereq-list" align="left" padding="100px"></div>
+    <div class="grid-container" id="prereq-list" align="left" padding="100px" overflow="scroll"></div>
     <br><br>
     <p><b>Post</b></p>
-    <div id="postreq-list" align="left" padding="100px"></div>
+    <div class="grid-container" id="postreq-list" align="left" padding="100px"></div>
     <br><br>
 
     <button type="submit" class="btn submit" {{ action "createTopicRecord" }}>OK</button>
