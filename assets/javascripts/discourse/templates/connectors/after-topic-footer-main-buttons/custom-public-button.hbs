@@ -15,8 +15,8 @@
       <input type="hidden" id="flag" value="false">
 
       <div class="pre_post_switch">
-        <input type="radio" name="toggle" id="pre" checked>Pre
-        <input type="radio" name="toggle" id="post">Post
+        <input type="radio" name="toggle" id="pre" checked onclick={{action "checkIfSequencerValidForPre"}}>Pre
+        <input type="radio" name="toggle" id="post" onclick={{action "checkIfSequencerValidForPost"}}>Post
         <hr><br>
       </div>
 

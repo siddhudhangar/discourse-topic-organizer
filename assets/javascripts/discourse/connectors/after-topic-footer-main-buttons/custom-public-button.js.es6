@@ -236,19 +236,33 @@ export default {
       // console.log("checkIfSequencerValid called");
       // console.log(initial_selected_topic_ids_pre);
       console.log(noOfPreTopicsAdded);
-      if (((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length + noOfPreTopicsAdded) > 1) || (noOfPreTopicsAdded > 1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length + noOfPostTopicsAdded) > 1) || (noOfPostTopicsAdded > 1))) {
+      if (((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length + noOfPreTopicsAdded) >= 1) || (noOfPreTopicsAdded >= 1)) && ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length + noOfPostTopicsAdded) >= 1) || (noOfPostTopicsAdded >= 1))) {
         document.getElementById("sequencer_checkbox").checked = false;
         alert("Sequencer is not valid for your current selection of topics. Turning sequencer off.");
       } else if (document.getElementById("sequencer_checkbox").checked) {
         alert("Sequencing is on. At most one pre and one post topic may be added");
+      } else if (!document.getElementById("sequencer_checkbox").checked) {
+        document.getElementById("myInput").disabled = false;
       }
     },
 
-    // checkSequencerForPre() {
-    //   if(document.getElementById("sequencer_checkbox").checked) {
-    //     if(initial_selected_topic_ids_pre && initial_selected_topic_ids_pre.length == 1)
-    //   }
-    // }
+    checkIfSequencerValidForPre() {
+      if (document.getElementById("sequencer_checkbox").checked) {
+        if (((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length + noOfPreTopicsAdded) >= 1) || (noOfPreTopicsAdded >= 1)))
+          document.getElementById("myInput").disabled = true;
+        else
+          document.getElementById("myInput").disabled = false;
+      }
+    },
+
+    checkIfSequencerValidForPost() {
+      if (document.getElementById("sequencer_checkbox").checked) {
+        if (((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length + noOfPostTopicsAdded) >= 1) || (noOfPostTopicsAdded >= 1)))
+          document.getElementById("myInput").disabled = true;
+        else
+          document.getElementById("myInput").disabled = false;
+      }
+    },
 
     /*
      clearall() {
@@ -291,22 +305,52 @@ export default {
         noOfPostTopicsAdded += returnNumberOfChecked(z);
       }
 
-      console.log(noOfPreTopicsAdded);
+      // console.log("noOfPreTopicsAdded: "+noOfPreTopicsAdded);
 
-      if (document.getElementById("sequencer_checkbox").checked) {
-        if (((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length + noOfPreTopicsAdded) > 1) || (noOfPreTopicsAdded > 1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length + noOfPostTopicsAdded) > 1) || (noOfPostTopicsAdded > 1))) {
-          document.getElementById("sequencer_checkbox").checked = false;
-          alert("Sequencer is not valid for your current selection of topics. Turning sequencer off.");
-          if (document.getElementById("pre").checked) {
-            // console.log("z.length: "+z.length);
-            noOfPreTopicsAdded -= returnNumberOfChecked(z);
-          } else if (document.getElementById("post").checked) {
-            // console.log("z.length: "+z.length);
-            noOfPostTopicsAdded -= returnNumberOfChecked(z);
-          }
-          return;
-        }
-      }
+      // if (document.getElementById("sequencer_checkbox").checked) {
+      //   if(document.getElementById("pre").checked) {
+      //     if(noOfPreTopicsAdded>=1)
+      //       document.getElementById("myInput").disabled = true;
+      //     else
+      //       document.getElementById("myInput").disabled = false;
+      //   }
+      //   else {
+      //     if(noOfPostTopicsAdded>=1)
+      //       document.getElementById("myInput").disabled = true;
+      //     else
+      //       document.getElementById("myInput").disabled = false;
+      //   }
+      //   // if ((noOfPreTopicsAdded >= 1) || (noOfPostTopicsAdded >= 1)) {
+      //   //   document.getElementById("myInput").disabled = true;
+      //   //   // alert("Sequencer is not valid for your current selection of topics. Turning sequencer off.");
+      //   //   // if (document.getElementById("pre").checked) {
+      //   //   //   // console.log("z.length: "+z.length);
+      //   //   //   noOfPreTopicsAdded -= returnNumberOfChecked(z);
+      //   //   // } else if (document.getElementById("post").checked) {
+      //   //   //   // console.log("z.length: "+z.length);
+      //   //   //   noOfPostTopicsAdded -= returnNumberOfChecked(z);
+      //   //   // }
+      //   //   // return;
+      //   // }
+      // }
+
+
+
+
+      // if (document.getElementById("sequencer_checkbox").checked) {
+      //   if (((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length + noOfPreTopicsAdded) > 1) || (noOfPreTopicsAdded > 1)) || ((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length + noOfPostTopicsAdded) > 1) || (noOfPostTopicsAdded > 1))) {
+      //     document.getElementById("sequencer_checkbox").checked = false;
+      //     alert("Sequencer is not valid for your current selection of topics. Turning sequencer off.");
+      //     if (document.getElementById("pre").checked) {
+      //       // console.log("z.length: "+z.length);
+      //       noOfPreTopicsAdded -= returnNumberOfChecked(z);
+      //     } else if (document.getElementById("post").checked) {
+      //       // console.log("z.length: "+z.length);
+      //       noOfPostTopicsAdded -= returnNumberOfChecked(z);
+      //     }
+      //     return;
+      //   }
+      // }
 
       for (var i = 0; i < z.length; i++) {
         var ch_id = 'check' + z[i].id;
@@ -404,14 +448,19 @@ export default {
 
     autocomplete() {
 
-      // if(document.getElementById("sequencer_checkbox").checked) {
-      //   if(noOfPreTopicsAdded>=1 && document.getElementById("pre").checked)
-      //     document.getElementById("myInput").disabled = true;
-      //   else if(noOfPostTopicsAdded>=1 && document.getElementById("post").checked)
-      //     document.getElementById("myInput").disabled = true;
-      //   else
-      //     document.getElementById("myInput").disabled = false;
-      // }
+      if (document.getElementById("sequencer_checkbox").checked && document.getElementById("pre").checked) {
+        if (((initial_selected_topic_ids_pre && (initial_selected_topic_ids_pre.length + noOfPreTopicsAdded) >= 1) || (noOfPreTopicsAdded >= 1)))
+          document.getElementById("myInput").disabled = true;
+        else
+          document.getElementById("myInput").disabled = false;
+      }
+
+      if (document.getElementById("sequencer_checkbox").checked && document.getElementById("post").checked) {
+        if (((initial_selected_topic_ids_post && (initial_selected_topic_ids_post.length + noOfPostTopicsAdded) >= 1) || (noOfPostTopicsAdded >= 1)))
+          document.getElementById("myInput").disabled = true;
+        else
+          document.getElementById("myInput").disabled = false;
+      }
 
       if (initial_selected_topic_ids_pre) {
         for (var elem of initial_selected_topic_ids_pre) {

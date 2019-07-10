@@ -86,6 +86,7 @@ export default {
             init_arr.splice(init_arr.indexOf(arr_mapping[current_topic_id]), 1);
 
           document.getElementById("myForm").style.display = "block";
+          document.getElementById("myInput").disabled = false;
         });
 
       }
