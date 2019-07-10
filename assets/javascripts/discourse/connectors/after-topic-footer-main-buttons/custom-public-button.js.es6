@@ -351,6 +351,60 @@ export default {
       //     return;
       //   }
       // }
+      for(var elem of selected_topics_pre){
+          var l, x, l2;
+          l = document.getElementById("prereq-list");
+          l2 = document.getElementById("postreq-list");
+          x = document.createElement("DIV");
+          x.setAttribute("class", "chip");
+          x.setAttribute("id", elem);
+          x.setAttribute("padding", "100px");
+          x.innerHTML = elem;
+
+          var clb = document.createElement("SPAN");
+          clb.setAttribute("class", "closebtn");
+          clb.setAttribute("id", elem + "-button");
+
+          clb.innerHTML = '&times;';
+          console.log(clb);
+
+
+          x.appendChild(clb);
+          pre.push(elem);
+            l.innerHTML += '&nbsp;';
+            l.appendChild(x);
+      }
+
+      for(var elem of selected_topics_post){
+          var l, x, l2;
+          l = document.getElementById("prereq-list");
+          l2 = document.getElementById("postreq-list");
+          x = document.createElement("DIV");
+          x.setAttribute("class", "chip");
+          x.setAttribute("id", elem);
+          x.setAttribute("padding", "100px");
+          x.innerHTML = elem;
+
+          var clb = document.createElement("SPAN");
+          clb.setAttribute("class", "closebtn");
+          clb.setAttribute("id", elem + "-button");
+
+          clb.innerHTML = '&times;';
+          console.log(clb);
+
+
+          x.appendChild(clb);
+          post.push(elem);
+            l.innerHTML += '&nbsp;';
+            l.appendChild(x);
+      }
+
+
+
+
+
+
+
 
       for (var i = 0; i < z.length; i++) {
         var ch_id = 'check' + z[i].id;
