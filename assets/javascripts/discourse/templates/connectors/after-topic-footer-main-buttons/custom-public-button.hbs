@@ -4,14 +4,15 @@
   <span class="helper"></span>
 
   <div>
-    <h1>Topic-Organizer</h1>
+    <h1>Topic Organizer</h1>
+    <br>
     <form autocomplete="off">
 
-      <div class="autocomplete" style="width:300px;">
+      <div class="autocomplete" style="width:500px;">
         {{input id="myInput" type='text' value=input_text name="myCountry" placeholder="Search for topics.." key-press=(action "autocomplete") }}
       </div>
 
-      <button id="addt" type="submit" {{action "addtopic"}}>Add</button>
+      <button id="addt" type="submit" class="btn submit" {{action "addtopic"}}>Add</button>
       <input type="hidden" id="flag" value="false">
 
       <div class="pre_post_switch">
@@ -23,7 +24,8 @@
       <div align="center"><b>Sequence on?</b>
         <input id="sequencer_checkbox" type="checkbox" checked={{isChecked}} onclick={{action "checkIfSequencerValid" value="target.checked"}} />
       </div>
-      <button id="dis" type="ok" {{action "displayprepost"}}>UPDATE</button>
+      <br>
+      <button id="dis" type="ok" class="btn submit" {{action "displayprepost"}}>Update</button>
     </form>
 
     <p><b>Pre</b></p>

@@ -55,6 +55,9 @@ export default {
         });
 
         api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
+          // disable background scrolling when popup form is open
+          $(document.documentElement).css('overflow', 'hidden');
+
           var current_topic_url = window.location.href;
           current_topic_id = parseInt(current_topic_url.split('/')[5]);
           const store = container.lookup("store:main");
@@ -208,6 +211,9 @@ export default {
 
           document.getElementById("myForm").style.display = "block";
           document.getElementById("myInput").disabled = false;
+          document.getElementById("addt").style.display = "none";
+
+          // $('body').css('overflow-y', 'hidden');
 
           console.log("initial_selected_topics_pre.size: " + initial_selected_topics_pre.size);
 

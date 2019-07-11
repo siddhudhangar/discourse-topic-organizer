@@ -24,14 +24,17 @@
   background-color: #fff;
   display: inline-block;
   height: auto;
-  max-width: 551px;
+  max-width: 751px;
   min-height: 200px;
+  max-height: 550px;
   vertical-align: middle;
+  margin: auto;
   width: 60%;
   position: relative;
-  bottom: -20%;
+  top: 10%;
+  /*bottom: -5%;*/
   border: 10px solid #888;
-
+  overflow: auto;
 }
 
 * {
@@ -47,6 +50,7 @@ body {
 .autocomplete {
   position: relative;
   display: inline-block;
+  /*max-height: 400px;*/
 }
 
 input {
