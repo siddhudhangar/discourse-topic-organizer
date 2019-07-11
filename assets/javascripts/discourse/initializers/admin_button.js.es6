@@ -55,6 +55,9 @@ export default {
         });
 
         api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
+          // disable background scrolling when popup form is open
+          $(document.documentElement).css('overflow', 'hidden');
+
           var current_topic_url = window.location.href;
           current_topic_id = parseInt(current_topic_url.split('/')[5]);
           const store = container.lookup("store:main");
@@ -73,30 +76,30 @@ export default {
                       initial_selected_topics_pre.add(arr_mapping[parseInt(note["prior_topic_id"][k])]);
 
                       // This is code to display initial selected pre topics as chips in the popup form
-                      var elem = arr_mapping[parseInt(note["prior_topic_id"][k])];
-                      console.log(elem);
-                      var l, x, l2;
-                      l = document.getElementById("prereq-list");
-                      console.log("this is l: " + l);
-                      l2 = document.getElementById("postreq-list");
-                      x = document.createElement("DIV");
-                      x.setAttribute("class", "chip");
-                      x.setAttribute("id", elem);
-                      x.setAttribute("padding", "100px");
-                      x.innerHTML = elem;
+                      // var elem = arr_mapping[parseInt(note["prior_topic_id"][k])];
+                      // console.log(elem);
+                      // var l, x, l2;
+                      // l = document.getElementById("prereq-list");
+                      // console.log("this is l: " + l);
+                      // l2 = document.getElementById("postreq-list");
+                      // x = document.createElement("DIV");
+                      // x.setAttribute("class", "chip");
+                      // x.setAttribute("id", elem);
+                      // x.setAttribute("padding", "100px");
+                      // x.innerHTML = elem;
 
-                      var clb = document.createElement("SPAN");
-                      clb.setAttribute("class", "closebtn");
-                      clb.setAttribute("id", elem + "-button");
+                      // var clb = document.createElement("SPAN");
+                      // clb.setAttribute("class", "closebtn");
+                      // clb.setAttribute("id", elem + "-button");
 
-                      clb.innerHTML = '&times;';
-                      console.log(clb);
+                      // clb.innerHTML = '&times;';
+                      // console.log(clb);
 
 
-                      x.appendChild(clb);
-                      init_pre.push(elem);
-                      l.innerHTML += '&nbsp;';
-                      l.appendChild(x);
+                      // x.appendChild(clb);
+                      // init_pre.push(elem);
+                      // l.innerHTML += '&nbsp;';
+                      // l.appendChild(x);
                     }
                   }
 
@@ -106,65 +109,68 @@ export default {
                       initial_selected_topics_post.add(arr_mapping[parseInt(note["next_topic_id"][k])]);
 
                       // This is code to display initial selected post topics as chips in the popup form
-                      var elem = arr_mapping[parseInt(note["next_topic_id"][k])];
-                      var l, x, l2;
-                      l = document.getElementById("prereq-list");
-                      l2 = document.getElementById("postreq-list");
-                      x = document.createElement("DIV");
-                      x.setAttribute("class", "chip");
-                      x.setAttribute("id", elem);
-                      x.setAttribute("padding", "100px");
-                      x.innerHTML = elem;
+                      // var elem = arr_mapping[parseInt(note["next_topic_id"][k])];
+                      // var l, x, l2;
+                      // l = document.getElementById("prereq-list");
+                      // l2 = document.getElementById("postreq-list");
+                      // x = document.createElement("DIV");
+                      // x.setAttribute("class", "chip");
+                      // x.setAttribute("id", elem);
+                      // x.setAttribute("padding", "100px");
+                      // x.innerHTML = elem;
 
-                      var clb = document.createElement("SPAN");
-                      clb.setAttribute("class", "closebtn");
-                      clb.setAttribute("id", elem + "-button");
+                      // var clb = document.createElement("SPAN");
+                      // clb.setAttribute("class", "closebtn");
+                      // clb.setAttribute("id", elem + "-button");
 
-                      clb.innerHTML = '&times;';
-                      console.log(clb);
+                      // clb.innerHTML = '&times;';
+                      // console.log(clb);
 
 
-                      x.appendChild(clb);
-                      init_post.push(elem);
-                      l2.innerHTML += '&nbsp;';
-                      l2.appendChild(x);
+                      // x.appendChild(clb);
+                      // init_post.push(elem);
+                      // l2.innerHTML += '&nbsp;';
+                      // l2.appendChild(x);
                     }
                   }
                 }
               }
 
               // Start
-              var plist = document.getElementsByClassName("closebtn");
-              initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
+              // var plist = document.getElementsByClassName("closebtn");
+              // initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
+              // initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
 
-              console.log("plist.length: " + plist.length);
+              // console.log("plist.length: " + plist.length);
 
               // console.log(plist[0]);
-              for (var j = 0; j < plist.length; j++) {
-                plist[j].addEventListener("click", function(e) {
-                  console.log("Called in admin_button.js.es6");
-                  // body...
-                  var idn = e.target.parentNode.id;
-                  console.log(idn);
-                  document.getElementById(idn).remove();
-                  if (document.getElementById("pre").checked) {
-                    // noOfPreTopicsAdded -= 1;
-                    initial_selected_topics_pre.delete(idn);
-                    // console.log(Array.isArray(initial_selected_topic_ids_pre));
-                    initial_selected_topic_ids_pre.delete(reverse_map[idn]);
-                    // if (!arr.includes(idn)) {
-                    //   arr.push(idn);
-                    // }
-                  } else if (document.getElementById("post").checked) {
-                    // noOfPostTopicsAdded -= 1;
-                    initial_selected_topics_post.delete(idn);
-                    initial_selected_topic_ids_post.delete(reverse_map[idn]);
-                    // if (!arr.includes(idn)) {
-                    //   arr.push(idn);
-                    // }
-                  }
-                });
-              }
+              // for (var j = 0; j < plist.length; j++) {
+              //   plist[j].addEventListener("click", function(e) {
+              //     console.log("Called in admin_button.js.es6");
+              //     // body...
+              //     var idn = e.target.parentNode.id;
+              //     console.log(idn);
+              //     console.log("parentid="+idn);
+              //     document.getElementById(idn).remove();
+              //     if (document.getElementById("pre").checked) {
+              //       // noOfPreTopicsAdded -= 1;
+              //       initial_selected_topics_pre.delete(idn);
+              //       console.log(initial_selected_topics_pre);
+              //       // console.log(Array.isArray(initial_selected_topic_ids_pre));
+              //       initial_selected_topic_ids_pre.delete(reverse_map[idn]);
+              //       // if (!arr.includes(idn)) {
+              //       //   arr.push(idn);
+              //       // }
+              //     } else if (document.getElementById("post").checked) {
+              //       // noOfPostTopicsAdded -= 1;
+              //       initial_selected_topics_post.delete(idn);
+              //       initial_selected_topic_ids_post.delete(reverse_map[idn]);
+              //       // if (!arr.includes(idn)) {
+              //       //   arr.push(idn);
+              //       // }
+              //     }
+              //   });
+              // }
               // End
 
             })
@@ -205,6 +211,9 @@ export default {
 
           document.getElementById("myForm").style.display = "block";
           document.getElementById("myInput").disabled = false;
+          document.getElementById("addt").style.display = "none";
+
+          // $('body').css('overflow-y', 'hidden');
 
           console.log("initial_selected_topics_pre.size: " + initial_selected_topics_pre.size);
 

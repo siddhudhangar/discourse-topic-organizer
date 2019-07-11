@@ -8,6 +8,8 @@
   top: 0;
   width: 100%;
   z-index: 1000000;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);  
 
 }
 
@@ -22,14 +24,17 @@
   background-color: #fff;
   display: inline-block;
   height: auto;
-  max-width: 551px;
+  max-width: 751px;
   min-height: 200px;
+  max-height: 550px;
   vertical-align: middle;
+  margin: auto;
   width: 60%;
   position: relative;
-  bottom: -20%;
-  border: 10px solid #f1f1f1;
-
+  top: 10%;
+  /*bottom: -5%;*/
+  border: 10px solid #888;
+  overflow: auto;
 }
 
 * {
@@ -45,6 +50,7 @@ body {
 .autocomplete {
   position: relative;
   display: inline-block;
+  /*max-height: 400px;*/
 }
 
 input {
@@ -100,10 +106,10 @@ input[type=submit] {
 .chip {
   display: inline-block;
   padding: 0 25px;
-  height: 50px;
-  font-size: 16px;
+  height: 40px;
+  font-size: 15px;
   line-height: 50px;
-  border-radius: 10px;
+  border-radius: 0px;
   border: 2px;
   background-color: #99bdd8;
 }
@@ -206,7 +212,24 @@ Sequencer ON/OFF switch
   right: 0px;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 5px;
+  padding: 5px;
+  justify-content: space-evenly;
+  overflow-y: scroll;
+}
 
+.grid-container > div {
+  background-color: #e6f2ff;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: left;
+  font-size: 15px;
+  padding-left: 2px;
+
+}
 
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
