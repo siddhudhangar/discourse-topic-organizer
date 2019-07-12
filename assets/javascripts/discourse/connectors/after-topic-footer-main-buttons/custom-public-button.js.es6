@@ -19,7 +19,7 @@ export default {
       console.log("initial arr:");
       console.log(initial_selected_topic_ids_pre);
       console.log(initial_selected_topic_ids_post);
-      this.send('autocomplete');
+      // this.send('populatePrePost');
       console.log("pre:");
       console.log(selected_topic_ids_pre);
       console.log("post:");
@@ -211,6 +211,24 @@ export default {
 
     },
 
+    populatePrePost() {
+      if (initial_selected_topic_ids_pre) {
+        for (var elem of initial_selected_topic_ids_pre) {
+          console.log(elem);
+          selected_topic_ids_pre.add(parseInt(elem));
+          selected_topics_pre.add(arr_mapping[parseInt(elem)]);
+        }
+      }
+
+      if (initial_selected_topic_ids_post) {
+        for (var elem of initial_selected_topic_ids_post) {
+          console.log(elem);
+          selected_topic_ids_post.add(parseInt(elem));
+          selected_topics_post.add(arr_mapping[parseInt(elem)]);
+        }
+      }
+    },
+
     displayprepost() {
       //this.send("autocomplete");
       document.getElementById("prereq-list").innerHTML = "";
@@ -243,7 +261,7 @@ export default {
         l = document.getElementById("prereq-list");
         l2 = document.getElementById("postreq-list");
         x = document.createElement("DIV");
-        // x.setAttribute("class", "chip");
+        x.setAttribute("class", "chip");
         x.setAttribute("id", elem);
         x.setAttribute("padding", "100px");
         x.innerHTML = elem;
@@ -267,7 +285,7 @@ export default {
         l = document.getElementById("prereq-list");
         l2 = document.getElementById("postreq-list");
         x = document.createElement("DIV");
-        // x.setAttribute("class", "chip");
+        x.setAttribute("class", "chip");
         x.setAttribute("id", elem);
         x.setAttribute("padding", "100px");
         x.innerHTML = elem;
@@ -793,6 +811,22 @@ export default {
           document.getElementById("myInput").disabled = true;
         else
           document.getElementById("myInput").disabled = false;
+      }
+
+      if (initial_selected_topic_ids_pre) {
+        for (var elem of initial_selected_topic_ids_pre) {
+          console.log(elem);
+          selected_topic_ids_pre.add(parseInt(elem));
+          selected_topics_pre.add(arr_mapping[parseInt(elem)]);
+        }
+      }
+
+      if (initial_selected_topic_ids_post) {
+        for (var elem of initial_selected_topic_ids_post) {
+          console.log(elem);
+          selected_topic_ids_post.add(parseInt(elem));
+          selected_topics_post.add(arr_mapping[parseInt(elem)]);
+        }
       }
 
       var inp = document.getElementById("myInput");
