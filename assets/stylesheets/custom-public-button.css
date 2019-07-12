@@ -290,7 +290,9 @@ input[type=submit] {
 }
 /*tooltip css */
 .tooltip {
-  position: relative;
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
   display: inline-block;
   border-bottom: 1px dotted black;
 }
@@ -307,7 +309,7 @@ input[type=submit] {
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
-  top: 100%;
+  bottom: 100%;
   left: 50%;
   margin-left: -60px;
 }
