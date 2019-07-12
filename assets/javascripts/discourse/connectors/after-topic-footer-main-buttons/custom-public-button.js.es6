@@ -213,10 +213,10 @@ export default {
 
     displayprepost() {
       //this.send("autocomplete");
-      document.getElementById("prereq-list").innerHTML="";
-      document.getElementById("postreq-list").innerHTML="";
-    //  initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
-     // initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
+      document.getElementById("prereq-list").innerHTML = "";
+      document.getElementById("postreq-list").innerHTML = "";
+      //  initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
+      // initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
 
 
 
@@ -238,82 +238,82 @@ export default {
 
 
 
-      for(var elem of initial_selected_topics_pre){
-          var l, x, l2;
-          l = document.getElementById("prereq-list");
-          l2 = document.getElementById("postreq-list");
-          x = document.createElement("DIV");
-         // x.setAttribute("class", "chip");
-          x.setAttribute("id", elem);
-          x.setAttribute("padding", "100px");
-          x.innerHTML = elem;
+      for (var elem of initial_selected_topics_pre) {
+        var l, x, l2;
+        l = document.getElementById("prereq-list");
+        l2 = document.getElementById("postreq-list");
+        x = document.createElement("DIV");
+        // x.setAttribute("class", "chip");
+        x.setAttribute("id", elem);
+        x.setAttribute("padding", "100px");
+        x.innerHTML = elem;
 
-          var clb = document.createElement("SPAN");
-          clb.setAttribute("class", "closebtn");
-          clb.setAttribute("id", elem + "-button");
+        var clb = document.createElement("SPAN");
+        clb.setAttribute("class", "closebtn");
+        clb.setAttribute("id", elem + "-button");
 
-          clb.innerHTML = '&times;';
-          console.log(clb);
+        clb.innerHTML = '&times;';
+        console.log(clb);
 
 
-          x.appendChild(clb);
-          pre.push(elem);
-            l.innerHTML += '&nbsp;';
-            l.appendChild(x);
+        x.appendChild(clb);
+        pre.push(elem);
+        l.innerHTML += '&nbsp;';
+        l.appendChild(x);
       }
 
-      for(var elem of initial_selected_topics_post){
-          var l, x, l2;
-          l = document.getElementById("prereq-list");
-          l2 = document.getElementById("postreq-list");
-          x = document.createElement("DIV");
-         // x.setAttribute("class", "chip");
-          x.setAttribute("id", elem);
-          x.setAttribute("padding", "100px");
-          x.innerHTML = elem;
+      for (var elem of initial_selected_topics_post) {
+        var l, x, l2;
+        l = document.getElementById("prereq-list");
+        l2 = document.getElementById("postreq-list");
+        x = document.createElement("DIV");
+        // x.setAttribute("class", "chip");
+        x.setAttribute("id", elem);
+        x.setAttribute("padding", "100px");
+        x.innerHTML = elem;
 
-          var clb = document.createElement("SPAN");
-          clb.setAttribute("class", "closebtn");
-          clb.setAttribute("id", elem + "-button");
+        var clb = document.createElement("SPAN");
+        clb.setAttribute("class", "closebtn");
+        clb.setAttribute("id", elem + "-button");
 
-          clb.innerHTML = '&times;';
-          console.log(clb);
+        clb.innerHTML = '&times;';
+        console.log(clb);
 
 
-          x.appendChild(clb);
-          post.push(elem);
-            l2.innerHTML += '&nbsp;';
-            l2.appendChild(x);
+        x.appendChild(clb);
+        post.push(elem);
+        l2.innerHTML += '&nbsp;';
+        l2.appendChild(x);
       }
 
 
-          var plist = document.getElementsByClassName("closebtn");
+      var plist = document.getElementsByClassName("closebtn");
 
-          console.log("plist.length: "+plist.length);
+      console.log("plist.length: " + plist.length);
 
-          // console.log(plist[0]);
-          for (var j = 0; j < plist.length; j++) {
-            plist[j].addEventListener("click", function(e) {
-              // body...
-              var idn = e.target.parentNode.id;
-              console.log(idn);
-              document.getElementById(idn).remove();
-              
-                // noOfPreTopicsAdded -= 1;
-                selected_topics_pre.delete(idn);
-               selected_topic_ids_pre.delete(reverse_map[idn]);
-                if (!arr.includes(idn)) {
-                  arr.push(idn);
-                }
-              
-                // noOfPostTopicsAdded -= 1;
-               selected_topics_post.delete(idn);
-               selected_topic_ids_post.delete(reverse_map[idn]);
-                if (!arr.includes(idn)) {
-                  arr.push(idn);
-                }
-            });
+      // console.log(plist[0]);
+      for (var j = 0; j < plist.length; j++) {
+        plist[j].addEventListener("click", function(e) {
+          // body...
+          var idn = e.target.parentNode.id;
+          console.log(idn);
+          document.getElementById(idn).remove();
+
+          // noOfPreTopicsAdded -= 1;
+          selected_topics_pre.delete(idn);
+          selected_topic_ids_pre.delete(reverse_map[idn]);
+          if (!arr.includes(idn)) {
+            arr.push(idn);
           }
+
+          // noOfPostTopicsAdded -= 1;
+          selected_topics_post.delete(idn);
+          selected_topic_ids_post.delete(reverse_map[idn]);
+          if (!arr.includes(idn)) {
+            arr.push(idn);
+          }
+        });
+      }
 
 
     },
@@ -514,6 +514,86 @@ export default {
       //       l.innerHTML += '&nbsp;';
       //       l.appendChild(x);
       // }
+      
+      // Code to enable drag-and-drop rearrangement
+          var dragSrcEl = null;
+
+          function handleDragStart(e) {
+            // Target (this) element is the source node.
+            dragSrcEl = this;
+
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+
+            this.classList.add('dragElem');
+          }
+          function handleDragOver(e) {
+            if (e.preventDefault) {
+              e.preventDefault(); // Necessary. Allows us to drop.
+            }
+            this.classList.add('over');
+
+            e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+            return false;
+          }
+
+          function handleDragEnter(e) {
+            // this / e.target is the current hover target.
+          }
+
+          function handleDragLeave(e) {
+            this.classList.remove('over');  // this / e.target is previous target element.
+          }
+
+          function handleDrop(e) {
+            // this/e.target is current target element.
+
+            if (e.stopPropagation) {
+              e.stopPropagation(); // Stops some browsers from redirecting.
+            }
+
+            // Don't do anything if dropping the same column we're dragging.
+            if (dragSrcEl != this) {
+              // Set the source column's HTML to the HTML of the column we dropped on.
+              //alert(this.outerHTML);
+              //dragSrcEl.innerHTML = this.innerHTML;
+              //this.innerHTML = e.dataTransfer.getData('text/html');
+              this.parentNode.removeChild(dragSrcEl);
+              var dropHTML = e.dataTransfer.getData('text/html');
+              this.insertAdjacentHTML('beforebegin',dropHTML);
+              var dropElem = this.previousSibling;
+              addDnDHandlers(dropElem);
+              
+            }
+            this.classList.remove('over');
+            return false;
+          }
+
+          function handleDragEnd(e) {
+            // this/e.target is the source node.
+            this.classList.remove('over');
+
+            /*[].forEach.call(cols, function (col) {
+              col.classList.remove('over');
+            });*/
+          }
+
+          function addDnDHandlers(elem) {
+            elem.addEventListener('dragstart', handleDragStart, false);
+            elem.addEventListener('dragenter', handleDragEnter, false)
+            elem.addEventListener('dragover', handleDragOver, false);
+            elem.addEventListener('dragleave', handleDragLeave, false);
+            elem.addEventListener('drop', handleDrop, false);
+            elem.addEventListener('dragend', handleDragEnd, false);
+
+          }
+
+          // var cols = document.querySelectorAll('chip');
+          // console.log(cols.length);
+          // for(const chip of cols)
+          //   addDnDHandlers(chip);
+          // End
 
 
 
@@ -531,10 +611,12 @@ export default {
           l = document.getElementById("prereq-list");
           l2 = document.getElementById("postreq-list");
           x = document.createElement("DIV");
-        //  x.setAttribute("class", "chip");
+          x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
           x.setAttribute("padding", "100px");
+          x.setAttribute("draggable", true);
           x.innerHTML = prereq;
+          addDnDHandlers(x);
 
           var clb = document.createElement("SPAN");
           clb.setAttribute("class", "closebtn");
@@ -567,6 +649,86 @@ export default {
           }
         }
       }
+
+      // // Code to enable drag-and-drop rearrangement
+      // var dragSrcEl = null;
+
+      // function handleDragStart(e) {
+      //   // Target (this) element is the source node.
+      //   dragSrcEl = this;
+
+      //   e.dataTransfer.effectAllowed = 'move';
+      //   e.dataTransfer.setData('text/html', this.outerHTML);
+
+      //   this.classList.add('dragElem');
+      // }
+      // function handleDragOver(e) {
+      //   if (e.preventDefault) {
+      //     e.preventDefault(); // Necessary. Allows us to drop.
+      //   }
+      //   this.classList.add('over');
+
+      //   e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+      //   return false;
+      // }
+
+      // function handleDragEnter(e) {
+      //   // this / e.target is the current hover target.
+      // }
+
+      // function handleDragLeave(e) {
+      //   this.classList.remove('over');  // this / e.target is previous target element.
+      // }
+
+      // function handleDrop(e) {
+      //   // this/e.target is current target element.
+
+      //   if (e.stopPropagation) {
+      //     e.stopPropagation(); // Stops some browsers from redirecting.
+      //   }
+
+      //   // Don't do anything if dropping the same column we're dragging.
+      //   if (dragSrcEl != this) {
+      //     // Set the source column's HTML to the HTML of the column we dropped on.
+      //     //alert(this.outerHTML);
+      //     //dragSrcEl.innerHTML = this.innerHTML;
+      //     //this.innerHTML = e.dataTransfer.getData('text/html');
+      //     this.parentNode.removeChild(dragSrcEl);
+      //     var dropHTML = e.dataTransfer.getData('text/html');
+      //     this.insertAdjacentHTML('beforebegin',dropHTML);
+      //     var dropElem = this.previousSibling;
+      //     addDnDHandlers(dropElem);
+          
+      //   }
+      //   this.classList.remove('over');
+      //   return false;
+      // }
+
+      // function handleDragEnd(e) {
+      //   // this/e.target is the source node.
+      //   this.classList.remove('over');
+
+      //   /*[].forEach.call(cols, function (col) {
+      //     col.classList.remove('over');
+      //   });*/
+      // }
+
+      // function addDnDHandlers(elem) {
+      //   elem.addEventListener('dragstart', handleDragStart, false);
+      //   elem.addEventListener('dragenter', handleDragEnter, false)
+      //   elem.addEventListener('dragover', handleDragOver, false);
+      //   elem.addEventListener('dragleave', handleDragLeave, false);
+      //   elem.addEventListener('drop', handleDrop, false);
+      //   elem.addEventListener('dragend', handleDragEnd, false);
+
+      // }
+
+      // var cols = document.querySelectorAll('chip');
+      // console.log(cols.length);
+      // for(const chip of cols)
+      //   addDnDHandlers(chip);
+      // // End
 
       var plist = document.getElementsByClassName("closebtn");
 
@@ -718,7 +880,7 @@ export default {
               /*insert the value for the autocomplete text field:*/
               /*close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
-              if(returnNumberOfChecked(Array.from(document.getElementsByClassName("autocomplete-items"))[0].children)>=1)
+              if (returnNumberOfChecked(Array.from(document.getElementsByClassName("autocomplete-items"))[0].children) >= 1)
                 document.getElementById("addt").style.display = "inline-block";
               else
                 document.getElementById("addt").style.display = "none";

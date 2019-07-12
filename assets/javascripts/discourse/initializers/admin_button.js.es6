@@ -204,7 +204,7 @@ export default {
           //     }
           //   });
           // }
-          
+
 
           if (init_arr.indexOf(arr_mapping[current_topic_id]) != -1)
             init_arr.splice(init_arr.indexOf(arr_mapping[current_topic_id]), 1);
