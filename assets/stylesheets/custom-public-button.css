@@ -103,7 +103,7 @@ input[type=submit] {
   color: #ffffff;
 }
 
-/*[draggable] {
+[draggable] {
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
@@ -112,7 +112,7 @@ input[type=submit] {
   -webkit-user-drag: element;
 }
 
-#chips {
+#prereq-list {
   list-style-type: none;
 }
 
@@ -129,6 +129,7 @@ input[type=submit] {
   max-width: 90%;
   text-align: center;
   transform: translateY(-50%);
+  margin-bottom: 20px;
 
   padding-bottom: 5px;
   padding-top: 5px;
@@ -147,14 +148,14 @@ input[type=submit] {
 }
 
 .chip.dragElem {
-  opacity: 0.4;
+  /*opacity: 0.4;*/
 }
 .chip.over {
   //border: 2px dashed #000;
   border-top: 2px solid blue;
-}*/
+}
 
-.chip {
+/*.chip {
   display: block;
   padding: 0 15px;
   height: 50px;
@@ -167,7 +168,7 @@ input[type=submit] {
   max-width: 90%;
   text-align: center;
   transform: translateY(-50%);
-}
+}*/
 
 .closebtn {
   padding-left: 10px;
@@ -180,25 +181,6 @@ input[type=submit] {
 
 .closebtn:hover {
   color: #000;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  grid-gap: 5px;
-  padding: 5px;
-  justify-content: space-evenly;
-  overflow-y: scroll;
-}
-
-.grid-container>div {
-  background-color: #e6f2ff;
-  border: 1px solid black;
-  border-radius: 5px;
-  text-align: left;
-  font-size: 15px;
-  padding-left: 2px;
-
 }
 
 
@@ -290,7 +272,7 @@ input[type=submit] {
 }
 /*tooltip css */
 .tooltip {
-  position: relative;
+  position: absolute;
   bottom: 0px;
   right: 5px;
   display: inline-block;
@@ -307,7 +289,7 @@ input[type=submit] {
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  top: -5px;
+  bottom: 0px;
   right: 110%;
 }
 

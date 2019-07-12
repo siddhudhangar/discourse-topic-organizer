@@ -213,8 +213,6 @@ export default {
           document.getElementById("myInput").disabled = false;
           document.getElementById("addt").style.display = "none";
 
-          // $('body').css('overflow-y', 'hidden');
-
           console.log("initial_selected_topics_pre.size: " + initial_selected_topics_pre.size);
 
         });
