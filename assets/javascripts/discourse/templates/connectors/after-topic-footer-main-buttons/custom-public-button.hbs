@@ -14,12 +14,14 @@
 
       <button id="addt" type="submit" class="btn submit" {{action "addtopic"}}>Add</button>
       <input type="hidden" id="flag" value="false">
+
       <div class="tooltip"><strong>Help?</strong>
         <span class="tooltiptext">Tips for using<br>
          -Add multiple topics as pre/post by selecting the corresponding checkboxes and clicking the <b>Add</b> button <br>
          -You can view/delete a previously added topic via the <b>UPDATE</b> button<br>
          -Click the <b>OK</b> to submit your response</span>
       </div>
+
       <div class="pre_post_switch">
         <input type="radio" name="toggle" id="pre" checked onclick={{action "checkIfSequencerValidForPre"}}>Pre
         <input type="radio" name="toggle" id="post" onclick={{action "checkIfSequencerValidForPost"}}>Post
