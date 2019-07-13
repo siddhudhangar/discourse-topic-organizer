@@ -33,4 +33,4 @@ git pull
 
 License
 =======
-MIT
+[License](https://github.com/jineetd/discourse-topic-organizer/blob/master/LICENSE)
