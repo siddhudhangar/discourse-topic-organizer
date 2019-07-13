@@ -6,6 +6,8 @@ var initial_selected_topics_pre = new Set();
 var initial_selected_topic_ids_post = new Set();
 var initial_selected_topics_post = new Set();
 
+var hostname;
+
 var init_pre = [];
 var init_post = [];
 
@@ -19,7 +21,7 @@ export default {
   initialize(container) {
     withPluginApi('0.8.24', function(api) {
       console.log("initialize has been called!");
-      const hostname = window.location.href.split('/');
+      hostname = window.location.href.split('/');
       const user = api.getCurrentUser();
       arr_mapping = {};
       init_arr = []; // clears array for a fresh reuse of the plugin
@@ -233,5 +235,6 @@ export {
   initial_selected_topic_ids_pre,
   initial_selected_topics_pre,
   init_pre,
-  init_post
+  init_post,
+  hostname
 };

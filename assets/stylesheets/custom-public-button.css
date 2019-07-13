@@ -34,7 +34,7 @@
   top: 10%;
   /*bottom: -5%;*/
   border: 10px solid #888;
-  overflow: auto;
+  overflow: scroll;
 }
 
 * {
@@ -129,7 +129,7 @@ input[type=submit] {
   max-width: 90%;
   text-align: center;
   transform: translateY(-50%);
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 
   padding-bottom: 5px;
   padding-top: 5px;
@@ -148,9 +148,11 @@ input[type=submit] {
 }
 
 .chip.dragElem {
-  /*opacity: 0.4;*/
+  opacity: 0.4;
 }
+
 .chip.over {
+  opacity: 1;
   //border: 2px dashed #000;
   border-top: 2px solid blue;
 }
@@ -270,21 +272,23 @@ input[type=submit] {
     opacity: 0;
   }
 }
+
 /*tooltip css */
 .tooltip {
-  position: absolute;
+  position: relative;
   bottom: 0px;
-  right: 5px;
+  right: -37%;
   display: inline-block;
-  border-bottom: 1px dotted black;
+  border-radius: 50%;
+  /*border-bottom: 1px dotted black;*/
 }
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: 140px;
   background-color: black;
   color: #fff;
-  text-align: center;
+  text-align: left;
   border-radius: 6px;
   padding: 5px 0;
   position: absolute;
@@ -303,6 +307,7 @@ input[type=submit] {
   border-style: solid;
   border-color: transparent transparent transparent black;
 }
+
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }

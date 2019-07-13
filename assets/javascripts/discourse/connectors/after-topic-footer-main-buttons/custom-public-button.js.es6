@@ -1,4 +1,4 @@
-import { arr_mapping, init_arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post, init_pre, init_post } from '../../initializers/admin_button';
+import { arr_mapping, init_arr, current_topic_id, reverse_map, url_map, initial_selected_topics_pre, initial_selected_topic_ids_pre, initial_selected_topics_post, initial_selected_topic_ids_post, init_pre, init_post, hostname } from '../../initializers/admin_button';
 
 var selected_topics_pre = new Set(initial_selected_topics_pre);
 var selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
@@ -184,7 +184,7 @@ export default {
         // var text="";
         var tname = url_map[parseInt(elem)];
         var text = '<a class="btn btn-warning btn-xs"';
-        text += 'href="http://localhost:9292/t/';
+        text += 'href="'+hostname.split('/')[0]+'//'+hostname.split('/')[2]+'/t/';
         text += tname;
         text += '/';
         text += parseInt(elem);
@@ -202,7 +202,7 @@ export default {
         var lname = url_map[parseInt(elem)];
 
         var text = '<a class="btn btn-warning btn-xs"';
-        text += 'href="http://localhost:9292/t/';
+        text += 'href="'+hostname.split('/')[0]+'//'+hostname.split('/')[2]+'/t/';
         text += lname;
         text += '/';
         text += parseInt(elem);

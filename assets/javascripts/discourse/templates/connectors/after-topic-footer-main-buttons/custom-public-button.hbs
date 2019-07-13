@@ -15,16 +15,16 @@
       <button id="addt" type="submit" class="btn submit" {{action "addtopic"}}>Add</button>
       <input type="hidden" id="flag" value="false">
 
-      <div class="tooltip"><strong>Help?</strong>
+      <!-- <div class="tooltip"><strong>Help?</strong>
         <span class="tooltiptext">Tips for using<br>
          -Add multiple topics as pre/post by selecting the corresponding checkboxes and clicking the <b>Add</b> button <br>
          -You can view/delete a previously added topic via the <b>UPDATE</b> button<br>
          -Click the <b>OK</b> to submit your response</span>
-      </div>
+      </div> -->
 
       <div class="pre_post_switch">
-        <input type="radio" name="toggle" id="pre" checked onclick={{action "checkIfSequencerValidForPre"}}>Pre
-        <input type="radio" name="toggle" id="post" onclick={{action "checkIfSequencerValidForPost"}}>Post
+        <input type="radio" name="toggle" id="pre" checked onclick={{action "checkIfSequencerValidForPre"}}>Previous topics
+        <input type="radio" name="toggle" id="post" onclick={{action "checkIfSequencerValidForPost"}}>Next topics
         <hr><br>
       </div>
 
@@ -35,17 +35,29 @@
       <button id="dis" type="ok" class="btn submit" {{action "displayprepost"}}>Update</button>
     </form>
 
-    <p><b>Pre</b></p>
+    <p><b>Previous topics</b></p>
     <div class="prereqs" id="prereq-list" align="center" padding="100px"></div>
     <br><br>
 
-    <p><b>Post</b></p>
+    <p><b>Next topics</b></p>
     <div class="postreqs" id="postreq-list" align="center" padding="100px"></div>
     <br><br>
 
     <button type="submit" class="btn submit" {{ action "createTopicRecord" }}>OK</button>
     <!--  <button type="button" class="btn clear" {{action "clearall"}}>Clear All</button> -->
     <button type="button" class="btn cancel" {{action "closeForm"}}>Close</button>
+    <button type="submit" class="tooltip" align="left" >?
+      <span class="tooltiptext">Tips for using<br>
+       -Add multiple topics as pre/post by selecting the corresponding checkboxes and clicking the <b>Add</b> button <br>
+       -You can view/delete a previously added topic via the <b>UPDATE</b> button<br>
+       -Click the <b>OK</b> to submit your response</span>
+    </button>
+    {{!-- <div class="tooltip"><strong>Help?</strong>
+      <span class="tooltiptext">Tips for using<br>
+       -Add multiple topics as pre/post by selecting the corresponding checkboxes and clicking the <b>Add</b> button <br>
+       -You can view/delete a previously added topic via the <b>UPDATE</b> button<br>
+       -Click the <b>OK</b> to submit your response</span>
+    </div> --}}
     
   </div>
 
