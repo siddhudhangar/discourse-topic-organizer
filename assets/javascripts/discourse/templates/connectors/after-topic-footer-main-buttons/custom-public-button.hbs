@@ -35,11 +35,15 @@
     </form>
 
     <p><b>Previous topics</b></p>
-    <div class="prereqs" id="prereq-list" align="center" padding="100px"></div>
+    <div class="prereqs" id="prereq-list" align="center" padding="100px">
+      {{!-- <div class="loader" id="spinning-wheel-pre"></div> --}}
+    </div>
     <br><br>
 
     <p><b>Next topics</b></p>
-    <div class="postreqs" id="postreq-list" align="center" padding="100px"></div>
+    <div class="postreqs" id="postreq-list" align="center" padding="100px">
+      {{!-- <div class="loader" id="spinning-wheel-post"></div> --}}
+    </div>
     <br><br>
 
     <button type="submit" class="btn submit" {{ action "createTopicRecord" }}>OK</button>

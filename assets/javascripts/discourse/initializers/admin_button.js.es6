@@ -16,6 +16,7 @@ var arr_mapping = {};
 var current_topic_id;
 var reverse_map = {};
 var url_map = {};
+
 export default {
   name: 'tl-post-lock',
   initialize(container) {
@@ -72,9 +73,7 @@ export default {
                   initial_selected_topic_ids_post = note["next_topic_id"];
                   //initial_selected_topics_post = arr_mapping[note["next_topic_id"]];
                   if (initial_selected_topic_ids_pre) {
-                    var temp = Array.from(initial_selected_topic_ids_pre);
-                    var k;
-                    for (k = 0; k < note["prior_topic_id"].length; k++) {
+                    for (var k = 0; k < note["prior_topic_id"].length; k++) {
                       initial_selected_topics_pre.add(arr_mapping[parseInt(note["prior_topic_id"][k])]);
 
                       // This is code to display initial selected pre topics as chips in the popup form
@@ -107,8 +106,7 @@ export default {
                   }
 
                   if (initial_selected_topic_ids_post) {
-                    var temp = Array.from(initial_selected_topic_ids_post);
-                    for (k = 0; k < note["next_topic_id"].length; k++) {
+                    for (var k = 0; k < note["next_topic_id"].length; k++) {
                       initial_selected_topics_post.add(arr_mapping[parseInt(note["next_topic_id"][k])]);
 
                       // This is code to display initial selected post topics as chips in the popup form
