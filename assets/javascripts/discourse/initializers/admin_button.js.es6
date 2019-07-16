@@ -153,57 +153,24 @@ export default {
                   console.log("Called in admin_button.js.es6");
                   // body...
                   var idn = e.target.parentNode.id;
-                  console.log(idn);
-                  console.log("parentid="+idn);
                   document.getElementById(idn).remove();
-                  if (document.getElementById("pre").checked) {
-                    // noOfPreTopicsAdded -= 1;
-                    initial_selected_topics_pre.delete(idn);
-                    console.log("initial_selected_topics_pre: "+initial_selected_topics_pre);
-                    // console.log(Array.isArray(initial_selected_topic_ids_pre));
-                    initial_selected_topic_ids_pre.delete(reverse_map[idn]);
-                    // if (!arr.includes(idn)) {
-                    //   arr.push(idn);
-                    // }
-                  } else if (document.getElementById("post").checked) {
-                    // noOfPostTopicsAdded -= 1;
-                    initial_selected_topics_post.delete(idn);
-                    console.log("initial_selected_topics_post: "+initial_selected_topics_post);
-                    initial_selected_topic_ids_post.delete(reverse_map[idn]);
-                    // if (!arr.includes(idn)) {
-                    //   arr.push(idn);
-                    // }
-                  }
+                  initial_selected_topics_pre.delete(idn);
+                  initial_selected_topic_ids_pre.delete(reverse_map[idn]);
                 });
               }
-              
 
-              var plist = document.querySelectorAll("#postreq-list .closebtn");
 
-              console.log("plist.length: "+plist.length);
+              plist = document.querySelectorAll("#postreq-list .closebtn");
 
-              // console.log(plist[0]);
+              console.log("plist.length: " + plist.length);
+
               for (var j = 0; j < plist.length; j++) {
                 plist[j].addEventListener("click", function(e) {
                   // body...
                   var idn = e.target.parentNode.id;
-                  console.log(idn);
                   document.getElementById(idn).remove();
-                  if (document.getElementById("pre").checked) {
-                    // noOfPreTopicsAdded -= 1;
-                    initial_selected_topics_pre.delete(idn);
-                    initial_selected_topic_ids_pre.delete(reverse_map[idn]);
-                    // if (!arr.includes(idn)) {
-                    //   arr.push(idn);
-                    // }
-                  } else if (document.getElementById("post").checked) {
-                    // noOfPostTopicsAdded -= 1;
-                    initial_selected_topics_post.delete(idn);
-                    initial_selected_topic_ids_post.delete(reverse_map[idn]);
-                    // if (!arr.includes(idn)) {
-                    //   arr.push(idn);
-                    // }
-                  }
+                  initial_selected_topics_post.delete(idn);
+                  initial_selected_topic_ids_post.delete(reverse_map[idn]);
                 });
               }
 
@@ -219,13 +186,14 @@ export default {
 
                 this.classList.add('dragElem');
               }
+
               function handleDragOver(e) {
                 if (e.preventDefault) {
                   e.preventDefault(); // Necessary. Allows us to drop.
                 }
                 this.classList.add('over');
 
-                e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+                e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
 
                 return false;
               }
@@ -235,7 +203,7 @@ export default {
               }
 
               function handleDragLeave(e) {
-                this.classList.remove('over');  // this / e.target is previous target element.
+                this.classList.remove('over'); // this / e.target is previous target element.
               }
 
               function handleDrop(e) {
@@ -253,10 +221,10 @@ export default {
                   //this.innerHTML = e.dataTransfer.getData('text/html');
                   this.parentNode.removeChild(dragSrcEl);
                   var dropHTML = e.dataTransfer.getData('text/html');
-                  this.insertAdjacentHTML('beforebegin',dropHTML);
+                  this.insertAdjacentHTML('beforebegin', dropHTML);
                   var dropElem = this.previousSibling;
                   addDnDHandlers(dropElem);
-                  
+
                 }
                 this.classList.remove('over');
                 return false;

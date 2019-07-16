@@ -34,6 +34,7 @@ export default {
       }
 
       for (var x = 0; x < postChips.length; x++) {
+        console.log(postChips[x].id);
         selected_topics_post.add(postChips[x].id);
         selected_topic_ids_post.add(reverse_map[postChips[x].id]);
       }
@@ -46,11 +47,11 @@ export default {
       var prearr = Array.from(selected_topic_ids_pre);
       var postarr = Array.from(selected_topic_ids_post);
 
-      var prearr = new Set(prearr);
-      var postarr = new Set(postarr);
+      // var prearr = new Set(prearr);
+      // var postarr = new Set(postarr);
 
-      var prearr = Array.from(selected_topic_ids_pre);
-      var postarr = Array.from(selected_topic_ids_post);
+      // var prearr = Array.from(selected_topic_ids_pre);
+      // var postarr = Array.from(selected_topic_ids_post);
 
       this.store.findAll('note')
         .then(result => {
@@ -67,7 +68,7 @@ export default {
                 postreqsToBeAdded = note['next_topic_id'];
                 isSequenceOn = note['sequence_on'];
 
-                if (!postreqsToBeAdded.includes("" + current_topic_id)) {
+                if (postreqsToBeAdded && !postreqsToBeAdded.includes("" + current_topic_id)) {
                   // console.log("checking if includes");
                   // console.log(postreqsToBeAdded);
                   postreqsToBeAdded.push("" + current_topic_id);
@@ -117,7 +118,7 @@ export default {
                 postreqsAreTheSame = note['next_topic_id'];
                 isSequenceOn = note['sequence_on'];
 
-                if (!prereqsToBeAdded.includes("" + current_topic_id)) {
+                if (prereqsToBeAdded && !prereqsToBeAdded.includes("" + current_topic_id)) {
                   prereqsToBeAdded.push("" + current_topic_id);
                   if (isSequenceOn == "true") {
                     if (prereqsToBeAdded.length > 1)
@@ -200,7 +201,6 @@ export default {
 
       for (var elem of selected_topic_ids_post) {
         var lname = url_map[parseInt(elem)];
-
         var text = '<a class="btn btn-warning btn-xs"';
         text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
         text += lname;
@@ -212,6 +212,7 @@ export default {
         else
           text += arr_mapping[parseInt(elem)];
         text += '</a>&nbsp;';
+        console.log(text);
         $("#postreq_list").append(text);
       }
 
@@ -655,30 +656,33 @@ export default {
       // End
 
 
-      var plist = document.getElementsByClassName("closebtn");
+      var plist = document.querySelectorAll("#prereq-list .closebtn");
 
       // console.log(plist[0]);
       for (var j = 0; j < plist.length; j++) {
         plist[j].addEventListener("click", function(e) {
-          console.log("Called in custom-public-button.js.es6");
-          // body...
           var idn = e.target.parentNode.id;
-          console.log(idn);
           document.getElementById(idn).remove();
-          if (document.getElementById("pre").checked) {
-            noOfPreTopicsAdded -= 1;
-            selected_topics_pre.delete(idn);
-            selected_topic_ids_pre.delete(reverse_map[idn]);
-            if (!arr.includes(idn)) {
-              arr.push(idn);
-            }
-          } else if (document.getElementById("post").checked) {
-            noOfPostTopicsAdded -= 1;
-            selected_topics_post.delete(idn);
-            selected_topic_ids_post.delete(reverse_map[idn]);
-            if (!arr.includes(idn)) {
-              arr.push(idn);
-            }
+          noOfPreTopicsAdded -= 1;
+          selected_topics_pre.delete(idn);
+          selected_topic_ids_pre.delete(reverse_map[idn]);
+          if (!arr.includes(idn)) {
+            arr.push(idn);
+          }
+        });
+      }
+
+      plist = document.querySelectorAll("#postreq-list .closebtn");
+
+      for (var j = 0; j < plist.length; j++) {
+        plist[j].addEventListener("click", function(e) {
+          var idn = e.target.parentNode.id;
+          document.getElementById(idn).remove();
+          noOfPostTopicsAdded -= 1;
+          selected_topics_post.delete(idn);
+          selected_topic_ids_post.delete(reverse_map[idn]);
+          if (!arr.includes(idn)) {
+            arr.push(idn);
           }
         });
       }
@@ -702,6 +706,8 @@ export default {
         }
       }
 
+      document.getElementById("addt").style.display = "none";
+
     },
 
     autocomplete() {
@@ -722,7 +728,7 @@ export default {
 
       if (initial_selected_topic_ids_pre) {
         for (var elem of initial_selected_topic_ids_pre) {
-          console.log(elem);
+          // console.log(elem);
           selected_topic_ids_pre.add(parseInt(elem));
           selected_topics_pre.add(arr_mapping[parseInt(elem)]);
         }
@@ -730,7 +736,7 @@ export default {
 
       if (initial_selected_topic_ids_post) {
         for (var elem of initial_selected_topic_ids_post) {
-          console.log(elem);
+          // console.log(elem);
           selected_topic_ids_post.add(parseInt(elem));
           selected_topics_post.add(arr_mapping[parseInt(elem)]);
         }
@@ -785,7 +791,7 @@ export default {
           }
         }
 
-        console.log(Date.now() + " " + arr + " " + arr.length);
+        // console.log(Date.now() + " " + arr + " " + arr.length);
 
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/
