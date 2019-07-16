@@ -28,12 +28,12 @@ export default {
       var preChips = document.querySelectorAll("#prereq-list .chip");
       var postChips = document.querySelectorAll("#postreq-list .chip");
 
-      for(var x = 0; x<preChips.length; x++) {
+      for (var x = 0; x < preChips.length; x++) {
         selected_topics_pre.add(preChips[x].id);
         selected_topic_ids_pre.add(reverse_map[preChips[x].id]);
       }
 
-      for(var x = 0; x<postChips.length; x++) {
+      for (var x = 0; x < postChips.length; x++) {
         selected_topics_post.add(postChips[x].id);
         selected_topic_ids_post.add(reverse_map[postChips[x].id]);
       }
@@ -184,7 +184,7 @@ export default {
         // var text="";
         var tname = url_map[parseInt(elem)];
         var text = '<a class="btn btn-warning btn-xs"';
-        text += 'href="'+hostname.split('/')[0]+'//'+hostname.split('/')[2]+'/t/';
+        text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
         text += tname;
         text += '/';
         text += parseInt(elem);
@@ -202,7 +202,7 @@ export default {
         var lname = url_map[parseInt(elem)];
 
         var text = '<a class="btn btn-warning btn-xs"';
-        text += 'href="'+hostname.split('/')[0]+'//'+hostname.split('/')[2]+'/t/';
+        text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
         text += lname;
         text += '/';
         text += parseInt(elem);
@@ -242,194 +242,195 @@ export default {
       }
     },
 
-    displayprepost() {
-      //this.send("autocomplete");
-      document.getElementById("prereq-list").innerHTML = "";
-      document.getElementById("postreq-list").innerHTML = "";
-      //  initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
-      // initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
+    // displayprepost() {
+    //   //this.send("autocomplete");
+    //   document.getElementById("prereq-list").innerHTML = "";
+    //   document.getElementById("postreq-list").innerHTML = "";
+    //   //  initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
+    //   // initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
 
 
 
-      // if (initial_selected_topic_ids_pre) {
-      //   for (var elem of initial_selected_topic_ids_pre) {
-      //     console.log(elem);
-      //     selected_topic_ids_pre.add(parseInt(elem));
-      //     selected_topics_pre.add(arr_mapping[parseInt(elem)]);
-      //   }
-      // }
+    //   // if (initial_selected_topic_ids_pre) {
+    //   //   for (var elem of initial_selected_topic_ids_pre) {
+    //   //     console.log(elem);
+    //   //     selected_topic_ids_pre.add(parseInt(elem));
+    //   //     selected_topics_pre.add(arr_mapping[parseInt(elem)]);
+    //   //   }
+    //   // }
 
-      // if (initial_selected_topic_ids_post) {
-      //   for (var elem of initial_selected_topic_ids_post) {
-      //     console.log(elem);
-      //     selected_topic_ids_post.add(parseInt(elem));
-      //     selected_topics_post.add(arr_mapping[parseInt(elem)]);
-      //   }
-      // }
-
-
-
-      for (var elem of initial_selected_topics_pre) {
-        var l, x, l2;
-        l = document.getElementById("prereq-list");
-        l2 = document.getElementById("postreq-list");
-        x = document.createElement("DIV");
-        x.setAttribute("class", "chip");
-        x.setAttribute("id", elem);
-        x.setAttribute("padding", "100px");
-        x.setAttribute("draggable", true);
-        x.innerHTML = elem;
-
-        var clb = document.createElement("SPAN");
-        clb.setAttribute("class", "closebtn");
-        clb.setAttribute("id", elem + "-button");
-
-        clb.innerHTML = '&times;';
-        console.log(clb);
+    //   // if (initial_selected_topic_ids_post) {
+    //   //   for (var elem of initial_selected_topic_ids_post) {
+    //   //     console.log(elem);
+    //   //     selected_topic_ids_post.add(parseInt(elem));
+    //   //     selected_topics_post.add(arr_mapping[parseInt(elem)]);
+    //   //   }
+    //   // }
 
 
-        x.appendChild(clb);
-        pre.push(elem);
-        l.innerHTML += '&nbsp;';
-        l.appendChild(x);
-      }
 
-      for (var elem of initial_selected_topics_post) {
-        var l, x, l2;
-        l = document.getElementById("prereq-list");
-        l2 = document.getElementById("postreq-list");
-        x = document.createElement("DIV");
-        x.setAttribute("class", "chip");
-        x.setAttribute("id", elem);
-        x.setAttribute("padding", "100px");
-        x.setAttribute("draggable", true);
-        x.innerHTML = elem;
+    //   for (var elem of initial_selected_topics_pre) {
+    //     var l, x, l2;
+    //     l = document.getElementById("prereq-list");
+    //     l2 = document.getElementById("postreq-list");
+    //     x = document.createElement("DIV");
+    //     x.setAttribute("class", "chip");
+    //     x.setAttribute("id", elem);
+    //     x.setAttribute("padding", "100px");
+    //     x.setAttribute("draggable", true);
+    //     x.innerHTML = elem;
 
-        var clb = document.createElement("SPAN");
-        clb.setAttribute("class", "closebtn");
-        clb.setAttribute("id", elem + "-button");
+    //     var clb = document.createElement("SPAN");
+    //     clb.setAttribute("class", "closebtn");
+    //     clb.setAttribute("id", elem + "-button");
 
-        clb.innerHTML = '&times;';
-        console.log(clb);
+    //     clb.innerHTML = '&times;';
+    //     console.log(clb);
 
 
-        x.appendChild(clb);
-        post.push(elem);
-        l2.innerHTML += '&nbsp;';
-        l2.appendChild(x);
-      }
+    //     x.appendChild(clb);
+    //     pre.push(elem);
+    //     l.innerHTML += '&nbsp;';
+    //     l.appendChild(x);
+    //   }
 
-      // Code to enable drag-and-drop rearrangement
-      var dragSrcEl = null;
+    //   for (var elem of initial_selected_topics_post) {
+    //     var l, x, l2;
+    //     l = document.getElementById("prereq-list");
+    //     l2 = document.getElementById("postreq-list");
+    //     x = document.createElement("DIV");
+    //     x.setAttribute("class", "chip");
+    //     x.setAttribute("id", elem);
+    //     x.setAttribute("padding", "100px");
+    //     x.setAttribute("draggable", true);
+    //     x.innerHTML = elem;
 
-      function handleDragStart(e) {
-        // Target (this) element is the source node.
-        dragSrcEl = this;
+    //     var clb = document.createElement("SPAN");
+    //     clb.setAttribute("class", "closebtn");
+    //     clb.setAttribute("id", elem + "-button");
 
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.outerHTML);
-
-        this.classList.add('dragElem');
-      }
-      function handleDragOver(e) {
-        if (e.preventDefault) {
-          e.preventDefault(); // Necessary. Allows us to drop.
-        }
-        this.classList.add('over');
-
-        e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
-
-        return false;
-      }
-
-      function handleDragEnter(e) {
-        // this / e.target is the current hover target.
-      }
-
-      function handleDragLeave(e) {
-        this.classList.remove('over');  // this / e.target is previous target element.
-      }
-
-      function handleDrop(e) {
-        // this/e.target is current target element.
-
-        if (e.stopPropagation) {
-          e.stopPropagation(); // Stops some browsers from redirecting.
-        }
-
-        // Don't do anything if dropping the same column we're dragging.
-        if (dragSrcEl != this) {
-          // Set the source column's HTML to the HTML of the column we dropped on.
-          //alert(this.outerHTML);
-          //dragSrcEl.innerHTML = this.innerHTML;
-          //this.innerHTML = e.dataTransfer.getData('text/html');
-          this.parentNode.removeChild(dragSrcEl);
-          var dropHTML = e.dataTransfer.getData('text/html');
-          this.insertAdjacentHTML('beforebegin',dropHTML);
-          var dropElem = this.previousSibling;
-          addDnDHandlers(dropElem);
-          
-        }
-        this.classList.remove('over');
-        return false;
-      }
-
-      function handleDragEnd(e) {
-        // this/e.target is the source node.
-        this.classList.remove('over');
-
-        /*[].forEach.call(cols, function (col) {
-          col.classList.remove('over');
-        });*/
-      }
-
-      function addDnDHandlers(elem) {
-        elem.addEventListener('dragstart', handleDragStart, false);
-        elem.addEventListener('dragenter', handleDragEnter, false)
-        elem.addEventListener('dragover', handleDragOver, false);
-        elem.addEventListener('dragleave', handleDragLeave, false);
-        elem.addEventListener('drop', handleDrop, false);
-        elem.addEventListener('dragend', handleDragEnd, false);
-
-      }
-
-      var preChips = document.querySelectorAll('#prereq-list .chip');
-      [].forEach.call(preChips, addDnDHandlers);
-
-      var postChips = document.querySelectorAll("#postreq-list .chip");
-      [].forEach.call(postChips, addDnDHandlers);
-      // End
-
-      var plist = document.getElementsByClassName("closebtn");
-
-      console.log("plist.length: " + plist.length);
-
-      // console.log(plist[0]);
-      for (var j = 0; j < plist.length; j++) {
-        plist[j].addEventListener("click", function(e) {
-          // body...
-          var idn = e.target.parentNode.id;
-          console.log(idn);
-          document.getElementById(idn).remove();
-
-          // noOfPreTopicsAdded -= 1;
-          selected_topics_pre.delete(idn);
-          selected_topic_ids_pre.delete(reverse_map[idn]);
-          if (!arr.includes(idn)) {
-            arr.push(idn);
-          }
-
-          // noOfPostTopicsAdded -= 1;
-          selected_topics_post.delete(idn);
-          selected_topic_ids_post.delete(reverse_map[idn]);
-          if (!arr.includes(idn)) {
-            arr.push(idn);
-          }
-        });
-      }
+    //     clb.innerHTML = '&times;';
+    //     console.log(clb);
 
 
-    },
+    //     x.appendChild(clb);
+    //     post.push(elem);
+    //     l2.innerHTML += '&nbsp;';
+    //     l2.appendChild(x);
+    //   }
+
+    //   // Code to enable drag-and-drop rearrangement
+    //   var dragSrcEl = null;
+
+    //   function handleDragStart(e) {
+    //     // Target (this) element is the source node.
+    //     dragSrcEl = this;
+
+    //     e.dataTransfer.effectAllowed = 'move';
+    //     e.dataTransfer.setData('text/html', this.outerHTML);
+
+    //     this.classList.add('dragElem');
+    //   }
+
+    //   function handleDragOver(e) {
+    //     if (e.preventDefault) {
+    //       e.preventDefault(); // Necessary. Allows us to drop.
+    //     }
+    //     this.classList.add('over');
+
+    //     e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
+
+    //     return false;
+    //   }
+
+    //   function handleDragEnter(e) {
+    //     // this / e.target is the current hover target.
+    //   }
+
+    //   function handleDragLeave(e) {
+    //     this.classList.remove('over'); // this / e.target is previous target element.
+    //   }
+
+    //   function handleDrop(e) {
+    //     // this/e.target is current target element.
+
+    //     if (e.stopPropagation) {
+    //       e.stopPropagation(); // Stops some browsers from redirecting.
+    //     }
+
+    //     // Don't do anything if dropping the same column we're dragging.
+    //     if (dragSrcEl != this) {
+    //       // Set the source column's HTML to the HTML of the column we dropped on.
+    //       //alert(this.outerHTML);
+    //       //dragSrcEl.innerHTML = this.innerHTML;
+    //       //this.innerHTML = e.dataTransfer.getData('text/html');
+    //       this.parentNode.removeChild(dragSrcEl);
+    //       var dropHTML = e.dataTransfer.getData('text/html');
+    //       this.insertAdjacentHTML('beforebegin', dropHTML);
+    //       var dropElem = this.previousSibling;
+    //       addDnDHandlers(dropElem);
+
+    //     }
+    //     this.classList.remove('over');
+    //     return false;
+    //   }
+
+    //   function handleDragEnd(e) {
+    //     // this/e.target is the source node.
+    //     this.classList.remove('over');
+
+    //     /*[].forEach.call(cols, function (col) {
+    //       col.classList.remove('over');
+    //     });*/
+    //   }
+
+    //   function addDnDHandlers(elem) {
+    //     elem.addEventListener('dragstart', handleDragStart, false);
+    //     elem.addEventListener('dragenter', handleDragEnter, false)
+    //     elem.addEventListener('dragover', handleDragOver, false);
+    //     elem.addEventListener('dragleave', handleDragLeave, false);
+    //     elem.addEventListener('drop', handleDrop, false);
+    //     elem.addEventListener('dragend', handleDragEnd, false);
+
+    //   }
+
+    //   var preChips = document.querySelectorAll('#prereq-list .chip');
+    //   [].forEach.call(preChips, addDnDHandlers);
+
+    //   var postChips = document.querySelectorAll("#postreq-list .chip");
+    //   [].forEach.call(postChips, addDnDHandlers);
+    //   // End
+
+    //   var plist = document.getElementsByClassName("closebtn");
+
+    //   console.log("plist.length: " + plist.length);
+
+    //   // console.log(plist[0]);
+    //   for (var j = 0; j < plist.length; j++) {
+    //     plist[j].addEventListener("click", function(e) {
+    //       // body...
+    //       var idn = e.target.parentNode.id;
+    //       console.log(idn);
+    //       document.getElementById(idn).remove();
+
+    //       // noOfPreTopicsAdded -= 1;
+    //       selected_topics_pre.delete(idn);
+    //       selected_topic_ids_pre.delete(reverse_map[idn]);
+    //       if (!arr.includes(idn)) {
+    //         arr.push(idn);
+    //       }
+
+    //       // noOfPostTopicsAdded -= 1;
+    //       selected_topics_post.delete(idn);
+    //       selected_topic_ids_post.delete(reverse_map[idn]);
+    //       if (!arr.includes(idn)) {
+    //         arr.push(idn);
+    //       }
+    //     });
+    //   }
+
+
+    // },
 
     closeForm() {
       // Enable scrolling once form is closed
@@ -489,19 +490,6 @@ export default {
           document.getElementById("myInput").disabled = false;
       }
     },
-
-    /*
-     clearall() {
-      selected_topics_pre = initial_selected_topics_pre;
-      selected_topic_ids_pre = initial_selected_topic_ids_pre;
-      selected_topics_post = initial_selected_topics_post;
-      selected_topic_ids_post = initial_selected_topic_ids_post;
-      var l=document.getElementById("prereq-list").innerHTML="";
-      document.getElementById("postreq-list").innerHTML="";
-
-     // console.log(l);
-    },
-    */
 
     addtopic() {
 
@@ -565,16 +553,16 @@ export default {
 
 
           if (document.getElementById("pre").checked && !selected_topics_post.has(prereq)) {
-            // selected_topics_pre.add(prereq);
-            // selected_topic_ids_pre.add(reverse_map[prereq]);
+            selected_topics_pre.add(prereq);
+            selected_topic_ids_pre.add(reverse_map[prereq]);
             // pre.push(prereq);
             l.innerHTML += '&nbsp;';
             l.appendChild(x);
           } else if (document.getElementById("pre").checked && selected_topics_post.has(prereq)) {
             alert(prereq + ":Topic already present as a Post-Requisite!");
           } else if (document.getElementById("post").checked && !selected_topics_pre.has(prereq)) {
-            // selected_topics_post.add(prereq);
-            // selected_topic_ids_post.add(reverse_map[prereq]);
+            selected_topics_post.add(prereq);
+            selected_topic_ids_post.add(reverse_map[prereq]);
             // post.push(prereq);
             l2.innerHTML += '&nbsp;';
             l2.appendChild(x);
@@ -596,13 +584,14 @@ export default {
 
         this.classList.add('dragElem');
       }
+
       function handleDragOver(e) {
         if (e.preventDefault) {
           e.preventDefault(); // Necessary. Allows us to drop.
         }
         this.classList.add('over');
 
-        e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+        e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
 
         return false;
       }
@@ -612,7 +601,7 @@ export default {
       }
 
       function handleDragLeave(e) {
-        this.classList.remove('over');  // this / e.target is previous target element.
+        this.classList.remove('over'); // this / e.target is previous target element.
       }
 
       function handleDrop(e) {
@@ -630,10 +619,10 @@ export default {
           //this.innerHTML = e.dataTransfer.getData('text/html');
           this.parentNode.removeChild(dragSrcEl);
           var dropHTML = e.dataTransfer.getData('text/html');
-          this.insertAdjacentHTML('beforebegin',dropHTML);
+          this.insertAdjacentHTML('beforebegin', dropHTML);
           var dropElem = this.previousSibling;
           addDnDHandlers(dropElem);
-          
+
         }
         this.classList.remove('over');
         return false;

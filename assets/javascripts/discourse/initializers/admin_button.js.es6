@@ -78,30 +78,31 @@ export default {
                       initial_selected_topics_pre.add(arr_mapping[parseInt(note["prior_topic_id"][k])]);
 
                       // This is code to display initial selected pre topics as chips in the popup form
-                      // var elem = arr_mapping[parseInt(note["prior_topic_id"][k])];
-                      // console.log(elem);
-                      // var l, x, l2;
-                      // l = document.getElementById("prereq-list");
-                      // console.log("this is l: " + l);
-                      // l2 = document.getElementById("postreq-list");
-                      // x = document.createElement("DIV");
-                      // x.setAttribute("class", "chip");
-                      // x.setAttribute("id", elem);
-                      // x.setAttribute("padding", "100px");
-                      // x.innerHTML = elem;
+                      var elem = arr_mapping[parseInt(note["prior_topic_id"][k])];
+                      console.log(elem);
+                      var l, x, l2;
+                      l = document.getElementById("prereq-list");
+                      console.log("this is l: " + l);
+                      l2 = document.getElementById("postreq-list");
+                      x = document.createElement("DIV");
+                      x.setAttribute("class", "chip");
+                      x.setAttribute("id", elem);
+                      x.setAttribute("padding", "100px");
+                      x.setAttribute("draggable", true);
+                      x.innerHTML = elem;
 
-                      // var clb = document.createElement("SPAN");
-                      // clb.setAttribute("class", "closebtn");
-                      // clb.setAttribute("id", elem + "-button");
+                      var clb = document.createElement("SPAN");
+                      clb.setAttribute("class", "closebtn");
+                      clb.setAttribute("id", elem + "-button");
 
-                      // clb.innerHTML = '&times;';
-                      // console.log(clb);
+                      clb.innerHTML = '&times;';
+                      console.log(clb);
 
 
-                      // x.appendChild(clb);
-                      // init_pre.push(elem);
-                      // l.innerHTML += '&nbsp;';
-                      // l.appendChild(x);
+                      x.appendChild(clb);
+                      init_pre.push(elem);
+                      l.innerHTML += '&nbsp;';
+                      l.appendChild(x);
                     }
                   }
 
@@ -111,101 +112,183 @@ export default {
                       initial_selected_topics_post.add(arr_mapping[parseInt(note["next_topic_id"][k])]);
 
                       // This is code to display initial selected post topics as chips in the popup form
-                      // var elem = arr_mapping[parseInt(note["next_topic_id"][k])];
-                      // var l, x, l2;
-                      // l = document.getElementById("prereq-list");
-                      // l2 = document.getElementById("postreq-list");
-                      // x = document.createElement("DIV");
-                      // x.setAttribute("class", "chip");
-                      // x.setAttribute("id", elem);
-                      // x.setAttribute("padding", "100px");
-                      // x.innerHTML = elem;
+                      var elem = arr_mapping[parseInt(note["next_topic_id"][k])];
+                      var l, x, l2;
+                      l = document.getElementById("prereq-list");
+                      l2 = document.getElementById("postreq-list");
+                      x = document.createElement("DIV");
+                      x.setAttribute("class", "chip");
+                      x.setAttribute("id", elem);
+                      x.setAttribute("padding", "100px");
+                      x.setAttribute("draggable", true);
+                      x.innerHTML = elem;
 
-                      // var clb = document.createElement("SPAN");
-                      // clb.setAttribute("class", "closebtn");
-                      // clb.setAttribute("id", elem + "-button");
+                      var clb = document.createElement("SPAN");
+                      clb.setAttribute("class", "closebtn");
+                      clb.setAttribute("id", elem + "-button");
 
-                      // clb.innerHTML = '&times;';
-                      // console.log(clb);
+                      clb.innerHTML = '&times;';
+                      console.log(clb);
 
 
-                      // x.appendChild(clb);
-                      // init_post.push(elem);
-                      // l2.innerHTML += '&nbsp;';
-                      // l2.appendChild(x);
+                      x.appendChild(clb);
+                      init_post.push(elem);
+                      l2.innerHTML += '&nbsp;';
+                      l2.appendChild(x);
                     }
                   }
                 }
               }
 
               // Start
-              // var plist = document.getElementsByClassName("closebtn");
-              // initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
-              // initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
+              var plist = document.querySelectorAll("#prereq-list .closebtn");
+              initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
+              initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
 
-              // console.log("plist.length: " + plist.length);
+              console.log("plist.length: " + plist.length);
+
+              console.log(plist[0]);
+              for (var j = 0; j < plist.length; j++) {
+                plist[j].addEventListener("click", function(e) {
+                  console.log("Called in admin_button.js.es6");
+                  // body...
+                  var idn = e.target.parentNode.id;
+                  console.log(idn);
+                  console.log("parentid="+idn);
+                  document.getElementById(idn).remove();
+                  if (document.getElementById("pre").checked) {
+                    // noOfPreTopicsAdded -= 1;
+                    initial_selected_topics_pre.delete(idn);
+                    console.log("initial_selected_topics_pre: "+initial_selected_topics_pre);
+                    // console.log(Array.isArray(initial_selected_topic_ids_pre));
+                    initial_selected_topic_ids_pre.delete(reverse_map[idn]);
+                    // if (!arr.includes(idn)) {
+                    //   arr.push(idn);
+                    // }
+                  } else if (document.getElementById("post").checked) {
+                    // noOfPostTopicsAdded -= 1;
+                    initial_selected_topics_post.delete(idn);
+                    console.log("initial_selected_topics_post: "+initial_selected_topics_post);
+                    initial_selected_topic_ids_post.delete(reverse_map[idn]);
+                    // if (!arr.includes(idn)) {
+                    //   arr.push(idn);
+                    // }
+                  }
+                });
+              }
+              
+
+              var plist = document.querySelectorAll("#postreq-list .closebtn");
+
+              console.log("plist.length: "+plist.length);
 
               // console.log(plist[0]);
-              // for (var j = 0; j < plist.length; j++) {
-              //   plist[j].addEventListener("click", function(e) {
-              //     console.log("Called in admin_button.js.es6");
-              //     // body...
-              //     var idn = e.target.parentNode.id;
-              //     console.log(idn);
-              //     console.log("parentid="+idn);
-              //     document.getElementById(idn).remove();
-              //     if (document.getElementById("pre").checked) {
-              //       // noOfPreTopicsAdded -= 1;
-              //       initial_selected_topics_pre.delete(idn);
-              //       console.log(initial_selected_topics_pre);
-              //       // console.log(Array.isArray(initial_selected_topic_ids_pre));
-              //       initial_selected_topic_ids_pre.delete(reverse_map[idn]);
-              //       // if (!arr.includes(idn)) {
-              //       //   arr.push(idn);
-              //       // }
-              //     } else if (document.getElementById("post").checked) {
-              //       // noOfPostTopicsAdded -= 1;
-              //       initial_selected_topics_post.delete(idn);
-              //       initial_selected_topic_ids_post.delete(reverse_map[idn]);
-              //       // if (!arr.includes(idn)) {
-              //       //   arr.push(idn);
-              //       // }
-              //     }
-              //   });
-              // }
-              // End
+              for (var j = 0; j < plist.length; j++) {
+                plist[j].addEventListener("click", function(e) {
+                  // body...
+                  var idn = e.target.parentNode.id;
+                  console.log(idn);
+                  document.getElementById(idn).remove();
+                  if (document.getElementById("pre").checked) {
+                    // noOfPreTopicsAdded -= 1;
+                    initial_selected_topics_pre.delete(idn);
+                    initial_selected_topic_ids_pre.delete(reverse_map[idn]);
+                    // if (!arr.includes(idn)) {
+                    //   arr.push(idn);
+                    // }
+                  } else if (document.getElementById("post").checked) {
+                    // noOfPostTopicsAdded -= 1;
+                    initial_selected_topics_post.delete(idn);
+                    initial_selected_topic_ids_post.delete(reverse_map[idn]);
+                    // if (!arr.includes(idn)) {
+                    //   arr.push(idn);
+                    // }
+                  }
+                });
+              }
+
+              // Code to enable drag-and-drop rearrangement
+              var dragSrcEl = null;
+
+              function handleDragStart(e) {
+                // Target (this) element is the source node.
+                dragSrcEl = this;
+
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.outerHTML);
+
+                this.classList.add('dragElem');
+              }
+              function handleDragOver(e) {
+                if (e.preventDefault) {
+                  e.preventDefault(); // Necessary. Allows us to drop.
+                }
+                this.classList.add('over');
+
+                e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+                return false;
+              }
+
+              function handleDragEnter(e) {
+                // this / e.target is the current hover target.
+              }
+
+              function handleDragLeave(e) {
+                this.classList.remove('over');  // this / e.target is previous target element.
+              }
+
+              function handleDrop(e) {
+                // this/e.target is current target element.
+
+                if (e.stopPropagation) {
+                  e.stopPropagation(); // Stops some browsers from redirecting.
+                }
+
+                // Don't do anything if dropping the same column we're dragging.
+                if (dragSrcEl != this) {
+                  // Set the source column's HTML to the HTML of the column we dropped on.
+                  //alert(this.outerHTML);
+                  //dragSrcEl.innerHTML = this.innerHTML;
+                  //this.innerHTML = e.dataTransfer.getData('text/html');
+                  this.parentNode.removeChild(dragSrcEl);
+                  var dropHTML = e.dataTransfer.getData('text/html');
+                  this.insertAdjacentHTML('beforebegin',dropHTML);
+                  var dropElem = this.previousSibling;
+                  addDnDHandlers(dropElem);
+                  
+                }
+                this.classList.remove('over');
+                return false;
+              }
+
+              function handleDragEnd(e) {
+                // this/e.target is the source node.
+                this.classList.remove('over');
+
+                /*[].forEach.call(cols, function (col) {
+                  col.classList.remove('over');
+                });*/
+              }
+
+              function addDnDHandlers(elem) {
+                elem.addEventListener('dragstart', handleDragStart, false);
+                elem.addEventListener('dragenter', handleDragEnter, false)
+                elem.addEventListener('dragover', handleDragOver, false);
+                elem.addEventListener('dragleave', handleDragLeave, false);
+                elem.addEventListener('drop', handleDrop, false);
+                elem.addEventListener('dragend', handleDragEnd, false);
+
+              }
+
+              var preChips = document.querySelectorAll('#prereq-list .chip');
+              [].forEach.call(preChips, addDnDHandlers);
+
+              var postChips = document.querySelectorAll("#postreq-list .chip");
+              [].forEach.call(postChips, addDnDHandlers);
 
             })
             .catch(console.error);
-
-          // var plist = document.getElementsByClassName("closebtn");
-
-          // console.log("plist.length: "+plist.length);
-
-          // // console.log(plist[0]);
-          // for (var j = 0; j < plist.length; j++) {
-          //   plist[j].addEventListener("click", function(e) {
-          //     // body...
-          //     var idn = e.target.parentNode.id;
-          //     console.log(idn);
-          //     document.getElementById(idn).remove();
-          //     if (document.getElementById("pre").checked) {
-          //       // noOfPreTopicsAdded -= 1;
-          //       initial_selected_topics_pre.delete(idn);
-          //       initial_selected_topic_ids_pre.delete(reverse_map[idn]);
-          //       // if (!arr.includes(idn)) {
-          //       //   arr.push(idn);
-          //       // }
-          //     } else if (document.getElementById("post").checked) {
-          //       // noOfPostTopicsAdded -= 1;
-          //       initial_selected_topics_post.delete(idn);
-          //       initial_selected_topic_ids_post.delete(reverse_map[idn]);
-          //       // if (!arr.includes(idn)) {
-          //       //   arr.push(idn);
-          //       // }
-          //     }
-          //   });
-          // }
 
 
           if (init_arr.indexOf(arr_mapping[current_topic_id]) != -1)
@@ -214,8 +297,6 @@ export default {
           document.getElementById("myForm").style.display = "block";
           document.getElementById("myInput").disabled = false;
           document.getElementById("addt").style.display = "none";
-
-          console.log("initial_selected_topics_pre.size: " + initial_selected_topics_pre.size);
 
         });
 
