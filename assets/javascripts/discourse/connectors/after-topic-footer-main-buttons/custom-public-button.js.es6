@@ -20,6 +20,14 @@ export default {
       var preChips = document.querySelectorAll("#prereq-list .chip");
       var postChips = document.querySelectorAll("#postreq-list .chip");
 
+      var existingPrereqs = new Array();
+      for(var x = 0; x<document.querySelectorAll('#prereq_list .btn').length; x++)
+        existingPrereqs.push(reverse_map[document.querySelectorAll('#prereq_list .btn')[x].text]);
+
+      var existingPostreqs = new Array();
+      for(var x = 0; x<document.querySelectorAll('#postreq_list .btn').length; x++)
+        existingPostreqs.push(reverse_map[document.querySelectorAll('#postreq_list .btn')[x].text]);
+
       var selectedTopicsPre = new Set();
       var selectedTopicsPost = new Set();
 
@@ -61,6 +69,15 @@ export default {
                       isSequenceOn = "false";
                   }
                 }
+                else if(!postreqsToBeAdded) {
+                  postreqsToBeAdded = [];
+                  postreqsToBeAdded.push("" + current_topic_id);
+                  if (isSequenceOn == "true") {
+                    if (postreqsToBeAdded.length > 1)
+                      isSequenceOn = "false";
+                  }
+                }
+
                 break;
               }
             }
@@ -109,6 +126,15 @@ export default {
                       isSequenceOn = "false";
                   }
                 }
+                else if(!prereqsToBeAdded) {
+                  prereqsToBeAdded = [];
+                  prereqsToBeAdded.push("" + current_topic_id);
+                  if (isSequenceOn == "true") {
+                    if (prereqsToBeAdded.length > 1)
+                      isSequenceOn = "false";
+                  }
+                }
+
                 break;
               }
             }
@@ -134,6 +160,81 @@ export default {
               })
               .catch(console.error);
 
+          }
+
+
+          for(const existingPrereq of existingPrereqs) {
+            if((!prearr) || (prearr && !prearr.includes(""+existingPrereq))) {
+              var prereqsAreTheSame;
+              var postreqsToBeModified;
+              var isSequenceOn;
+              var modifiedPostreqs = [];
+
+              for(const note of result.content) {
+                if(parseInt(note['id']) == existingPrereq) {
+                  prereqsAreTheSame = note['prior_topic_id'];
+                  postreqsToBeModified = note['next_topic_id'];
+                  isSequenceOn = note['sequence_on'];
+
+                  for(const elem of postreqsToBeModified) {
+                    if(parseInt(elem) != current_topic_id)
+                      modifiedPostreqs.push(elem);
+                  }
+                  break;
+                }
+              }
+
+              const topicRecord = this.store.createRecord('note', {
+                id: existingPrereq,
+                prior_topic_id: Array.from(new Set(prereqsAreTheSame)),
+                next_topic_id: Array.from(new Set(modifiedPostreqs)),
+                sequence_on: isSequenceOn
+              });
+
+              topicRecord.save()
+                .then(result => {
+                  this.notes.pushObject(result.target);
+                })
+                .catch(console.error);
+            }
+          }
+
+
+          for(const existingPostreq of existingPostreqs) {
+            if((!postarr) || (postarr && !postarr.includes(""+existingPostreq))) {
+              var prereqsToBeModified;
+              var postreqsAreTheSame;
+              var isSequenceOn;
+              var modifiedPrereqs = [];
+
+              for(const note of result.content) {
+                if(parseInt(note['id']) == existingPostreq) {
+                  prereqsToBeModified = note['prior_topic_id'];
+                  postreqsAreTheSame = note['next_topic_id'];
+                  isSequenceOn = note['sequence_on'];
+
+                  for(const elem of prereqsToBeModified) {
+                    if(parseInt(elem) != current_topic_id) 
+                      modifiedPrereqs.push(elem);
+                  }
+
+                  break;
+                }
+              }
+
+              const topicRecord = this.store.createRecord('note', {
+                id: existingPostreq,
+                prior_topic_id: Array.from(new Set(modifiedPrereqs)),
+                next_topic_id: Array.from(new Set(postreqsAreTheSame)),
+                sequence_on: isSequenceOn
+              });
+
+              topicRecord.save()
+                .then(result => {
+                  this.notes.pushObject(result.target);
+                })
+                .catch(console.error);
+            }
           }
         });
 
