@@ -49,7 +49,7 @@ export default {
                         var ref = url_map.get(idp);
                         var lname = arr_mapping[idp];
                         var text = '<a class="btn btn-warning btn-xs"';
-                        text += 'href="http://localhost:9292/t/';
+                        text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
                         text += ref;
                         text += '/';
                         text += idp;
@@ -118,7 +118,7 @@ export default {
                         var ref = url_map.get(idp);
                         var lname = arr_mapping[idp];
                         var text = '<a class="btn btn-warning btn-xs"';
-                        text += 'href="http://localhost:9292/t/';
+                        text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
                         text += ref;
                         text += '/';
                         text += idp;
