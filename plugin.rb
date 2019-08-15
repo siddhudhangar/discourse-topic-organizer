@@ -14,11 +14,18 @@ register_asset 'stylesheets/custom-public-button.css'
 
 after_initialize do
 
+  Topic.register_custom_field_type('next_topic_id',:text)
+  Topic.register_custom_field_type('previous_topic_id',:text)
   add_to_serializer(:current_user, :can_see_topic_group_button?) do
     return true if scope.is_staff?
     group = Group.find_by("lower(name) = ?", SiteSetting.topic_group_button_allowed_group.downcase)
     return true if group && GroupUser.where(user_id: scope.user.id, group_id: group.id).exists?
   end
+  # if SiteSetting.topic_organizer_enabled then
+  #   add_to_serializer(:topic_view,:custom_fields,false){
+  #     object.custom_fields
+  #   }
+  # end
 
   module ::DiscourseTopicOrganizer
     class Engine < ::Rails::Engine
@@ -30,15 +37,15 @@ after_initialize do
   class DiscourseTopicOrganizer::Organizer
     class << self
 
-      def next(topic_id)
-        set('next', topic_id)
+      def next(topic_id,next_ids)
+        set('next', topic_id,next_ids)
       end
 
       def previous(topic_id)
-        set('previous', topic_id)
+        set('previous', topic_id,topic_id)
       end
 
-      def set(transaction, topic_id) 
+      def set(transaction, topic_id,next_ids) 
         DistributedMutex.synchronize("#{PLUGIN_NAME}-#{topic_id}") do
           topic = Topic.find_by_id(topic_id)
 
@@ -52,7 +59,7 @@ after_initialize do
             raise StandardError.new I18n.t("topic.topic_must_be_open_to_edit")
           end
 
-          topic.custom_fields["#{transaction}_topic_id"] = "69"
+          topic.custom_fields["#{transaction}_topic_id"] = next_ids
           topic.save!
 
           return topic
@@ -70,9 +77,9 @@ after_initialize do
 
     def next
       topic_id = params.require(:topic_id)
-
+      next_ids = params.require(:next_ids)
       begin
-        topic = DiscourseTopicOrganizer::Organizer.next(topic_id)
+        topic = DiscourseTopicOrganizer::Organizer.next(topic_id,next_ids)
         render json: { topic: topic }
       rescue StandardError => e
         render_json_error e.message

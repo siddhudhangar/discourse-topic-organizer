@@ -26,13 +26,14 @@ export default {
       ajax("/topic/next", {
         type: "PUT",
         data: {
-          topic_id: parseInt(current_topic_id)
+          topic_id: parseInt(current_topic_id), next_ids: "1,2,3,4"
         }
-      }).then((result) => {
-        topic.set('custom_fields.next_topic_id', result.topic.next_topic_id);
-      }).catch(() => {
-        bootbox.alert(I18n.t('topic_trading.error_while_marked_as_sold'));
-      });
+       });
+      // .then((result) => {
+      //   topic.set('custom_fields.next_topic_id', result.topic.next_topic_id);
+      // }).catch(() => {
+      //   bootbox.alert(I18n.t('topic_trading.error_while_marked_as_sold'));
+      // });
 
       var preChips = document.querySelectorAll("#prereq-list .chip");
       var postChips = document.querySelectorAll("#postreq-list .chip");
