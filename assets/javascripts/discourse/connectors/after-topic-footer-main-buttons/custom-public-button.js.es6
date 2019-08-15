@@ -82,9 +82,7 @@ export default {
           data: {
             topic_id: parseInt(current_topic_id), next_topic_ids: postarr
           }
-        }).then((result) => {
-            topic.set('custom_fields.next_topic_id', result.topic.next_topic_id);
-          });
+        });
       }
 
       if(prearr.length>0) {

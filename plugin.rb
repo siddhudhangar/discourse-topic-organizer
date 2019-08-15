@@ -66,6 +66,18 @@ after_initialize do
           return topic
         end
       end
+
+      def retrieve_next(topic_id)
+        retrieve("next", topic_id)
+      end
+
+      def retrieve_previous(topic_id)
+        retrieve("previous", topic_id)
+      end
+
+      def retrieve(kind, topic_id)
+        TopicCustomField.find_by(topic_id: topic_id, name: "#{kind}_topic_id").value
+      end
     end
   end
 
@@ -79,7 +91,7 @@ after_initialize do
     def next
       topic_id = params.require(:topic_id)
       next_topic_ids = params.require(:next_topic_ids)
-      
+
       begin
         topic = DiscourseTopicOrganizer::Organizer.next(topic_id, next_topic_ids)
         render json: { topic: topic }
@@ -100,11 +112,35 @@ after_initialize do
       end
     end
 
+    def retrieve_next
+      topic_id = params.require(:topic_id)
+
+      begin
+        row_value = DiscourseTopicOrganizer::Organizer.retrieve_next(topic_id)
+        render json: { row_value: row_value }
+      rescue StandardError => e
+        render_json_error e.message
+      end
+    end
+
+    def retrieve_previous
+      topic_id = params.require(:topic_id)
+
+      begin
+        row_value = DiscourseTopicOrganizer::Organizer.retrieve_previous(topic_id)
+        render json: { row_value: row_value }
+      rescue StandardError => e
+        render_json_error e.message
+      end
+    end
+
   end
 
   DiscourseTopicOrganizer::Engine.routes.draw do
     put "/next" => "organizer#next"
     put "/previous" => "organizer#previous"
+    get "/retrieve_next" => "organizer#retrieve_next"
+    get "retrieve_previous" => "organizer#retrieve_previous"
   end
 
   Discourse::Application.routes.append do
