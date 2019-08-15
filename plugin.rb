@@ -140,7 +140,7 @@ after_initialize do
     put "/next" => "organizer#next"
     put "/previous" => "organizer#previous"
     get "/retrieve_next" => "organizer#retrieve_next"
-    get "retrieve_previous" => "organizer#retrieve_previous"
+    get "/retrieve_previous" => "organizer#retrieve_previous"
   end
 
   Discourse::Application.routes.append do
