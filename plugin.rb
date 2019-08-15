@@ -16,6 +16,7 @@ after_initialize do
 
   Topic.register_custom_field_type('next_topic_id',:text)
   Topic.register_custom_field_type('previous_topic_id',:text)
+
   add_to_serializer(:current_user, :can_see_topic_group_button?) do
     return true if scope.is_staff?
     group = Group.find_by("lower(name) = ?", SiteSetting.topic_group_button_allowed_group.downcase)
@@ -37,15 +38,15 @@ after_initialize do
   class DiscourseTopicOrganizer::Organizer
     class << self
 
-      def next(topic_id,next_ids)
-        set('next', topic_id,next_ids)
+      def next(topic_id, next_topic_ids)
+        set('next', topic_id, next_topic_ids)
       end
 
-      def previous(topic_id)
-        set('previous', topic_id,topic_id)
+      def previous(topic_id, previous_topic_ids)
+        set('previous', topic_id, previous_topic_ids)
       end
 
-      def set(transaction, topic_id,next_ids) 
+      def set(transaction, topic_id, topic_ids) 
         DistributedMutex.synchronize("#{PLUGIN_NAME}-#{topic_id}") do
           topic = Topic.find_by_id(topic_id)
 
@@ -59,7 +60,7 @@ after_initialize do
             raise StandardError.new I18n.t("topic.topic_must_be_open_to_edit")
           end
 
-          topic.custom_fields["#{transaction}_topic_id"] = next_ids
+          topic.custom_fields["#{transaction}_topic_id"] = topic_ids
           topic.save!
 
           return topic
@@ -77,9 +78,10 @@ after_initialize do
 
     def next
       topic_id = params.require(:topic_id)
-      next_ids = params.require(:next_ids)
+      next_topic_ids = params.require(:next_topic_ids)
+      
       begin
-        topic = DiscourseTopicOrganizer::Organizer.next(topic_id,next_ids)
+        topic = DiscourseTopicOrganizer::Organizer.next(topic_id, next_topic_ids)
         render json: { topic: topic }
       rescue StandardError => e
         render_json_error e.message
@@ -88,9 +90,10 @@ after_initialize do
 
     def previous
       topic_id = params.require(:topic_id)
+      previous_topic_ids = params.require(:previous_topic_ids)
 
       begin
-        topic = DiscourseTopicOrganizer::Organizer.previous(topic_id)
+        topic = DiscourseTopicOrganizer::Organizer.previous(topic_id, previous_topic_ids)
         render json: { topic: topic }
       rescue StandardError => e
         render_json_error e.message

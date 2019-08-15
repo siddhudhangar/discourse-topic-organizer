@@ -23,12 +23,6 @@ export default {
 
     createTopicRecord(topic) {
 
-      ajax("/topic/next", {
-        type: "PUT",
-        data: {
-          topic_id: parseInt(current_topic_id), next_ids: "1,2,3,4"
-        }
-       });
       // .then((result) => {
       //   topic.set('custom_fields.next_topic_id', result.topic.next_topic_id);
       // }).catch(() => {
@@ -59,9 +53,48 @@ export default {
         console.log(":( the array empty");
         return;
       }
-      this.set('notes', []);
-      var prearr = Array.from(selectedTopicsPre);
-      var postarr = Array.from(selectedTopicsPost);
+
+      // this.set('notes', []);
+      
+      var prearr = "";
+      var postarr = "";
+
+      for(var elem of selectedTopicsPre) {
+        if(prearr.length == 0)
+          prearr = prearr+elem;
+        else
+          prearr = prearr+","+elem;
+      }
+
+      for(var elem of selectedTopicsPost) {
+        if(postarr.length == 0)
+          postarr = postarr+elem;
+        else
+          postarr = postarr+","+elem;
+      }
+
+      console.log("postarr type: " + typeof postarr);
+      console.log("postarr: " + postarr);
+
+      if(postarr.length>0) {
+        ajax("/topic/next", {
+          type: "PUT",
+          data: {
+            topic_id: parseInt(current_topic_id), next_topic_ids: postarr
+          }
+        }).then((result) => {
+            topic.set('custom_fields.next_topic_id', result.topic.next_topic_id);
+          });
+      }
+
+      if(prearr.length>0) {
+        ajax("/topic/previous", {
+          type: "PUT",
+          data: {
+            topic_id: parseInt(current_topic_id), previous_topic_ids: prearr 
+          }
+        });
+      }
 
       // this.store.findAll('note')
       //   .then(result => {
