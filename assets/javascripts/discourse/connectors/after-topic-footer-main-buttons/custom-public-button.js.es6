@@ -59,6 +59,9 @@ export default {
       var prearr = "";
       var postarr = "";
 
+      var sequence_on = "" + document.getElementById("sequencer_checkbox").checked;
+      console.log("Sequencer on: "+sequence_on);
+
       for(var elem of selectedTopicsPre) {
         if(prearr.length == 0)
           prearr = prearr+elem;
@@ -73,8 +76,6 @@ export default {
           postarr = postarr+","+elem;
       }
 
-      console.log("postarr type: " + typeof postarr);
-      console.log("postarr: " + postarr);
 
       if(postarr.length>0) {
         ajax("/topic/next", {
@@ -83,6 +84,39 @@ export default {
             topic_id: parseInt(current_topic_id), next_topic_ids: postarr
           }
         });
+
+        for(var elem of postarr.split(",")) {
+          var previous_of_next, final_result = "";
+          var prevsAlreadyPresent = false;
+          ajax("/topic/retrieve_previous", {
+            type: "GET",
+            data: {
+              topic_id: parseInt(elem)
+            }
+          }).then(result => {
+            prevsAlreadyPresent = true;
+            previous_of_next = result.row_value.split(",");
+            final_result = result.row_value;
+            if(!previous_of_next.includes(""+current_topic_id))
+              final_result = final_result+","+current_topic_id;
+
+            ajax("/topic/previous", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(elem), previous_topic_ids: final_result
+              }
+            }); 
+          }).catch(console.error);
+
+          if(!prevsAlreadyPresent) {
+            ajax("/topic/previous", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(elem), previous_topic_ids: ""+current_topic_id
+              }
+            });
+          }
+        }
       }
 
       if(prearr.length>0) {
@@ -92,7 +126,47 @@ export default {
             topic_id: parseInt(current_topic_id), previous_topic_ids: prearr 
           }
         });
+
+        for(var elem of prearr.split(",")) {
+          var next_of_previous, final_result = "";
+          var nextsAlreadyPresent = false;
+          ajax("/topic/retrieve_next", {
+            type: "GET",
+            data: {
+              topic_id: parseInt(elem)
+            }
+          }).then(result => {
+            nextsAlreadyPresent = true;
+            next_of_previous = result.row_value.split(",");
+            final_result = result.row_value;
+            if(!next_of_previous.includes(""+current_topic_id))
+              final_result = final_result+","+current_topic_id;
+
+            ajax("/topic/next", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(elem), next_topic_ids: final_result
+              }
+            });
+          }).catch(console.error);
+
+          if(!nextsAlreadyPresent) {
+            ajax("/topic/next", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(elem), next_topic_ids: ""+current_topic_id
+              }
+            });
+          }
+        }
       }
+
+      ajax("/topic/sequencer", {
+        type: "PUT",
+        data: {
+          topic_id: parseInt(current_topic_id), sequence_on: sequence_on
+        }
+      });
 
       // this.store.findAll('note')
       //   .then(result => {

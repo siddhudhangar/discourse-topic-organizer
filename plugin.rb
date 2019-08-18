@@ -67,6 +67,17 @@ after_initialize do
         end
       end
 
+      def sequencer(topic_id, sequence_on) 
+        DistributedMutex.synchronize("#{PLUGIN_NAME}-#{topic_id}") do
+          topic = Topic.find_by_id(topic_id)
+
+          topic.custom_fields["sequence_on"] = sequence_on
+          topic.save!
+
+          return topic
+        end
+      end
+
       def retrieve_next(topic_id)
         retrieve("next", topic_id)
       end
@@ -77,6 +88,10 @@ after_initialize do
 
       def retrieve(kind, topic_id)
         TopicCustomField.find_by(topic_id: topic_id, name: "#{kind}_topic_id").value
+      end
+
+      def retrieve_sequencer(topic_id)
+        TopicCustomField.find_by(topic_id: topic_id, name: "sequence_on").value
       end
     end
   end
@@ -112,6 +127,18 @@ after_initialize do
       end
     end
 
+    def sequencer
+      topic_id = params.require(:topic_id)
+      sequence_on = params.require(:sequence_on)
+
+      begin
+        topic = DiscourseTopicOrganizer::Organizer.sequencer(topic_id, sequence_on)
+        render json: { topic: topic }
+      rescue Exception => e
+        render_json_error e.message
+      end
+    end
+
     def retrieve_next
       topic_id = params.require(:topic_id)
 
@@ -134,13 +161,26 @@ after_initialize do
       end
     end
 
+    def retrieve_sequencer
+      topic_id = params.require(:topic_id)
+
+      begin
+        row_value = DiscourseTopicOrganizer::Organizer.retrieve_sequence(topic_id)
+        render json: { row_value: row_value }
+      rescue Exception => e
+        render_json_error e.message
+      end
+    end
+
   end
 
   DiscourseTopicOrganizer::Engine.routes.draw do
     put "/next" => "organizer#next"
     put "/previous" => "organizer#previous"
+    put "/sequencer" => "organizer#sequencer"
     get "/retrieve_next" => "organizer#retrieve_next"
     get "/retrieve_previous" => "organizer#retrieve_previous"
+    get "retrieve_sequencer" => "organizer#retrieve_sequencer"
   end
 
   Discourse::Application.routes.append do

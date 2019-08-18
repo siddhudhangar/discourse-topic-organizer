@@ -10,6 +10,8 @@ var initial_selected_topics_pre = new Set();
 var initial_selected_topic_ids_post = new Set();
 var initial_selected_topics_post = new Set();
 
+var initial_sequencer_on;
+
 var hostname;
 
 var init_pre = [];
@@ -64,6 +66,8 @@ export default {
         api.attachWidgetAction('topic-admin-menu', 'actionTlLock', () => {
           // disable background scrolling when popup form is open
           $(document.documentElement).css('overflow', 'hidden');
+
+          initial_sequencer_on = "";
 
           var current_topic_url = window.location.href;
           current_topic_id = parseInt(current_topic_url.split('/')[5]);
@@ -417,7 +421,14 @@ export default {
 
           }).catch(console.error);
 
-          
+          ajax("/topic/retrieve_sequencer", {
+            type: "GET",
+            data: {
+              topic_id: parseInt(current_topic_id)
+            }
+          }).then(result => {
+            initial_sequencer_on = result.row_value;
+          }).catch(console.error);
 
           // const store = container.lookup("store:main");
           // store.findAll('note')
@@ -616,6 +627,10 @@ export default {
           if (init_arr.indexOf(arr_mapping[current_topic_id]) != -1)
             init_arr.splice(init_arr.indexOf(arr_mapping[current_topic_id]), 1);
 
+          if(initial_sequencer_on === "true")
+            document.getElementById("sequencer_checkbox").checked = true;
+          else
+            document.getElementById("sequencer_checkbox").checked = false;
           document.getElementById("myForm").style.display = "block";
           document.getElementById("myInput").disabled = false;
           document.getElementById("addt").style.display = "none";
