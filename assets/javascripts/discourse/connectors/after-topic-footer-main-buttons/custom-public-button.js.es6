@@ -608,13 +608,44 @@ export default {
         if (dragSrcEl != this) {
           // Set the source column's HTML to the HTML of the column we dropped on.
           //alert(this.outerHTML);
-          //dragSrcEl.innerHTML = this.innerHTML;
-          //this.innerHTML = e.dataTransfer.getData('text/html');
+            //dragSrcEl.innerHTML = this.innerHTML;
+            //this.innerHTML = e.dataTransfer.getData('text/html');
           this.parentNode.removeChild(dragSrcEl);
           var dropHTML = e.dataTransfer.getData('text/html');
           this.insertAdjacentHTML('beforebegin', dropHTML);
           var dropElem = this.previousSibling;
           addDnDHandlers(dropElem);
+          console.log(dropElem);
+          var parentn=dropElem.parentNode;
+          console.log("parent:"+parentn.id);
+          console.log(parentn);
+          var bt=dropElem.getElementsByClassName("closebtn")[0];
+          console.log(bt);
+          bt.addEventListener("click", function(ee) {
+          var idn = ee.target.parentNode.id;
+          document.getElementById(idn).remove();
+          if(parentn.id=="prereq-list")
+          {
+            noOfPreTopicsAdded -= 1;
+          selected_topics_pre.delete(idn);
+          selected_topic_ids_pre.delete(reverse_map[idn]);
+          }
+          else if(parentn.id=="postreq-list")
+          {
+            noOfPostTopicsAdded -= 1;
+          selected_topics_post.delete(idn);
+          selected_topic_ids_post.delete(reverse_map[idn]);
+          }
+
+          if (!arr.includes(idn)) {
+            arr.push(idn);
+          }
+          
+        });
+
+         // console.log(dropHTML);
+
+
 
         }
         this.classList.remove('over');
@@ -735,13 +766,14 @@ export default {
       }
 
       var inp = document.getElementById("myInput");
+      
       var currentFocus;
       /*execute a function when someone writes in the text field:*/
       inp.addEventListener("input", function(e) {
         var a, b, i, val = this.value;
         /*close any already open lists of autocompleted values*/
         closeAllLists();
-        if (!val) { return false; }
+        if (!val) { document.getElementById("addt").style.display = "none"; return false;  }
         currentFocus = -1;
         /*create a DIV element that will contain the items (values):*/
         a = document.createElement("DIV");
