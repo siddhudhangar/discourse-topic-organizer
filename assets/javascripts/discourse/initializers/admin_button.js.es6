@@ -51,7 +51,8 @@ export default {
         })
         .catch(console.error);
 
-      if (user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
+       // console.log(user);
+      if (user && user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
         // User is allowed to see the button
 
         api.decorateWidget('topic-admin-menu:adminMenuButtons', (decorator) => {
