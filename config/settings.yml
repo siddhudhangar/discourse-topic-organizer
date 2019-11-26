@@ -20,5 +20,6 @@ plugins:
   topic_organizer_tl_lock_minimum:
     default: 1
     client: true
-
-  
+  topic_group_button_allowed_group:
+    default: "trust_level_3"
+    client: true
