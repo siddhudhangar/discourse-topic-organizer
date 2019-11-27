@@ -1,5 +1,5 @@
 .hover_bkgr_fricc {
-  background: rgba(0, 0, 0, .85);
+  /*background: rgba(0, 0, 0, .85);*/
   cursor: pointer;
   display: none;
   height: 100%;
@@ -7,6 +7,7 @@
   text-align: center;
   top: 0;
   width: 100%;
+  color:#5e6367;
   z-index: 1000000;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
@@ -47,29 +48,48 @@ body {
 
 /*the container must be positioned relative:*/
 
+button#addt {
+  background-color: #0f82af;
+}
+
 .autocomplete {
   position: relative;
   display: inline-block;
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  box-sizing: border-box;
   /*max-height: 400px;*/
 }
 
 input {
   border: 1px solid transparent;
-  background-color: #f1f1f1;
+  background-color: green;
   padding: 10px;
   font-size: 16px;
 }
 
-input[type=text] {
-  background-color: #f1f1f1;
+.autocomplete input[type=text] {
+  background-color: #fff;
+  color:#5d4949;
   width: 100%;
+  position: relative;
+  display: inline-block;
+    border-radius: 4px;
+  /*max-height: 400px;*/
 }
+.pre_post_switch input[type=radio] {
+  color:#5e6367;
+}
+
 
 input[type=submit] {
   background-color: DodgerBlue;
   color: #fff;
   cursor: pointer;
 }
+
+
 
 .autocomplete-items {
   position: absolute;
@@ -118,21 +138,21 @@ input[type=submit] {
 
 .chip {
   display: block;
-  padding: 0 15px;
-  height: 50px;
+  padding: 0 10px;
+  height: 30px;
   font-size: 15px;
-  line-height: 50px;
+  line-height: 30px;
   border-radius: 5px;
   border: 2px;
-  top: 10px;
+  top: 5px;
   background-color: #99bdd8;
-  max-width: 90%;
+  max-width: 50%;
   text-align: center;
   transform: translateY(-50%);
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 
-  padding-bottom: 5px;
-  padding-top: 5px;
+  padding-bottom: 2px;
+  padding-top: 2px;
   cursor: move;
 }
 
