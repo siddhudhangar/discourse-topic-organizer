@@ -38,6 +38,12 @@
   overflow: scroll;
 }
 
+@media only screen and (max-width: 600px) {
+  .hover_bkgr_fricc h1{
+    font-size:20px;
+  }  
+}
+
 * {
   box-sizing: border-box;
 }
@@ -78,10 +84,19 @@ input {
     border-radius: 4px;
   /*max-height: 400px;*/
 }
-.pre_post_switch input[type=radio] {
-  color:#5e6367;
+
+.pre_post_switch{
+  width: 100%;
 }
 
+.pre_post_switch input[type=radio] {
+  color:#5e6367;
+  text-align: justify;
+}
+
+@media only screen and (max-width: 600px) {
+
+}
 
 input[type=submit] {
   background-color: DodgerBlue;
@@ -139,22 +154,45 @@ input[type=submit] {
 .chip {
   display: block;
   padding: 0 10px;
-  height: 30px;
+  height: auto;
   font-size: 15px;
-  line-height: 30px;
+  line-height: 20px;
   border-radius: 5px;
   border: 2px;
   top: 5px;
   background-color: #99bdd8;
-  max-width: 50%;
+  max-width: 60%;
   text-align: center;
   transform: translateY(-50%);
   margin-bottom: 2px;
-
   padding-bottom: 2px;
   padding-top: 2px;
   cursor: move;
 }
+
+
+@media only screen and (max-width: 600px) {
+  .chip{
+      display: block;
+      padding: 0 5px;
+      height: auto;
+      font-size: 10px;
+      line-height: 15px;
+      border-radius: 3px;
+      border: 1px;
+      top: 3px;
+      background-color: #99bdd8;
+      max-width: 95%;
+      text-align: center;
+      transform: translateY(-50%);
+      margin-bottom: 2px;
+      padding-bottom: 2px;
+      padding-top: 2px;
+      cursor: move;
+  }
+}
+
+
 
 .chip header {
   height: 20px;
@@ -199,6 +237,12 @@ input[type=submit] {
   float: right;
   font-size: 20px;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .closebtn{
+    font-size:15px;
+  }  
 }
 
 .closebtn:hover {
