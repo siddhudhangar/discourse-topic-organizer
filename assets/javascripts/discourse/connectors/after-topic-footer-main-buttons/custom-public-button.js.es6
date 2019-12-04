@@ -58,24 +58,49 @@ export default {
       
       var prearr = "";
       var postarr = "";
-
+      var length_of_element_of_prearr = -1
+      var length_of_element_of_postarr = -1
       var sequence_on = "" + document.getElementById("sequencer_checkbox").checked;
-      console.log("Sequencer on: "+sequence_on);
 
-      for(var elem of selectedTopicsPre) {
-        if(prearr.length == 0)
-          prearr = prearr+elem;
-        else
-          prearr = prearr+","+elem;
+      length_of_element_of_prearr = selectedTopicsPre.size
+      length_of_element_of_postarr = selectedTopicsPost.size
+
+      if ( length_of_element_of_prearr > 0){
+        for(var elem of selectedTopicsPre) {
+          if(prearr.length == 0){
+            prearr = prearr+elem;
+            }
+          else
+            prearr = prearr+","+elem;
+        }
       }
 
-      for(var elem of selectedTopicsPost) {
-        if(postarr.length == 0)
-          postarr = postarr+elem;
-        else
-          postarr = postarr+","+elem;
+      if ( length_of_element_of_prearr > 0){
+        for(var elem of selectedTopicsPost) {
+          if(postarr.length == 0){
+            postarr = postarr+elem;
+          }
+          else
+            postarr = postarr+","+elem;
+        }
       }
 
+      if( prearr.length == 0  ){
+        ajax("/topic/previous", {
+          type: "PUT",
+          data: {
+            topic_id: parseInt(current_topic_id), previous_topic_ids: "NULL"
+          }
+        });
+      }
+      if( postarr.length == 0  ){
+        ajax("/topic/next", {
+          type: "PUT",
+          data: {
+            topic_id: parseInt(current_topic_id), next_topic_ids: "NULL"
+          }
+        });
+      }
 
       if(postarr.length>0) {
         ajax("/topic/next", {
@@ -84,7 +109,6 @@ export default {
             topic_id: parseInt(current_topic_id), next_topic_ids: postarr
           }
         });
-
         for(var elem of postarr.split(",")) {
           var previous_of_next, final_result = "";
           var prevsAlreadyPresent = false;
@@ -390,39 +414,89 @@ export default {
       $("#prereq_list").empty();
       $("#postreq_list").empty();
       var j;
-      for (var elem of prearr) {
-        // var text="";
-        var tname = url_map[parseInt(elem)];
-        var text = '<a class="btn btn-warning btn-xs"';
-        text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
-        text += tname;
-        text += '/';
-        text += parseInt(elem);
-        text += '">';
-        if (selected_topic_ids_pre.length == 1)
-          text += 'Prev';
-        else
-          text += arr_mapping[parseInt(elem)];
-        text += '</a>&nbsp;';
-        console.log(text);
-        $("#prereq_list").append(text);
-      }
 
-      for (var elem of postarr) {
-        var lname = url_map[parseInt(elem)];
-        var text = '<a class="btn btn-warning btn-xs"';
-        text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
-        text += lname;
-        text += '/';
-        text += parseInt(elem);
-        text += '">';
-        if (selected_topic_ids_pre.length == 1)
-          text += 'Next';
-        else
-          text += arr_mapping[parseInt(elem)];
-        text += '</a>&nbsp;';
-        console.log(text);
-        $("#postreq_list").append(text);
+      if (prearr){
+        for (var elem of prearr.split(',')) {
+          // var text="";
+          var tname = "";
+          if(length_of_element_of_prearr == 1){
+            tname = url_map[parseInt(prearr)];
+          }
+          else
+          {
+            tname = url_map[parseInt(elem)];
+          }
+
+          var text = '<a class="btn btn-warning btn-xs"';
+          text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
+          text += tname;
+          text += '/';
+          if (length_of_element_of_prearr == 1){
+            text += parseInt(prearr);
+          }
+          else{
+            text += parseInt(elem);
+          }
+          text += '">';
+          if (selected_topic_ids_pre.length == 1)
+            text += 'Prev';
+          else
+            {
+              if(length_of_element_of_prearr == 1)
+              {
+                text += arr_mapping[parseInt(prearr)];
+              }
+              else{
+                text += arr_mapping[parseInt(elem)];
+              }
+            }
+          text += '</a>&nbsp;';
+
+          $("#prereq_list").append(text);
+          if(length_of_element_of_prearr == 1){
+            break;
+          }
+        }
+      }// if block is closed
+      if (postarr){
+        for (var elem of postarr.split(',')) {
+          var lname = "";
+          if(length_of_element_of_postarr == 1){
+            lname = url_map[parseInt(postarr)];
+          }
+          else{
+            lname = url_map[parseInt(elem)];
+          }
+
+          var text = '<a class="btn btn-warning btn-xs"';
+          text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
+          text += lname;
+          text += '/';
+          if (length_of_element_of_postarr == 1){
+            text += parseInt(postarr);
+          }
+          else{
+            text += parseInt(elem);
+          }
+
+          text += '">';
+          if (selected_topic_ids_pre.length == 1)
+            text += 'Next';
+          else {
+            if (length_of_element_of_postarr == 1){
+              text += arr_mapping[parseInt(postarr)];
+            }
+            else{
+              text += arr_mapping[parseInt(elem)];
+            }
+          }
+          text += '</a>&nbsp;';
+
+          $("#postreq_list").append(text);
+          if(length_of_element_of_postarr == 1){
+            break;
+          }
+        }
       }
 
       window.setTimeout(this.send("closeForm"), 5000);
@@ -494,7 +568,6 @@ export default {
       var x = Array.from(document.getElementsByClassName("autocomplete-items"));
       var y = x[0];
       var z = Array.from(y.children);
-      console.log(z);
 
       function returnNumberOfChecked(z) {
         var count = 0;
