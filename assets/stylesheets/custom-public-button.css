@@ -389,3 +389,7 @@ input[type=submit] {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.autocomplete ul li a span.username {
+    color: #8e8888;
+}
