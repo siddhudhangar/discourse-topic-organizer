@@ -59,8 +59,11 @@ after_initialize do
           if topic.try(:archived)
             raise StandardError.new I18n.t("topic.topic_must_be_open_to_edit")
           end
-
-          topic.custom_fields["#{transaction}_topic_id"] = topic_ids
+          if topic_ids == "NULL"
+            topic.custom_fields.delete("#{transaction}_topic_id");
+          else
+            topic.custom_fields["#{transaction}_topic_id"] = topic_ids
+          end
           topic.save!
 
           return topic
