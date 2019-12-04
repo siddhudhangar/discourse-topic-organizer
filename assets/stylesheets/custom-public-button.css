@@ -121,7 +121,7 @@ input[type=submit] {
 .autocomplete-items div {
   padding: 10px;
   cursor: pointer;
-  background-color: #fff;
+/*  background-color: #fff;*/
   border-bottom: 1px solid #d4d4d4;
 }
 
@@ -388,4 +388,8 @@ input[type=submit] {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.autocomplete ul li a span.username {
+    color: #8e8888;
 }
