@@ -104,7 +104,7 @@ after_initialize do
   class DiscourseTopicOrganizer::OrganizerController < ::ApplicationController
     requires_plugin PLUGIN_NAME
 
-    before_action :ensure_logged_in
+    
 
     def next
       topic_id = params.require(:topic_id)
