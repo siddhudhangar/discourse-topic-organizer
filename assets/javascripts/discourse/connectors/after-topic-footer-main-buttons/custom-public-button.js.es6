@@ -109,7 +109,7 @@ export default {
             topic_id: parseInt(current_topic_id), next_topic_ids: postarr
           }
         });
-        for(var elem of postarr.split(",")) {
+/*       for(var elem of postarr.split(",")) {
           var previous_of_next, final_result = "";
           var prevsAlreadyPresent = false;
           ajax("/topic/retrieve_previous", {
@@ -140,7 +140,7 @@ export default {
               }
             });
           }
-        }
+        } */
       }
 
       if(prearr.length>0) {
@@ -151,7 +151,7 @@ export default {
           }
         });
 
-        for(var elem of prearr.split(",")) {
+      /* for(var elem of prearr.split(",")) {
           var next_of_previous, final_result = "";
           var nextsAlreadyPresent = false;
           ajax("/topic/retrieve_next", {
@@ -182,7 +182,7 @@ export default {
               }
             });
           }
-        }
+        } */
       }
 
       ajax("/topic/sequencer", {
