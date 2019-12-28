@@ -75,7 +75,7 @@ export default {
         }
       }
 
-      if ( length_of_element_of_prearr > 0){
+      if ( length_of_element_of_postarr > 0){
         for(var elem of selectedTopicsPost) {
           if(postarr.length == 0){
             postarr = postarr+elem;
@@ -109,7 +109,7 @@ export default {
             topic_id: parseInt(current_topic_id), next_topic_ids: postarr
           }
         });
-/*       for(var elem of postarr.split(",")) {
+       for(var elem of postarr.split(",")) {
           var previous_of_next, final_result = "";
           var prevsAlreadyPresent = false;
           ajax("/topic/retrieve_previous", {
@@ -124,23 +124,23 @@ export default {
             if(!previous_of_next.includes(""+current_topic_id))
               final_result = final_result+","+current_topic_id;
 
-            ajax("/topic/previous", {
-              type: "PUT",
-              data: {
-                topic_id: parseInt(elem), previous_topic_ids: final_result
-              }
-            }); 
+            //ajax("/topic/previous", {
+            //  type: "PUT",
+            //  data: {
+            //    topic_id: parseInt(elem), previous_topic_ids: final_result
+            //  }
+            //});
           }).catch(console.error);
 
-          if(!prevsAlreadyPresent) {
-            ajax("/topic/previous", {
-              type: "PUT",
-              data: {
-                topic_id: parseInt(elem), previous_topic_ids: ""+current_topic_id
-              }
-            });
-          }
-        } */
+         // if(!prevsAlreadyPresent) {
+         //   ajax("/topic/previous", {
+         //     type: "PUT",
+         //     data: {
+         //       topic_id: parseInt(elem), previous_topic_ids: ""+current_topic_id
+         //     }
+         //   });
+         // }
+        } 
       }
 
       if(prearr.length>0) {
@@ -151,7 +151,7 @@ export default {
           }
         });
 
-      /* for(var elem of prearr.split(",")) {
+        for(var elem of prearr.split(",")) {
           var next_of_previous, final_result = "";
           var nextsAlreadyPresent = false;
           ajax("/topic/retrieve_next", {
@@ -165,24 +165,23 @@ export default {
             final_result = result.row_value;
             if(!next_of_previous.includes(""+current_topic_id))
               final_result = final_result+","+current_topic_id;
-
-            ajax("/topic/next", {
-              type: "PUT",
-              data: {
-                topic_id: parseInt(elem), next_topic_ids: final_result
-              }
-            });
+            //ajax("/topic/next", {
+            //  type: "PUT",
+            //  data: {
+            //    topic_id: parseInt(elem), next_topic_ids: final_result
+            //  }
+            //});
           }).catch(console.error);
 
-          if(!nextsAlreadyPresent) {
-            ajax("/topic/next", {
-              type: "PUT",
-              data: {
-                topic_id: parseInt(elem), next_topic_ids: ""+current_topic_id
-              }
-            });
-          }
-        } */
+          //if(!nextsAlreadyPresent) {
+          //  ajax("/topic/next", {
+          //    type: "PUT",
+          //    data: {
+          //      topic_id: parseInt(elem), next_topic_ids: ""+current_topic_id
+          //    }
+          //  });
+          //}
+        } 
       }
 
       ajax("/topic/sequencer", {
