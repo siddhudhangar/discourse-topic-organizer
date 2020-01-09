@@ -10,7 +10,7 @@ var arr_mapping = {};
 var current_topic_id;
 var reverse_map = {};
 var url_map = new Map();
-
+const settings = Discourse.SiteSettings;
 export default {
   name: 'myprereq',
   initialize(container) {
@@ -50,11 +50,12 @@ export default {
             }).then(result => {
               var prior_ids = result.row_value.split(",");
               if(prior_ids) {
+                $("#prereq_list").append(settings.topic_organizer_previous_button_label+"&nbsp;&nbsp;");
                 for (var k = 0; k < prior_ids.length; k++) {
                   var idp = parseInt(prior_ids[k]);
                   var ref = url_map.get(idp);
                   var lname = arr_mapping[idp];
-                  var text = '<a class="btn btn-warning btn-xs"';
+                  var text = '<a class="btn previous_next_button btn-warning btn-xs"';
                   text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
                   text += ref;
                   text += '/';
@@ -146,11 +147,12 @@ export default {
 
               console.log("next_ids: "+next_ids);
               if(next_ids) {
+                $("#postreq_list").append(settings.topic_organizer_next_button_label+"&nbsp;&nbsp;");
                 for (var k = 0; k < next_ids.length; k++) {
                   var idp = parseInt(next_ids[k]);
                   var ref = url_map.get(idp);
                   var lname = arr_mapping[idp];
-                  var text = '<a class="btn btn-warning btn-xs"';
+                  var text = '<a class="btn previous_next_button btn-warning btn-xs"';
                   text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
                   text += ref;
                   text += '/';
@@ -162,6 +164,7 @@ export default {
                     text += lname;
                   text += '</a>&nbsp;';
                   //console.log(text);
+
                   $("#postreq_list").append(text);
                 }
               }

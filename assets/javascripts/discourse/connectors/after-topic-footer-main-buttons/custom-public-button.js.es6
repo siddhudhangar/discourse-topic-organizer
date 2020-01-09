@@ -17,7 +17,7 @@ var post = init_post.slice();
 
 var noOfPreTopicsAdded = 0;
 var noOfPostTopicsAdded = 0;
-
+const settings = Discourse.SiteSettings;
 export default {
   actions: {
 
@@ -415,6 +415,7 @@ export default {
       var j;
 
       if (prearr){
+        $("#prereq_list").append(settings.topic_organizer_previous_button_label+"&nbsp;&nbsp;");
         for (var elem of prearr.split(',')) {
           // var text="";
           var tname = "";
@@ -426,7 +427,7 @@ export default {
             tname = url_map[parseInt(elem)];
           }
 
-          var text = '<a class="btn btn-warning btn-xs"';
+          var text = '<a class="btn previous_next_button btn-warning btn-xs"';
           text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
           text += tname;
           text += '/';
@@ -458,6 +459,7 @@ export default {
         }
       }// if block is closed
       if (postarr){
+        $("#postreq_list").append(settings.topic_organizer_next_button_label+"&nbsp;&nbsp;");
         for (var elem of postarr.split(',')) {
           var lname = "";
           if(length_of_element_of_postarr == 1){
@@ -467,7 +469,7 @@ export default {
             lname = url_map[parseInt(elem)];
           }
 
-          var text = '<a class="btn btn-warning btn-xs"';
+          var text = '<a class="btn previous_next_button btn-warning btn-xs"';
           text += 'href="' + hostname[0] + '//' + hostname[2] + '/t/';
           text += lname;
           text += '/';
