@@ -23,3 +23,9 @@ plugins:
   topic_group_button_allowed_group:
     default: "trust_level_3"
     client: true
+  topic_organizer_previous_button_label:
+    default: "Previous Topic/s"
+    client: true
+  topic_organizer_next_button_label:
+    default: "Next Topic/s"
+    client: true
