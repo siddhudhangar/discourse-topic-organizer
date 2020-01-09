@@ -393,3 +393,7 @@ input[type=submit] {
 .autocomplete ul li a span.username {
     color: #8e8888;
 }
+
+.previous_next_button{
+  background: #fbea6f;
+}
