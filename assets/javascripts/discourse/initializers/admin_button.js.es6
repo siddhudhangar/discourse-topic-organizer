@@ -34,19 +34,29 @@ export default {
       init_arr = []; // clears array for a fresh reuse of the plugin
 
       var j;
-      let url = hostname[0] + '//' + hostname[2] + '/latest.json';
-
+      //let url = hostname[0] + '//' + hostname[2] + '/latest.json';
+      let url = hostname[0] + '//' + hostname[2] + '/categories.json';
       fetch(url)
         .then(function(response) {
           return response.json();
         })
         .then(function(json) {
-          var temp = json['topic_list']['topics'];
-          for (j = 0; j < temp.length; j++) {
-            arr_mapping[temp[j].id] = temp[j].title;
-            reverse_map[temp[j].title] = temp[j].id;
-            url_map[temp[j].id] = temp[j].slug;
-            init_arr.push(temp[j].title);
+          var response_of_categories = json['category_list']['categories']
+          for(var i = 0; i < response_of_categories.length; i++ ){
+            var category_url = hostname[0] + '//' + hostname[2] +'/c/' + response_of_categories[i]['slug'] + '.json'
+            fetch(category_url)
+             .then(function(response) {
+              return response.json();
+            })
+            .then(function(json) {
+            var temp = json['topic_list']['topics'];
+            for (j = 0; j < temp.length; j++) {
+              arr_mapping[temp[j].id] = temp[j].title;
+              reverse_map[temp[j].title] = temp[j].id;
+              url_map[temp[j].id] = temp[j].slug;
+              init_arr.push(temp[j].title);
+            }
+          })
           }
         })
         .catch(console.error);

@@ -888,7 +888,9 @@ export default {
 
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/
-          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          //if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          if (val && arr && arr[i].search(new RegExp(val, "i")) != -1) {
+
             /*create a DIV element for each matching element:*/
             b = document.createElement("DIV");
             b.setAttribute("id", arr[i]);
