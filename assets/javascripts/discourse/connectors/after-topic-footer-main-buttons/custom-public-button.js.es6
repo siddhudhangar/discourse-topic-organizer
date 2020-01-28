@@ -124,22 +124,22 @@ export default {
             if(!previous_of_next.includes(""+current_topic_id))
               final_result = final_result+","+current_topic_id;
 
-            //ajax("/topic/previous", {
-            //  type: "PUT",
-            //  data: {
-            //    topic_id: parseInt(elem), previous_topic_ids: final_result
-            //  }
-            //});
+            ajax("/topic/previous", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(elem), previous_topic_ids: final_result
+              }
+            });
           }).catch(console.error);
 
-         // if(!prevsAlreadyPresent) {
-         //   ajax("/topic/previous", {
-         //     type: "PUT",
-         //     data: {
-         //       topic_id: parseInt(elem), previous_topic_ids: ""+current_topic_id
-         //     }
-         //   });
-         // }
+          if(!prevsAlreadyPresent) {
+            ajax("/topic/previous", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(elem), previous_topic_ids: ""+current_topic_id
+              }
+            });
+          }
         } 
       }
 
@@ -165,22 +165,22 @@ export default {
             final_result = result.row_value;
             if(!next_of_previous.includes(""+current_topic_id))
               final_result = final_result+","+current_topic_id;
-            //ajax("/topic/next", {
-            //  type: "PUT",
-            //  data: {
-            //    topic_id: parseInt(elem), next_topic_ids: final_result
-            //  }
-            //});
+            ajax("/topic/next", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(elem), next_topic_ids: final_result
+              }
+            });
           }).catch(console.error);
 
-          //if(!nextsAlreadyPresent) {
-          //  ajax("/topic/next", {
-          //    type: "PUT",
-          //    data: {
-          //      topic_id: parseInt(elem), next_topic_ids: ""+current_topic_id
-          //    }
-          //  });
-          //}
+          if(!nextsAlreadyPresent) {
+            ajax("/topic/next", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(elem), next_topic_ids: ""+current_topic_id
+              }
+            });
+          }
         } 
       }
 
