@@ -68,7 +68,7 @@ export default {
               data: {
                 topic_id: parseInt(current_topic_id)
               },
-              async: false
+              //async: false
             }).then(result => {
               var prior_ids = result.row_value.split(",");
               if(prior_ids) {
@@ -154,17 +154,40 @@ export default {
         var j;
 
         //let url = hostname[0] + '//' + hostname[2] + '/latest.json'
-        //let url = hostname[0] + '//' + hostname[2] + '/categories.json';
+        let url = hostname[0] + '//' + hostname[2] + '/categories.json';
+
+        ajax(url)
+          //.then(response => response.json())
+          .then(result => {
+            var response_of_categories = result['category_list']['categories'];
+            for(var i = 0; i < response_of_categories.length; i++ ){
+            var category_url = hostname[0] + '//' + hostname[2] +'/c/' + response_of_categories[i]['slug'] + '.json'
+            ajax(category_url)
+             .then(function(result) {
+              return result;
+            })
+            .then(function(json) {
 
 
+
+            var temp = json['topic_list']['topics'];
+            for (j = 0; j < temp.length; j++) {
+              arr_mapping[temp[j].id] = temp[j].title;
+              reverse_map[temp[j].title] = temp[j].id;
+              url_map.set(temp[j].id, temp[j].slug);
+              arr.push(temp[j].title);
+            }
+            });
+            }
 
             $("#postreq_list").empty();
             console.log(arr);
+            if (i == response_of_categories.length){
             ajax('/topic/retrieve_next', {
               type: 'GET',
               data: {
                 topic_id: parseInt(current_topic_id)
-              }
+              },
             }).then(result => {
               var next_ids = result.row_value.split(",");
 
@@ -193,7 +216,8 @@ export default {
               }
             }).catch(console.error);
             
-
+          }
+          }); // fetch function's inside block closed
       });
     });
 
