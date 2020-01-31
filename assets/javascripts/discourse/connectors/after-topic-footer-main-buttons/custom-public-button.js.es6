@@ -61,7 +61,8 @@ export default {
       var length_of_element_of_prearr = -1
       var length_of_element_of_postarr = -1
       var sequence_on = "" + document.getElementById("sequencer_checkbox").checked;
-
+      console.log("selectedTopicsPre")
+      console.log(selectedTopicsPre);
       length_of_element_of_prearr = selectedTopicsPre.size
       length_of_element_of_postarr = selectedTopicsPost.size
 
@@ -84,8 +85,8 @@ export default {
             postarr = postarr+","+elem;
         }
       }
-
-      if( prearr.length == 0  ){
+    
+      if( length_of_element_of_prearr == 0  ){
         ajax("/topic/previous", {
           type: "PUT",
           data: {
@@ -93,7 +94,7 @@ export default {
           }
         });
       }
-      if( postarr.length == 0  ){
+      if( length_of_element_of_postarr == 0  ){
         ajax("/topic/next", {
           type: "PUT",
           data: {
@@ -109,6 +110,7 @@ export default {
             topic_id: parseInt(current_topic_id), next_topic_ids: postarr
           }
         });
+       console.log("postarrpostarrpostarrpostarr")
        for(var elem of postarr.split(",")) {
           var previous_of_next, final_result = "";
           var prevsAlreadyPresent = false;
@@ -120,9 +122,12 @@ export default {
           }).then(result => {
             prevsAlreadyPresent = true;
             previous_of_next = result.row_value.split(",");
+            console.log("result");
+            console.log(result);
             final_result = result.row_value;
             if(!previous_of_next.includes(""+current_topic_id))
               final_result = final_result+","+current_topic_id;
+            console.log(final_result);
 
             ajax("/topic/previous", {
               type: "PUT",

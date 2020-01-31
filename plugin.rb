@@ -39,14 +39,20 @@ after_initialize do
     class << self
 
       def next(topic_id, next_topic_ids)
+        puts "next method is called"
         set('next', topic_id, next_topic_ids)
       end
 
       def previous(topic_id, previous_topic_ids)
+        puts "previous method is called"
         set('previous', topic_id, previous_topic_ids)
       end
 
       def set(transaction, topic_id, topic_ids) 
+        puts "set method is called"
+        puts topic_id
+        puts topic_ids
+        puts "==============================="
         DistributedMutex.synchronize("#{PLUGIN_NAME}-#{topic_id}") do
           topic = Topic.find_by_id(topic_id)
 
@@ -82,10 +88,14 @@ after_initialize do
       end
 
       def retrieve_next(topic_id)
+        puts "retrieve_next method is called"
+        puts topic_id
         retrieve("next", topic_id)
       end
 
       def retrieve_previous(topic_id)
+        puts "retrieve_previous method is called"
+        puts topic_id
         retrieve("previous", topic_id)
       end
 
@@ -154,8 +164,9 @@ after_initialize do
     end
 
     def retrieve_previous
+      puts "retrieve_previous"
       topic_id = params.require(:topic_id)
-
+      puts topic_id
       begin
         row_value = DiscourseTopicOrganizer::Organizer.retrieve_previous(topic_id)
         render json: { row_value: row_value }
@@ -183,6 +194,7 @@ after_initialize do
     put "/sequencer" => "organizer#sequencer"
     get "/retrieve_next" => "organizer#retrieve_next"
     get "/retrieve_previous" => "organizer#retrieve_previous"
+    post "/retrieve_previous" => "organizer#retrieve_previous"
     get "retrieve_sequencer" => "organizer#retrieve_sequencer"
   end
 
