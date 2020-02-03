@@ -27,7 +27,7 @@ export default {
   name: 'tl-post-lock',
   initialize(container) {
     withPluginApi('0.8.24', function(api) {
-      console.log("initialize has been called!");
+      //console.log("initialize has been called!");
       hostname = window.location.href.split('/');
       const user = api.getCurrentUser();
       arr_mapping = {};
@@ -170,10 +170,10 @@ export default {
                 initial_selected_topics_pre.add(arr_mapping[parseInt(k)]);
 
                 var elem = arr_mapping[parseInt(k)];
-                console.log(elem);
+                //console.log(elem);
                 var l, x, l2;
                 l = document.getElementById("prereq-list");
-                console.log("this is l: " + l);
+                //console.log("this is l: " + l);
                 l2 = document.getElementById("postreq-list");
                 x = document.createElement("DIV");
                 x.setAttribute("class", "chip");
@@ -187,7 +187,7 @@ export default {
                 clb.setAttribute("id", elem + "-button");
 
                 clb.innerHTML = '&times;';
-                console.log(clb);
+                //console.log(clb);
 
 
                 x.appendChild(clb);
@@ -201,12 +201,12 @@ export default {
             initial_selected_topic_ids_pre = new Set(initial_selected_topic_ids_pre);
             // initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
 
-            console.log("plist.length: " + plist.length);
+            //console.log("plist.length: " + plist.length);
 
-            console.log(plist[0]);
+            //console.log(plist[0]);
             for (var j = 0; j < plist.length; j++) {
               plist[j].addEventListener("click", function(e) {
-                console.log("Called in admin_button.js.es6");
+                //console.log("Called in admin_button.js.es6");
                 // body...
                 var idn = e.target.parentNode.id;
                 document.getElementById(idn).remove();
@@ -326,7 +326,7 @@ export default {
                 clb.setAttribute("id", elem + "-button");
 
                 clb.innerHTML = '&times;';
-                console.log(clb);
+                //console.log(clb);
 
 
                 x.appendChild(clb);
@@ -339,7 +339,7 @@ export default {
             var plist = document.querySelectorAll("#postreq-list .closebtn");
             initial_selected_topic_ids_post = new Set(initial_selected_topic_ids_post);
 
-            console.log("plist.length: " + plist.length);
+            //console.log("plist.length: " + plist.length);
 
             for (var j = 0; j < plist.length; j++) {
               plist[j].addEventListener("click", function(e) {

@@ -61,8 +61,8 @@ export default {
       var length_of_element_of_prearr = -1
       var length_of_element_of_postarr = -1
       var sequence_on = "" + document.getElementById("sequencer_checkbox").checked;
-      console.log("selectedTopicsPre")
-      console.log(selectedTopicsPre);
+      //console.log("selectedTopicsPre")
+      //console.log(selectedTopicsPre);
       length_of_element_of_prearr = selectedTopicsPre.size
       length_of_element_of_postarr = selectedTopicsPost.size
 
@@ -110,7 +110,7 @@ export default {
             topic_id: parseInt(current_topic_id), next_topic_ids: postarr
           }
         });
-       console.log("postarrpostarrpostarrpostarr")
+       //console.log("postarrpostarrpostarrpostarr")
        for(var elem of postarr.split(",")) {
           var previous_of_next, final_result = "";
           var prevsAlreadyPresent = false;
@@ -122,12 +122,12 @@ export default {
           }).then(result => {
             prevsAlreadyPresent = true;
             previous_of_next = result.row_value.split(",");
-            console.log("result");
-            console.log(result);
+            //console.log("result");
+            //console.log(result);
             final_result = result.row_value;
             if(!previous_of_next.includes(""+current_topic_id))
               final_result = final_result+","+current_topic_id;
-            console.log(final_result);
+            //console.log(final_result);
 
             ajax("/topic/previous", {
               type: "PUT",
@@ -694,12 +694,12 @@ export default {
           this.insertAdjacentHTML('beforebegin', dropHTML);
           var dropElem = this.previousSibling;
           addDnDHandlers(dropElem);
-          console.log(dropElem);
+          //console.log(dropElem);
           var parentn=dropElem.parentNode;
-          console.log("parent:"+parentn.id);
-          console.log(parentn);
+          //console.log("parent:"+parentn.id);
+          //console.log(parentn);
           var bt=dropElem.getElementsByClassName("closebtn")[0];
-          console.log(bt);
+          //console.log(bt);
           bt.addEventListener("click", function(ee) {
           var idn = ee.target.parentNode.id;
           document.getElementById(idn).remove();
@@ -795,7 +795,7 @@ export default {
       document.getElementById("myInput").value = '';
       closeAllLists();
 
-      console.log(selected_topic_ids_post + "  " + selected_topic_ids_pre);
+      //console.log(selected_topic_ids_post + "  " + selected_topic_ids_pre);
 
       function closeAllLists(elmnt) {
         /*close all autocomplete lists in the document,
@@ -880,7 +880,7 @@ export default {
         for (var x = 0; x < postChips.length; x++)
           selected_topics.add(postChips[x].id);
 
-        console.log(selected_topics);
+        //console.log(selected_topics);
         if (selected_topics) {
           for (var elem of selected_topics) {
             var index = arr.indexOf(elem);
