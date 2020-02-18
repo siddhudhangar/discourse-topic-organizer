@@ -185,6 +185,20 @@ after_initialize do
         render_json_error e.message
       end
     end
+    def get_all_cat
+      topics = Topic.all()
+      # category = Category.all()
+      # Category.all.each do |c|
+      # puts "==============================="
+      # topics = Topic.where(category_id: c.id)
+      # topics.each do |t|
+      #   puts t.as_json
+      # end
+      # puts "==============================="
+      # end
+      # puts category
+      render json: { topics: topics }
+    end
 
   end
 
@@ -196,6 +210,7 @@ after_initialize do
     get "/retrieve_previous" => "organizer#retrieve_previous"
     post "/retrieve_previous" => "organizer#retrieve_previous"
     get "retrieve_sequencer" => "organizer#retrieve_sequencer"
+    get "/get_all_cat" => "organizer#get_all_cat"
   end
 
   Discourse::Application.routes.append do

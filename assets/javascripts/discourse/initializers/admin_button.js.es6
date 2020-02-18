@@ -35,21 +35,42 @@ export default {
 
       var j;
       //let url = hostname[0] + '//' + hostname[2] + '/latest.json';
-      let url = hostname[0] + '//' + hostname[2] + '/categories.json';
-      fetch(url)
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(json) {
-          var response_of_categories = json['category_list']['categories']
-          for(var i = 0; i < response_of_categories.length; i++ ){
-            var category_url = hostname[0] + '//' + hostname[2] +'/c/' + response_of_categories[i]['slug'] + '.json'
-            fetch(category_url)
+      //let url = hostname[0] + '//' + hostname[2] + '/categories.json';
+      //fetch(url)
+      //  .then(function(response) {
+      //    return response.json();
+      //  })
+      //  .then(function(json) {
+      //    var response_of_categories = json['category_list']['categories']
+      //    for(var i = 0; i < response_of_categories.length; i++ ){
+      //      var category_url = hostname[0] + '//' + hostname[2] +'/c/' + response_of_categories[i]['slug'] + //'.json'
+      //      fetch(category_url)
+      //       .then(function(response) {
+      //        return response.json();
+      //      })
+      //      .then(function(json) {
+      //      var temp = json['topic_list']['topics'];
+      //      for (j = 0; j < temp.length; j++) {
+      //        arr_mapping[temp[j].id] = temp[j].title;
+      //        reverse_map[temp[j].title] = temp[j].id;
+      //        url_map[temp[j].id] = temp[j].slug;
+      //        init_arr.push(temp[j].title);
+      //      }
+      //    })
+      //    }
+      //  })
+      //  .catch(console.error);
+            let url = hostname[0] + '//' + hostname[2] + '/topic/get_all_cat.json';
+            console.log("console print");
+            console.log(url)
+            fetch(url)
              .then(function(response) {
+              console.log("response");
+              console.log(response);
               return response.json();
             })
             .then(function(json) {
-            var temp = json['topic_list']['topics'];
+            var temp = json['topics'];
             for (j = 0; j < temp.length; j++) {
               arr_mapping[temp[j].id] = temp[j].title;
               reverse_map[temp[j].title] = temp[j].id;
@@ -57,9 +78,7 @@ export default {
               init_arr.push(temp[j].title);
             }
           })
-          }
-        })
-        .catch(console.error);
+          
 
       if (user && user.trust_level >= api.container.lookup('site-settings:main').topic_organizer_tl_lock_minimum) {
         // User is allowed to see the button
