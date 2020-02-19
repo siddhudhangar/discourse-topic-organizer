@@ -27,32 +27,36 @@ export default {
         var j;
         var check_success = false;
         //let url = hostname[0] + '//' + hostname[2] + '/latest.json'
-        let url = hostname[0] + '//' + hostname[2] + '/categories.json';
-
+        //let url = hostname[0] + '//' + hostname[2] + '/categories.json';
+        let url = hostname[0] + '//' + hostname[2] + '/topic/get_all_cat.json';
         ajax(url)
           //.then(result)
           .then(result => {
-            var response_of_categories = result['category_list']['categories'];
-            var i;
-            for( i = 0; i < response_of_categories.length; i++ ){
-            var category_url = hostname[0] + '//' + hostname[2] +'/c/' + response_of_categories[i]['slug'] + '.json'
-            ajax(category_url)
-             .then(function(result) {
-              return result;
-            })
-            .then(function(json) {
-            var temp = json['topic_list']['topics'];
+            //var response_of_categories = result['category_list']['categories'];
+            //var i;
+            //for( i = 0; i < response_of_categories.length; i++ ){
+            //var category_url = hostname[0] + '//' + hostname[2] +'/c/' + response_of_categories[i]['slug'] + //'.json'
+            //ajax(category_url)
+            // .then(function(result) {
+            //  return result;
+            //})
+            //.then(function(json) {
+            //var temp = json['topic_list']['topics'];
+
+            var temp = result['topics'];
+            //console.log("tempppp");
+            //console.log(temp);
             for (j = 0; j < temp.length; j++) {
               arr_mapping[temp[j].id] = temp[j].title;
               reverse_map[temp[j].title] = temp[j].id;
               url_map.set(temp[j].id, temp[j].slug);
               arr.push(temp[j].title);
             }
-            });
-            }
+            //});
+            //}
             
             $("#prereq_list").empty();
-            if (i == response_of_categories.length){
+            //if (i == response_of_categories.length){
             ajax('/topic/retrieve_previous', {
               type: 'GET',
               data: {
@@ -61,6 +65,7 @@ export default {
               //async: false
             }).then(result => {
               var prior_ids = result.row_value.split(",");
+              //console.log(prior_ids);
               if(prior_ids) {
                 $("#prereq_list").append(settings.topic_organizer_previous_button_label+"&nbsp;&nbsp;");
                 for (var k = 0; k < prior_ids.length; k++) {
@@ -79,10 +84,11 @@ export default {
                     text += lname;
                   text += '</a>&nbsp;';
                   $("#prereq_list").append(text);
+                  //console.log(text);
                 }
               }
             }).catch(console.error);
-            }
+            //}
             // const store = container.lookup("store:main");
             // store.findAll('note')
             //   .then(result => {
@@ -134,34 +140,33 @@ export default {
         var j;
 
         //let url = hostname[0] + '//' + hostname[2] + '/latest.json'
-        let url = hostname[0] + '//' + hostname[2] + '/categories.json';
-
+        //let url = hostname[0] + '//' + hostname[2] + '/categories.json';
+        let url = hostname[0] + '//' + hostname[2] + '/topic/get_all_cat.json';
         ajax(url)
           //.then(response => response.json())
           .then(result => {
-            var response_of_categories = result['category_list']['categories'];
-            for(var i = 0; i < response_of_categories.length; i++ ){
-            var category_url = hostname[0] + '//' + hostname[2] +'/c/' + response_of_categories[i]['slug'] + '.json'
-            ajax(category_url)
-             .then(function(result) {
-              return result;
-            })
-            .then(function(json) {
+            //var response_of_categories = result['category_list']['categories'];
+            //for(var i = 0; i < response_of_categories.length; i++ ){
+            //var category_url = hostname[0] + '//' + hostname[2] +'/c/' + response_of_categories[i]['slug'] + //'.json'
+            //ajax(category_url)
+            // .then(function(result) {
+            //  return result;
+            //})
+            //.then(function(json) {
+            //var temp = json['topic_list']['topics'];
+            var temp = result['topics'];
 
-
-
-            var temp = json['topic_list']['topics'];
             for (j = 0; j < temp.length; j++) {
               arr_mapping[temp[j].id] = temp[j].title;
               reverse_map[temp[j].title] = temp[j].id;
               url_map.set(temp[j].id, temp[j].slug);
               arr.push(temp[j].title);
             }
-            });
-            }
+            //});
+            //}
 
             $("#postreq_list").empty();
-            if (i == response_of_categories.length){
+            //if (i == response_of_categories.length){
             ajax('/topic/retrieve_next', {
               type: 'GET',
               data: {
@@ -193,7 +198,7 @@ export default {
               }
             }).catch(console.error);
             
-          }
+          //}
           }); // fetch function's inside block closed
       });
     });
