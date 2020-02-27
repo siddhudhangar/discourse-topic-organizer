@@ -193,14 +193,14 @@ export default {
             });
           }).catch(console.error);
 
-          //if(!nextsAlreadyPresent) {
-          //  ajax("/topic/next", {
-          //    type: "PUT",
-          //    data: {
-          //      topic_id: parseInt(element), next_topic_ids: ""+current_topic_id
-          //    }
-          //  });
-          //}
+          if(!nextsAlreadyPresent) {
+            ajax("/topic/next", {
+              type: "PUT",
+              data: {
+                topic_id: parseInt(element), next_topic_ids: ""+current_topic_id
+              }
+            });
+          }
         } 
       }
       console.log("============= if block of prearr closed==================");
