@@ -22,7 +22,7 @@ export default {
   actions: {
 
     createTopicRecord(topic) {
-
+      console.log("create topic record")
       // .then((result) => {
       //   topic.set('custom_fields.next_topic_id', result.topic.next_topic_id);
       // }).catch(() => {
@@ -31,15 +31,16 @@ export default {
 
       var preChips = document.querySelectorAll("#prereq-list .chip");
       var postChips = document.querySelectorAll("#postreq-list .chip");
-
+      console.log(preChips);
+      console.log(postChips);
       var existingPrereqs = new Array();
       for(var x = 0; x<document.querySelectorAll('#prereq_list .btn').length; x++)
         existingPrereqs.push(reverse_map[document.querySelectorAll('#prereq_list .btn')[x].text]);
-
+      console.log(existingPrereqs);
       var existingPostreqs = new Array();
       for(var x = 0; x<document.querySelectorAll('#postreq_list .btn').length; x++)
         existingPostreqs.push(reverse_map[document.querySelectorAll('#postreq_list .btn')[x].text]);
-
+      console.log(existingPostreqs);
       var selectedTopicsPre = new Set();
       var selectedTopicsPost = new Set();
 
@@ -48,7 +49,7 @@ export default {
 
       for (var x = 0; x < postChips.length; x++)
         selectedTopicsPost.add(reverse_map[postChips[x].id]);
-
+      console.log(selectedTopicsPost);
       if (!selected_topic_ids_pre && !selected_topic_ids_post) {
         console.log(":( the array empty");
         return;
@@ -102,7 +103,8 @@ export default {
           }
         });
       }
-
+      console.log(postarr);
+      console.log(current_topic_id);
       if(postarr.length>0) {
         ajax("/topic/next", {
           type: "PUT",
@@ -110,15 +112,16 @@ export default {
             topic_id: parseInt(current_topic_id), next_topic_ids: postarr
           }
         });
-       //console.log("postarrpostarrpostarrpostarr")
+       console.log("postarrpostarrpostarrpostarr")
        for(var elem of postarr.split(",")) {
+          console.log("postarr===="+elem);
           var previous_of_next, final_result = "";
           var prevsAlreadyPresent = false;
           ajax("/topic/retrieve_previous", {
             type: "GET",
             data: {
               topic_id: parseInt(elem)
-            }
+            },
           }).then(result => {
             prevsAlreadyPresent = true;
             previous_of_next = result.row_value.split(",");
@@ -127,7 +130,8 @@ export default {
             final_result = result.row_value;
             if(!previous_of_next.includes(""+current_topic_id))
               final_result = final_result+","+current_topic_id;
-            //console.log(final_result);
+            console.log("final_result");
+            console.log(final_result);
 
             ajax("/topic/previous", {
               type: "PUT",
@@ -138,6 +142,7 @@ export default {
           }).catch(console.error);
 
           if(!prevsAlreadyPresent) {
+            console.log("if block executed");
             ajax("/topic/previous", {
               type: "PUT",
               data: {
@@ -147,8 +152,11 @@ export default {
           }
         } 
       }
-
+      console.log("================prearr========================");
+      console.log("prearr");
+      console.log(prearr);
       if(prearr.length>0) {
+      console.log("tttteeeeee");
         ajax("/topic/previous", {
           type: "PUT",
           data: {
@@ -156,38 +164,46 @@ export default {
           }
         });
 
-        for(var elem of prearr.split(",")) {
+        for(var element of prearr.split(",")) {
+          console.log("elem==prearr=="+element)
           var next_of_previous, final_result = "";
           var nextsAlreadyPresent = false;
           ajax("/topic/retrieve_next", {
             type: "GET",
             data: {
-              topic_id: parseInt(elem)
+              topic_id: parseInt(element)
             }
           }).then(result => {
             nextsAlreadyPresent = true;
             next_of_previous = result.row_value.split(",");
             final_result = result.row_value;
+            console.log(result);
+            console.log(final_result);
+            console.log("current_topic_id");
+            console.log(current_topic_id);
             if(!next_of_previous.includes(""+current_topic_id))
               final_result = final_result+","+current_topic_id;
+            console.log("fffffffffinal resultttttttt");
+            console.log(final_result);
             ajax("/topic/next", {
               type: "PUT",
               data: {
-                topic_id: parseInt(elem), next_topic_ids: final_result
+                topic_id: parseInt(element), next_topic_ids: final_result
               }
             });
           }).catch(console.error);
 
-          if(!nextsAlreadyPresent) {
-            ajax("/topic/next", {
-              type: "PUT",
-              data: {
-                topic_id: parseInt(elem), next_topic_ids: ""+current_topic_id
-              }
-            });
-          }
+          //if(!nextsAlreadyPresent) {
+          //  ajax("/topic/next", {
+          //    type: "PUT",
+          //    data: {
+          //      topic_id: parseInt(element), next_topic_ids: ""+current_topic_id
+          //    }
+          //  });
+          //}
         } 
       }
+      console.log("============= if block of prearr closed==================");
 
       ajax("/topic/sequencer", {
         type: "PUT",
@@ -571,10 +587,11 @@ export default {
     },
 
     addtopic() {
+      console.log("add topic function called")
       var x = Array.from(document.getElementsByClassName("autocomplete-items"));
       var y = x[0];
       var z = Array.from(y.children);
-
+      console.log(z);
       function returnNumberOfChecked(z) {
         var count = 0;
         for (var i = 0; i < z.length; i++) {
@@ -599,10 +616,12 @@ export default {
         var ch_id = 'check' + z[i].id;
         var prereq = z[i].id;
         var flagv = document.getElementById(ch_id).checked;
+        console.log(flagv)
         if (flagv == true) {
           var l, x, l2;
           l = document.getElementById("prereq-list");
           l2 = document.getElementById("postreq-list");
+          console.log(l2);
           x = document.createElement("DIV");
           x.setAttribute("class", "chip");
           x.setAttribute("id", prereq);
