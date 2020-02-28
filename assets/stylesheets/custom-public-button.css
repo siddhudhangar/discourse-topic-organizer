@@ -86,12 +86,14 @@ input {
 }
 
 .pre_post_switch{
-  width: 100%;
+  /*width: 100%;*/
+  display: inline-flex;
 }
 
 .pre_post_switch input[type=radio] {
   color:#5e6367;
-  text-align: justify;
+  text-align: center;
+  margin-top:-5%;
 }
 
 @media only screen and (max-width: 600px) {
