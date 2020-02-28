@@ -200,6 +200,64 @@ after_initialize do
       render json: { topics: topics }
     end
 
+    def delete_topic_by_id
+      topic_id = params.require(:topic_id)
+      label = params.require(:label)
+      
+      if label == "next"
+        replaced_label= "#{label}_topic_id".gsub("next","previous") 
+      else
+        replaced_label= "#{label}_topic_id".gsub("previous","next") 
+      end
+      label = "#{label}_topic_id"
+      current_topic_id = params.require(:value)
+
+      topic = Topic.find_by(title: topic_id)
+      topic_id =  topic.id if topic
+      if topic_id
+        puts topic_id
+        puts label
+        puts current_topic_id
+        topic_custom_field_row=TopicCustomField.find_by( topic_id:topic_id,name: label)
+        value = topic_custom_field_row.value
+        value = value.to_s.split(/,/).to_set
+        value = value.delete(current_topic_id.to_s)
+
+        if value.length == 0
+          puts "length is 0"
+          topic_custom_field_row.delete()
+        else
+          puts "length is > 0"
+          value = value.to_a.map { |i| "'"+i+"'" }.join(",")[1..-2]
+          topic_custom_field_row.save
+        end
+
+        topic_custom_field_row=TopicCustomField.find_by( topic_id:current_topic_id,name: replaced_label)
+        value = topic_custom_field_row.value
+        puts "topic_id"
+        puts topic_id
+        puts value
+        puts "0000000"
+        value = value.to_s.split(/,/).to_set
+        puts value
+        value = value.delete(topic_id.to_s)
+        puts value
+        puts "new_values"
+        #topic_custom_field_row.delete()
+        if value.length == 0
+          puts "length is 0"
+          topic_custom_field_row.delete()
+        else
+          puts "length is > 0"
+          value = value.to_a.map { |i| "'"+i+"'" }.join(",")[1..-2]
+          puts value
+          topic_custom_field_row.value = value
+          topic_custom_field_row.save
+        end 
+      end
+
+    end
+
   end
 
   DiscourseTopicOrganizer::Engine.routes.draw do
@@ -211,6 +269,7 @@ after_initialize do
     post "/retrieve_previous" => "organizer#retrieve_previous"
     get "retrieve_sequencer" => "organizer#retrieve_sequencer"
     get "/get_all_cat" => "organizer#get_all_cat"
+    put "/delete_topic_by_id" => "organizer#delete_topic_by_id"
   end
 
   Discourse::Application.routes.append do
