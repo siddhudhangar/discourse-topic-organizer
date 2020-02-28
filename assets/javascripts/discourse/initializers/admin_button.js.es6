@@ -175,12 +175,50 @@ export default {
             elem.addEventListener('dragend', handleDragEnd, false);
 
           }          
+          //function delete_prereq_topic_function(topic){
+            //console.log("delete topiccccccccccccccccccccccccccccc");
+            //alert($(topic).attr("id"));
+          //}
 
+          var delete_prereq_topic_function = function(topic) {
+            console.log("delete topiccccccccccccccccccccccccccccc");
+            //alert(this.getAttribute("id"));
+            var selected_topic_id = this.getAttribute("id");
+            var topic_id = selected_topic_id.replace(selected_topic_id.substr(-7),"");
+            console.log(topic_id);
+            ajax('/topic/delete_topic_by_id', {
+            type: 'PUT',
+            data: {
+              topic_id: topic_id,
+              label: "next",
+              value: current_topic_id
+            },
+          }).then(result => {
+
+          });
+          }
+          var delete_postreq_topic_function = function(topic) {
+            console.log("delete topiccccccccccccccccccccccccccccc");
+            //alert(this.getAttribute("id"));
+            var selected_topic_id = this.getAttribute("id");
+            var topic_id = selected_topic_id.replace(selected_topic_id.substr(-7),"");
+            console.log(topic_id);
+            ajax('/topic/delete_topic_by_id', {
+            type: 'PUT',
+            data: {
+              topic_id: topic_id,
+              label: "previous",
+              value: current_topic_id
+            }
+          }).then(result => {
+
+          });
+          }
           ajax('/topic/retrieve_previous', {
             type: 'GET',
             data: {
               topic_id: parseInt(current_topic_id)
-            }
+            },
           }).then(result => {
             initial_selected_topic_ids_pre = result.row_value.split(",");
 
@@ -204,16 +242,22 @@ export default {
                 var clb = document.createElement("SPAN");
                 clb.setAttribute("class", "closebtn");
                 clb.setAttribute("id", elem + "-button");
-
+                console.log(elem + "-button");
+                //clb.setAttribute("onclick", 'delete_prereq_topic_function(this);');
                 clb.innerHTML = '&times;';
                 //console.log(clb);
-
 
                 x.appendChild(clb);
                 init_pre.push(elem);
                 l.innerHTML += '&nbsp;';
                 l.appendChild(x);
+                
               }
+              for(var k of initial_selected_topic_ids_pre) {
+                var elem = arr_mapping[parseInt(k)];
+                document.getElementById(elem + "-button").addEventListener("click",delete_prereq_topic_function);
+              }
+
             }
 
             var plist = document.querySelectorAll("#prereq-list .closebtn");
@@ -352,6 +396,10 @@ export default {
                 init_post.push(elem);
                 l2.innerHTML += '&nbsp;';
                 l2.appendChild(x);
+              }
+              for(var k of initial_selected_topic_ids_post) {
+                var elem = arr_mapping[parseInt(k)];
+                document.getElementById(elem + "-button").addEventListener("click",delete_postreq_topic_function);
               }
             }
 
