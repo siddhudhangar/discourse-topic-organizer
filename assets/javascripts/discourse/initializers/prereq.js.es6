@@ -67,7 +67,7 @@ export default {
               var prior_ids = result.row_value.split(",");
               //console.log(prior_ids);
               if(prior_ids) {
-                $("#prereq_list").append(settings.topic_organizer_previous_button_label+"&nbsp;&nbsp;");
+                $("#prereq_list").append("Previous Topic/s"+"&nbsp;&nbsp;");
                 for (var k = 0; k < prior_ids.length; k++) {
                   var idp = parseInt(prior_ids[k]);
                   var ref = url_map.get(idp);
@@ -176,7 +176,7 @@ export default {
               var next_ids = result.row_value.split(",");
 
               if(next_ids) {
-                $("#postreq_list").append(settings.topic_organizer_next_button_label+"&nbsp;&nbsp;");
+                $("#postreq_list").append("Next Topic/s"+"&nbsp;&nbsp;");
                 for (var k = 0; k < next_ids.length; k++) {
                   var idp = parseInt(next_ids[k]);
                   var ref = url_map.get(idp);
